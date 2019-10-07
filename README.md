@@ -1,2 +1,12 @@
-# project-group-4
-project-group-4 created by GitHub Classroom
+# Group 4
+
+*Iteration 1
+
+  Meeting 1 - Issues and Domain Model
+  
+  Hour logs:
+    - Sami:
+    - Bredan:
+    - Brad:
+    - Sean:
+    - Dominic:
