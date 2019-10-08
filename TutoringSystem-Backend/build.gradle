@@ -37,10 +37,6 @@ sourceSets {
   }
 }
 
-task stage () {
-    dependsOn ':TutoringSystem-Backend:assemble'
-}
-
 mainClassName='a.mcgill.ecse321.tutoringsystem.TutoringSystemApplication'
 
 jar {
