@@ -37,7 +37,7 @@ sourceSets {
   }
 }
 
-mainClassName='a.mcgill.ecse321.tutoringsystem.TutoringSystemApplication'
+mainClassName='ca.mcgill.ecse321.tutoringsystem.TutoringSystemApplication'
 
 jar {
   destinationDir=file('distributable')
