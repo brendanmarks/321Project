@@ -61,19 +61,19 @@ public class TestTutoringSystemService {
 		tutorRepository.deleteAll();
 		reviewRepository.deleteAll();
 		courseRepository.deleteAll();
-		billRepository.deleteAll();
 		sessionRepository.deleteAll();
+		billRepository.deleteAll();
 	}
 	
-	//@After
+	
 	public void clearDatabase() {
 		// Then we can clear the other tables
 		studentRepository.deleteAll();
 		tutorRepository.deleteAll();
 		reviewRepository.deleteAll();
 		courseRepository.deleteAll();
-		billRepository.deleteAll();
 		sessionRepository.deleteAll();
+		billRepository.deleteAll();
 	}
 	@Test
 	public void testCreateAndGetStudent() {
@@ -180,6 +180,7 @@ public class TestTutoringSystemService {
 		
 	}
 	
+	
 	@Test
 	public void testCreateAndGetBill() {
 		assertEquals(0, service.getAllBills().size());
@@ -202,8 +203,8 @@ public class TestTutoringSystemService {
 		
 		
 	}
-
-	/*@Test
+	/*
+	@Test
 	public void testCreateAndGetSession() {
 		assertEquals(0, service.getAllCourses().size());
 		
@@ -211,18 +212,27 @@ public class TestTutoringSystemService {
 		Time startTime = Time.valueOf("10:30:00");
 		Time endTime = Time.valueOf("11:30:00");
 		Date date = Date.valueOf("2020-01-10");
-		
+		boolean isPaid = false;
+		int billId = 202;
 		List<Bill> allBills = null;
 		
-		//Checking if a bill is already made in the database (by testCreateAndGetBill)
 		try {
-			allBills.get(0);
+			service.createBill(isPaid, billId);
 		} catch(NullPointerException e) {
 			fail();
 		}
-		Bill bill = allBills.get(0);
 		
-		Tutorial tutorial = new Tutorial();
+		try {
+			service.getBill(202);
+		} catch(NullPointerException e) {
+			fail();
+		}
+		
+		Bill bill = service.getBill(202);
+		
+		Tutorial tutorial = new Tutorial;
+		tutorial.setId("abc");
+		tutorial.setCourse(course);
 		
 		try {
 			service.createSession(sessionId, startTime, endTime, date, bill, tutorial);

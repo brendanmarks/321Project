@@ -15,6 +15,7 @@ import ca.mcgill.ecse321.tutoringsystem.dao.ReviewRepository;
 import ca.mcgill.ecse321.tutoringsystem.dao.SessionRepository;
 import ca.mcgill.ecse321.tutoringsystem.dao.StudentRepository;
 import ca.mcgill.ecse321.tutoringsystem.dao.TutorRepository;
+import ca.mcgill.ecse321.tutoringsystem.dao.TutorialRepository;
 import ca.mcgill.ecse321.tutoringsystem.model.Bill;
 import ca.mcgill.ecse321.tutoringsystem.model.Course;
 import ca.mcgill.ecse321.tutoringsystem.model.Review;
@@ -44,6 +45,8 @@ public class TutoringSystemService {
 	@Autowired
 	SessionRepository sessionRepository;
 	
+	@Autowired
+	TutorialRepository tutorialRepository;
 	
 	//Services to create, get and get all students
 	@Transactional
@@ -166,6 +169,7 @@ public class TutoringSystemService {
 		session.setEndTime(endTime);
 		session.setDate(date);
 		session.setBill(bill);
+		session.setTutorial(tutorial);
 		sessionRepository.save(session);
 		return session;	
 	}
@@ -179,6 +183,28 @@ public class TutoringSystemService {
 	@Transactional
 	public List<Session> getAllSessions() {
 		return toList(sessionRepository.findAll());
+	}
+	
+	//Services to create, get and get all sessions
+	@Transactional
+	public Tutorial createTutorial(String id, Session session, Course course) {
+		Tutorial tutorial = new Tutorial();
+		tutorial.setId(id);
+		tutorial.setCourse(course);
+		tutorial.setSession(session);
+		tutorialRepository.save(tutorial);
+		return tutorial;
+	}
+	
+	@Transactional
+	public Tutorial getTutorial(String id) {
+		Tutorial tutorial = tutorialRepository.findTutorialById(id);
+		return tutorial;
+	}
+	
+	@Transactional
+	public List<Tutorial> getAllTutorials() {
+		return toList(tutorialRepository.findAll());
 	}
 	
 	private <T> List<T> toList(Iterable<T> iterable){
