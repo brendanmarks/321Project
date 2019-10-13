@@ -2,8 +2,10 @@ package ca.mcgill.ecse321.tutoringsystem.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import java.util.Set;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Tutorial{
@@ -16,15 +18,15 @@ public void setId(String value) {
 public String getId() {
     return this.id;
 }
-   private Tutor tutor;
+   private Set<Tutor> tutor;
    
-   @ManyToOne
-   public Tutor getTutor() {
+   @ManyToMany
+   public Set<Tutor> getTutor() {
       return this.tutor;
    }
    
-   public void setTutor(Tutor tutor) {
-      this.tutor = tutor;
+   public void setTutor(Set<Tutor> tutors) {
+      this.tutor = tutors;
    }
    
    private Session session;

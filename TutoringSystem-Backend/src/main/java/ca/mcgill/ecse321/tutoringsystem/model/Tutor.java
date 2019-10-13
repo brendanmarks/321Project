@@ -2,14 +2,13 @@ package ca.mcgill.ecse321.tutoringsystem.model;
 
 import javax.persistence.Entity;
 import java.util.Set;
-import javax.persistence.OneToMany;
-import java.sql.Time;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Tutor extends Person{
    private Set<Tutorial> tutorial;
    
-   @OneToMany(mappedBy="tutor" )
+   @ManyToMany(mappedBy="tutor" )
    public Set<Tutorial> getTutorial() {
       return this.tutorial;
    }
@@ -25,13 +24,5 @@ public void setHourlyRate(double value) {
 }
 public double getHourlyRate() {
     return this.hourlyRate;
-}
-private Time availability;
-
-public void setAvailability(Time value) {
-    this.availability = value;
-}
-public Time getAvailability() {
-    return this.availability;
 }
 }

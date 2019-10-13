@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.util.Set;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.sql.Time;
 import java.sql.Date;
@@ -33,7 +34,7 @@ public void setTutorial(Tutorial tutorial) {
 
 private Set<Student> student;
 
-@OneToMany(mappedBy="session" )
+@ManyToMany
 public Set<Student> getStudent() {
    return this.student;
 }

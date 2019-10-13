@@ -45,7 +45,6 @@ public class TutoringSystemRepository {
 		p.setPassword(password);
 		p.setUsername(email);
 		p.setPassword(username);
-		p.setAvailability(avalability);
 		p.setHourlyRate(hourlyRate);
 		entityManager.persist(p);
 		return p;

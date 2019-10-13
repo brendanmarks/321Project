@@ -1,19 +1,20 @@
 package ca.mcgill.ecse321.tutoringsystem.model;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import java.util.Set;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Student extends Person{
-   private Session session;
+   private Set<Session> session;
    
-   @ManyToOne
-   public Session getSession() {
+   @ManyToMany(mappedBy="student" )
+   public Set<Session> getSession() {
       return this.session;
    }
    
-   public void setSession(Session session) {
-      this.session = session;
+   public void setSession(Set<Session> sessions) {
+      this.session = sessions;
    }
    
    }
