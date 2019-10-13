@@ -2,13 +2,13 @@ package ca.mcgill.ecse321.tutoringsystem.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.validation.constraints.Null;
+import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.sql.Time;
 import java.sql.Date;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Session{
@@ -18,12 +18,13 @@ public void setSessionId(String value) {
     this.sessionId = value;
 }
 @Id
+@Null
 public String getSessionId() {
     return this.sessionId;
 }
 private Tutorial tutorial;
 
-@OneToOne
+@ManyToOne(optional=false)
 public Tutorial getTutorial() {
    return this.tutorial;
 }
