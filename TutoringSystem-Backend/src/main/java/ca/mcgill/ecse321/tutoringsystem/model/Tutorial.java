@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Set;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -29,15 +29,15 @@ public String getId() {
       this.tutor = tutors;
    }
    
-   private Session session;
+   private Set<Session> session;
    
-   @OneToOne(mappedBy="tutorial" )
-   public Session getSession() {
+   @OneToMany(mappedBy="tutorial" )
+   public Set<Session> getSession() {
       return this.session;
    }
    
-   public void setSession(Session session) {
-      this.session = session;
+   public void setSession(Set<Session> sessions) {
+      this.session = sessions;
    }
    
    private Course course;
