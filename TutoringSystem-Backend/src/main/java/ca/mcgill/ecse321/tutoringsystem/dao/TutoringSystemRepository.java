@@ -32,12 +32,18 @@ public class TutoringSystemRepository {
 	public Student createStudent(String name, String email, String username, String password) {
 		Student p = new Student();
 		p.setName(name);
-		p.setPassword(password);
+		p.setEmail(email);
 		p.setUsername(email);
 		p.setPassword(username);
 		entityManager.persist(p);
 		return p;
 	}
+	@Transactional
+	public Student getStudent(String name) {
+	Student s = entityManager.find(Student.class, name);	
+	return s;
+	}
+	
 	@Transactional
 	public Tutor createTutor(String name, String email, String username, String password, int hourlyRate, Time avalability) {
 		Tutor p = new Tutor();
