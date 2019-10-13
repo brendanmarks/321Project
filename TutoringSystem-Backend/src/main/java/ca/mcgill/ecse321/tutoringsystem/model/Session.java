@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.OneToMany;
 import java.sql.Time;
 import java.sql.Date;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Session{
@@ -21,7 +22,7 @@ public String getSessionId() {
 }
 private Tutorial tutorial;
 
-@OneToOne(optional=false)
+@OneToOne
 public Tutorial getTutorial() {
    return this.tutorial;
 }
@@ -52,17 +53,6 @@ public void setReview(Set<Review> reviews) {
    this.review = reviews;
 }
 
-private Bill bill;
-
-@OneToOne(optional=false)
-public Bill getBill() {
-   return this.bill;
-}
-
-public void setBill(Bill bill) {
-   this.bill = bill;
-}
-
 private Time startTime;
 
 public void setStartTime(Time value) {
@@ -87,4 +77,15 @@ public void setDate(Date value) {
 public Date getDate() {
     return this.date;
 }
-}
+   private Bill bill;
+   
+   @ManyToOne
+   public Bill getBill() {
+      return this.bill;
+   }
+   
+   public void setBill(Bill bill) {
+      this.bill = bill;
+   }
+   
+   }

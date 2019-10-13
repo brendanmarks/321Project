@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 public class Student extends Person{
    private Session session;
    
-   @ManyToOne(optional=false)
+   @ManyToOne
    public Session getSession() {
       return this.session;
    }

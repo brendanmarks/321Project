@@ -2,7 +2,8 @@ package ca.mcgill.ecse321.tutoringsystem.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import java.util.Set;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Bill{
@@ -23,15 +24,15 @@ public void setBillId(int value) {
 public int getBillId() {
     return this.billId;
 }
-   private Session session;
+   private Set<Session> session;
    
-   @OneToOne(mappedBy="bill" , optional=false)
-   public Session getSession() {
+   @OneToMany(mappedBy="bill" )
+   public Set<Session> getSession() {
       return this.session;
    }
    
-   public void setSession(Session session) {
-      this.session = session;
+   public void setSession(Set<Session> sessions) {
+      this.session = sessions;
    }
    
    }

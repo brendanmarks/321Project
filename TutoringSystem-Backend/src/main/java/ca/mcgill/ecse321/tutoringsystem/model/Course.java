@@ -2,7 +2,8 @@ package ca.mcgill.ecse321.tutoringsystem.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import java.util.Set;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Course{
@@ -23,15 +24,15 @@ public void setCourseName(String value) {
 public String getCourseName() {
     return this.courseName;
 }
-   private Tutorial tutorial;
+   private Set<Tutorial> tutorial;
    
-   @ManyToOne(optional=false)
-   public Tutorial getTutorial() {
+   @OneToMany(mappedBy="course" )
+   public Set<Tutorial> getTutorial() {
       return this.tutorial;
    }
    
-   public void setTutorial(Tutorial tutorial) {
-      this.tutorial = tutorial;
+   public void setTutorial(Set<Tutorial> tutorials) {
+      this.tutorial = tutorials;
    }
    
    }

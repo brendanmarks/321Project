@@ -38,7 +38,7 @@ public class TutoringSystemRepository {
 		entityManager.persist(p);
 		return p;
 	}
-	
+	@Transactional
 	public Tutor createTutor(String name, String email, String username, String password, int hourlyRate, Time avalability) {
 		Tutor p = new Tutor();
 		p.setName(name);
@@ -50,7 +50,7 @@ public class TutoringSystemRepository {
 		entityManager.persist(p);
 		return p;
 	}
-	
+	@Transactional
 	public Course createCrouse(String courseId, String name) {
 		Course p = new Course();
 		p.setCourseId(courseId);
@@ -58,14 +58,14 @@ public class TutoringSystemRepository {
 		entityManager.persist(p);
 		return p;
 	}
-	
+	@Transactional
 	public Tutorial createTutorial(String id, String name) {
 		Tutorial p = new Tutorial();
 		p.setId(id);
 		entityManager.persist(p);
 		return p;
 	}
-	
+	@Transactional
 	public Session createSession(Time startTime, Time endTime, Date date, String sessionid) {
 		Session p = new Session();
 		p.setDate(date);
@@ -75,7 +75,7 @@ public class TutoringSystemRepository {
 		entityManager.persist(p);
 		return p;
 	}
-	
+	@Transactional
 	public Bill createbill(boolean ispaid, int billid) {
 		Bill p = new Bill();
 		p.setBillId(billid);
@@ -83,7 +83,7 @@ public class TutoringSystemRepository {
 		entityManager.persist(p);
 		return p;
 	}
-	
+	@Transactional
 	public Review createReview(String comment, String ReviewId, int rating) {
 		Review p = new Review();
 		p.setComment(comment);
