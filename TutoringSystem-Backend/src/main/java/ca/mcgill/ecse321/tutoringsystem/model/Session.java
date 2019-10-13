@@ -18,7 +18,6 @@ public void setSessionId(String value) {
     this.sessionId = value;
 }
 @Id
-@Null
 public String getSessionId() {
     return this.sessionId;
 }
