@@ -187,11 +187,10 @@ public class TutoringSystemService {
 	
 	//Services to create, get and get all sessions
 	@Transactional
-	public Tutorial createTutorial(String id, Session session, Course course) {
+	public Tutorial createTutorial(String id, Course course) {
 		Tutorial tutorial = new Tutorial();
 		tutorial.setId(id);
 		tutorial.setCourse(course);
-		tutorial.setSession(session);
 		tutorialRepository.save(tutorial);
 		return tutorial;
 	}

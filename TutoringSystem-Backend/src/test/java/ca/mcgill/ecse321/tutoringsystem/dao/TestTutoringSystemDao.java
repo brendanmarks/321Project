@@ -11,7 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 //The TestTutoringSystemDao class performs tests on writing to database 
 //through Entity Manager from Hibernate.  Refer to TestTutoringSystemService for 
-//the formal tests for Sprint 1 using Spring framework’s inbuilt support for CRUD operations
+//the formal tests for Sprint 1 using Spring framework’s inbuilt support for CRUD operations.
+//Below are two tests
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
