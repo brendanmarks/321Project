@@ -1,6 +1,6 @@
 # Group 4
 
-***Iteration 1***
+***Deliverable 1:***
 
   Meeting 1 - Issues and Domain Model Mock-Up (2 hours)
   Meeting 2 - Requirements and Travis/Gradle set-up (2 hours)
