@@ -2,9 +2,9 @@
 
 ***Deliverable 1:***
 
-Meeting 1 - Issues and Domain Model Mock-Up (2 hours)[page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Meeting---2019-10-03---2:00-4:00pm).
+Meeting 1 - Issues and Domain Model Mock-Up (2 hours) [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Meeting---2019-10-03---2:00-4:00pm).
 
-Meeting 2 - Requirements and Travis/Gradle set-up (2 hours)[page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Meeting-2019-10-07-2:00-4:00pm).
+Meeting 2 - Requirements and Travis/Gradle set-up (2 hours) [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Meeting-2019-10-07-2:00-4:00pm).
   
 |Name                    |Total hours |Responsibility                                                       |
 |------------------------|------------|---------------------------------------------------------------------|
