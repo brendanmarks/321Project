@@ -1,5 +1,7 @@
 # Group 4
 
+Overview: The overall goal of this app is to create a tutoring system for a company. 
+
 ***Deliverable 1:***
 
 Meeting 1 - Issues and Domain Model Mock-Up (2 hours) [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Meeting---2019-10-03---2:00-4:00pm).
