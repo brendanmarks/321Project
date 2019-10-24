@@ -34,7 +34,7 @@ public class StudentDto {
 		return username;
 	}
 
-	public String getEndTime() {
+	public String getPassword() {
 		return password;
 	}
 	
