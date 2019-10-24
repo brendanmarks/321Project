@@ -8,7 +8,7 @@ public class TutorDto {
 	private String email;
 	private String username;
 	private String password;
-	private ArrayList<SessionDto> sessions;
+	private static ArrayList<SessionDto> sessions;
 
 	public TutorDto() {
 	}
@@ -18,7 +18,7 @@ public class TutorDto {
 		this.email = email;
 		this.username = username;
 		this.password = password;
-		this.sessions = sessions;
+		TutorDto.sessions = sessions;
 	}
 	
 	public String getName() {
@@ -33,7 +33,7 @@ public class TutorDto {
 		return username;
 	}
 
-	public String getEndTime() {
+	public String getPassword() {
 		return password;
 	}
 	
@@ -42,6 +42,6 @@ public class TutorDto {
 	}
 
 	public void setSessions(ArrayList<SessionDto> sessions) {
-		this.sessions = sessions;
+		TutorDto.sessions = sessions;
 	}
 }

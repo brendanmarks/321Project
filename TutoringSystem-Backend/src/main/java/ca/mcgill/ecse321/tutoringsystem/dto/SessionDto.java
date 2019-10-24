@@ -10,7 +10,7 @@ public class SessionDto {
 	private Time startTime;
 	private Time endTime;
 	private Date date;
-	private TutorDto assignedTutor;
+	private TutorialDto assignedTutorial;
 	private static ArrayList<StudentDto> registeredStudents;
 	
 
@@ -53,15 +53,14 @@ public class SessionDto {
 		SessionDto.registeredStudents = registeredStudents;
 	}
 	
-	public TutorDto getAssignedTutor() {
-		return assignedTutor;
+	public TutorialDto getAssignedTutorial() {
+		return assignedTutorial;
 	}
 
-	public void setAssignedTutor(TutorDto assignedTutor) {
-		this.assignedTutor = assignedTutor;
+	public void setAssignedTutorial(TutorialDto assignedTutorial) {
+		this.assignedTutorial = assignedTutorial;
 	}
 	
-
 
 }
 

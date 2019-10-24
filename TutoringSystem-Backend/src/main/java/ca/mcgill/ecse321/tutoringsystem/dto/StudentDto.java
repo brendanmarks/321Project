@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.tutoringsystem.dto;
 import java.util.ArrayList;
 
 public class StudentDto {
+	
 	private String name;
 	private String email;
 	private String username;
