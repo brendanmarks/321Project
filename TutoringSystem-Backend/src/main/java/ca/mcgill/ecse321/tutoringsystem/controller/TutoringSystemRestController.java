@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ca.mcgill.ecse321.tutoringsystem.dto.*;
 import ca.mcgill.ecse321.tutoringsystem.model.*;
 import ca.mcgill.ecse321.tutoringsystem.service.*;
+import javassist.bytecode.Descriptor.Iterator;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -36,14 +37,14 @@ public class TutoringSystemRestController {
 	
 	//Creating a new Student
 	@PostMapping(value = { 
-		"/students/{name}/{email}/{username}/{password}",
-		"/students/{name}/{email}/{username}/{password}/" 
+		"/students/{name}",
+		"/students/{name}/" 
 	})
 	public StudentDto createStudent(
 		@PathVariable("name") String name, 
-		@PathVariable("email") String email, 
-		@PathVariable("username") String username, 
-		@PathVariable("password") String password
+		@RequestParam(name = "email") String email, 
+		@RequestParam(name = "username") String username, 
+		@RequestParam(name = "password") String password
 		)	throws IllegalArgumentException {
 		
 		//create a student instance in persistence using the method in the service class
@@ -51,18 +52,21 @@ public class TutoringSystemRestController {
 		return convertStudentToDto(student);	
 	}
 	
+	//Retrieving a Tutor from database to view his details
+	
+	
 	
 	//Creating a new Tutor
 	@PostMapping(value = { 
-		"/tutors/{name}/{email}/{username}/{password}/{rate}",
-		"/tutors/{name}/{email}/{username}/{password}/{rate}/" 
+		"/tutors/{name}",
+		"/tutors/{name}/" 
 	})
 	public TutorDto createTutor(
 		@PathVariable("name") String name, 
-		@PathVariable("email") String email, 
-		@PathVariable("username") String username, 
-		@PathVariable("password") String password,
-		@PathVariable("rate") Double rate
+		@RequestParam(name = "email") String email, 
+		@RequestParam(name = "username") String username, 
+		@RequestParam(name = "password") String password,
+		@RequestParam(name = "rate") Double rate
 		)	throws IllegalArgumentException {
 			
 		//create a tutor instance in persistence using the method in the service class
@@ -73,12 +77,12 @@ public class TutoringSystemRestController {
 	
 	//Creating a new Course
 	@PostMapping(value = { 
-		"/courses/{courseId}/{courseName}",
-		"/courses/{courseId}/{courseName}/" 
+		"/courses/{courseId}",
+		"/courses/{courseId}/" 
 	})
 	public CourseDto createCourse(
 		@PathVariable("courseId") String courseId, 
-		@PathVariable("courseName") String courseName 
+		@RequestParam(name = "courseName") String courseName 
 		)	throws IllegalArgumentException {
 				
 		//create a course instance in persistence using the method in the service class
@@ -90,14 +94,15 @@ public class TutoringSystemRestController {
 	
 	//Create a new tutorial
 	@PostMapping(value = { 
-		"/tutorials/{tutorName}/{courseId}/{id}", 
-		"/tutorials/{tutorName}/{courseId}/{id}/" 
+		"/tutorials/{id}", 
+		"/tutorials/{id}/" 
 	})
 	public TutorialDto createTutorial(
-		@PathVariable("tutorName") String tutorName, 
-		@PathVariable("courseId") String courseId,
 		
-		@PathVariable("id") String id
+		@PathVariable("id") String id,
+		
+		@RequestParam(name = "tutorName") String tutorName, 
+		@RequestParam(name = "courseId") String courseId
 		
 		)	throws IllegalArgumentException {
 		
@@ -114,20 +119,15 @@ public class TutoringSystemRestController {
 			Course course = service.getCourse(courseId);
 			
 			////////String uniqueTutorialID = UUID.randomUUID().toString();
-			Tutorial tutorial = service.createTutorial(/*uniqueTutorialID*/id, course);
+			service.createTutorial(/*uniqueTutorialID*/id, course, tutor);
 		//}
 		//catch(IllegalArgumentException e)	{
 		//	System.out.println("The requested course does not exist in the system database or the course ID was written incorrectly.");
 		//}
 		
-		Set<Tutor> tutors = new HashSet<>();
-		tutors.add(tutor);
-		//set the tutor of the tutorial instance that is saved in persistence
-		tutorial.setTutor(tutors);
-	
 		TutorDto tutorDto = convertTutorToDto(tutor);
 		CourseDto courseDto = convertCourseToDto(course);
-			
+		
 		return convertTutorialToDto(tutorDto, courseDto);	
 	}	
 
@@ -135,29 +135,73 @@ public class TutoringSystemRestController {
 	
 	//Create a session
 	@PostMapping(value = { 
-		"/sessions/{startTime}/{endTime}/{date}/{tutorialId}/{studentName}", 
-		"/sessions/{startTime}/{endTime}/{date}/{tutorialId}/{studentName}/" 
+		"/sessions/{sessionId}", 
+		"/sessions/{sessionId}/" 
 	})
 	public SessionDto createSession(
+		@PathVariable ("sessionId") String id,
 		@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
 		@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime,
-		@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
-		@PathVariable("tutorialId") String tutorialId,
-		@PathVariable("studentName") String studentName
+		@RequestParam Date date,            /*(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd")*/ 
+		@RequestParam(name = "tutorialId") String tutorialId,
+		@RequestParam(name = "studentName") String studentName
 		)	throws IllegalArgumentException {
 		
-		String uniqueSessionID = UUID.randomUUID().toString();
+		String uniqueSessionID = id; /* UUID.randomUUID().toString(); */
+		
+		Integer billId = Integer.parseInt(uniqueSessionID);
 		
 		Tutorial tutorial = service.getTutorial(tutorialId);
 		
-		Bill bill = service.createBill(false, 1/*uniqueSessionID*/);	//Make the Bill id a string parameter to be able to assign to it the same id as the session... -Dominic
+		Bill bill = service.createBill(false, billId);	//Make the Bill id a string parameter to be able to assign to it the same id as the session... -Dominic
 		
 		Session session = service.createSession(uniqueSessionID, Time.valueOf(startTime), Time.valueOf(endTime), date, bill, tutorial);
 		return convertSessionToDto(studentName, session);
 	}
 	
+	/* GET request methods */
 	
-	
+	//Get all existing Tutorial instances saved in persistence and return a List<TutorialDto> of tutorial DTOs that can be viewed/used by a student.
+	@GetMapping(value = { 
+		"/tutorials",
+		"/tutorials/" 
+	})
+	public List<TutorialDto> getAllTutorials() {
+		
+		List<TutorialDto> tutorialDtos = new ArrayList<>();
+		for (Tutorial tutorial : service.getAllTutorials()) {
+			
+			Set<Tutor> tutors = tutorial.getTutor();
+			if (tutors.size() == 0)	{
+				
+				//TODO check this delete method, make sure it doesn't bug and delete valid instances
+				String emptyTutorialId = tutorial.getId();
+				System.out.println("The tutorial instance with ID "+ emptyTutorialId + " saved in persistance does not have an assigned tutor. It will be deleted.");
+				deleteTutorial(emptyTutorialId);
+				continue;
+			}
+			
+			Course course = tutorial.getCourse();
+			CourseDto cDto = convertCourseToDto(course);
+			
+			if (tutors.size() > 1)	{
+				
+				for(java.util.Iterator<Tutor> iterate = tutors.iterator(); iterate.hasNext();) {
+					Tutor t = iterate.next();
+					TutorDto tDto = convertTutorToDto(t);
+					tutorialDtos.add(convertTutorialToDto(tDto, cDto));
+				} 	
+			
+			}	else if (tutors.size() == 1)	{
+				
+				Tutor t = tutors.iterator().next();
+				TutorDto tDto = convertTutorToDto(t);
+
+				tutorialDtos.add(convertTutorialToDto(tDto, cDto));
+			}
+		}	
+		return tutorialDtos;
+	}
 	
 	
 	/* Methods that converts instances stored in persistence into DTOs */
@@ -210,5 +254,16 @@ public class TutoringSystemRestController {
 		
 		SessionDto sessionDto = new SessionDto(ss.getSessionId(), ss.getDate(), ss.getStartTime(), ss.getEndTime(), sessionStudentDtos);
 		return sessionDto;
+	}
+	
+	
+	
+	/* Delete request methods */
+	
+	//Delete method for Tutorial
+	private void deleteTutorial(String ID)	{
+		
+		//TODO Create the method that gets a Tutorial instance saved in persistence using an ID function argument. Use a @DeleteRequest...?
+		
 	}
 }

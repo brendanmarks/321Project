@@ -218,6 +218,7 @@ public class TestTutoringSystemService {
 	
 		String courseId = "ECSE321";
 		String courseName = "Intro to Software Engineering";
+		String tutorName = "Tutor1";
 		try {
 			service.createCourse(courseId, courseName);
 		} catch (IllegalArgumentException e) {
@@ -225,9 +226,9 @@ public class TestTutoringSystemService {
 			fail();
 		}
 		Course course = service.getCourse(courseId);
-		
+		Tutor tutor = service.getTutor(tutorName);
 		try {
-			service.createTutorial(tutorialId, course);
+			service.createTutorial(tutorialId, course, tutor);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -256,6 +257,7 @@ public class TestTutoringSystemService {
 		String courseName = "Intro to Computer Science";
 		//Variables for Tutorial
 		String tutorialId = "t2";
+		String tutorName = "Tutor1";
 		
 		//A session needs a Bill and Tutorial object and since it is not in database yet (from other viewpoint), 
 		//so we create it now for testing purposes
@@ -273,10 +275,10 @@ public class TestTutoringSystemService {
 			fail();
 		}
 		Course course = service.getCourse(courseId);
-	
+		Tutor tutor = service.getTutor(tutorName);
 		//Creating Tutorial 
 		try {
-			service.createTutorial(tutorialId, course);
+			service.createTutorial(tutorialId, course, tutor);
 		} catch(IllegalArgumentException e) {
 			fail();
 		}
