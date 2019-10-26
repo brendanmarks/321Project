@@ -6,3 +6,5 @@ deploy:
         api_key:
                 secure: "314ba6bb-33ed-4404-a906-1e4fb6bf5f31"
         app: tutoringsystem-backend
+        on:
+                repo: McGill-ECSE321-Fall2019/project-group-4
