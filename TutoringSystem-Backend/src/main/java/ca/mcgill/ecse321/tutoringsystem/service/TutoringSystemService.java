@@ -3,9 +3,7 @@ package ca.mcgill.ecse321.tutoringsystem.service;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,26 +51,6 @@ public class TutoringSystemService {
 	//Services to create, get and get all students
 	@Transactional
 	public Student createStudent(String name, String email, String username, String password) {
-		
-		// Input validation
-	    String error = "";
-	    if (name == null || name.trim().length() == 0) {
-	        error = error + "Student name cannot be empty when creating a new Student.";
-	    }
-	    if (email == null || email.trim().length() == 0) {
-	        error = error + "Student email cannot be empty when creating a new Student.";
-	    }
-	    if (username == null || username.trim().length() == 0) {
-	        error = error + "Student username cannot be empty when creating a new Student.";
-	    }
-	    if (password == null || password.trim().length() == 0) {
-	        error = error + "Student password cannot be empty when creating a new Student.";
-	    }
-	    error = error.trim();
-	    if (error.length() > 0) {
-	        throw new IllegalArgumentException(error);
-	    }
-		
 		Student student = new Student();
 		student.setName(name);
 		student.setEmail(email);
@@ -84,10 +62,6 @@ public class TutoringSystemService {
 	
 	@Transactional
 	public Student getStudent(String name) {
-		
-		if (name == null || name.trim().length() == 0) {
-	        throw new IllegalArgumentException("Student name cannot be empty (getStudent).");
-	    }
 		Student student = studentRepository.findStudentByName(name);
 		return student;
 	}
@@ -97,33 +71,9 @@ public class TutoringSystemService {
 		return toList(studentRepository.findAll());
 	}
 	
-	
-	
 	//Services to create, get and get all tutors
 	@Transactional
 	public Tutor createTutor(String name, String email, String username, String password, double hourlyRate) {
-		// Input validation
-	    String error = "";
-	    if (name == null || name.trim().length() == 0) {
-	        error = error + "Tutor name cannot be empty when creating a new Tutor.";
-	    }
-	    if (email == null || email.trim().length() == 0) {
-	        error = error + "Tutor email cannot be empty when creating a new Tutor.";
-	    }
-	    if (username == null || username.trim().length() == 0) {
-	        error = error + "Tutor username cannot be empty when creating a new Tutor.";
-	    }
-	    if (password == null || password.trim().length() == 0) {
-	        error = error + "Tutor password cannot be empty when creating a new Tutor.";
-	    }
-	    error = error.trim();
-	    if (error.length() > 0) {
-	        throw new IllegalArgumentException(error);
-	    }
-	    if (hourlyRate <= 0) {
-	        hourlyRate = 20;
-	    }
-		
 		Tutor tutor = new Tutor();
 		
 		tutor.setName(name);
@@ -237,15 +187,10 @@ public class TutoringSystemService {
 	
 	//Services to create, get and get all sessions
 	@Transactional
-	public Tutorial createTutorial(String id, Course course, Tutor tutor) {
+	public Tutorial createTutorial(String id, Course course) {
 		Tutorial tutorial = new Tutorial();
 		tutorial.setId(id);
 		tutorial.setCourse(course);
-		
-		Set<Tutor> tutors = new HashSet<>();
-		tutors.add(tutor);
-		tutorial.setTutor(tutors);
-		
 		tutorialRepository.save(tutorial);
 		return tutorial;
 	}
@@ -261,17 +206,6 @@ public class TutoringSystemService {
 		return toList(tutorialRepository.findAll());
 	}
 	
-	@Transactional
-	public void addTutorToTutorial(Tutor tutor, String tutorialId)	{
-		
-		Tutorial tutorial = getTutorial(tutorialId);
-		
-		Set<Tutor> tutors = tutorial.getTutor();
-		tutors.add(tutor);
-		
-		tutorial.setTutor(tutors);
-	}
-	
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
@@ -279,6 +213,18 @@ public class TutoringSystemService {
 		}
 		return resultList;
 	}
+	
+	/*
+	@Transactional
+	public List<Tutorial> getTutorialsAttendedByTutor(Tutor tutor) {
+		List<Tutorial> tutorialsAttendedByPerson = new ArrayList<>();
+		for(Session s : sessionRepository.findById(id))
+		
+
+	}
+	*/
+	
+	
 
 
 }
