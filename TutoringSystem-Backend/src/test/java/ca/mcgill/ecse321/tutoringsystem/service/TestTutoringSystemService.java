@@ -61,8 +61,7 @@ public class TestTutoringSystemService {
 	@Before
 	public void setupDatabase() {
 		// Then we can clear the other tables
-		studentRepository.deleteAll();
-		tutorRepository.deleteAll();
+
 		reviewRepository.deleteAll();
 
 		sessionRepository.deleteAll();
@@ -70,13 +69,15 @@ public class TestTutoringSystemService {
 		
 		tutorialRepository.deleteAll();
 		courseRepository.deleteAll();
+		
+		studentRepository.deleteAll();
+		tutorRepository.deleteAll();
 	}
 	//The following methods clears the database after all the tests
 	@After
 	public void clearDatabase() {
 		// Then we can clear the other tables
-		studentRepository.deleteAll();
-		tutorRepository.deleteAll();
+
 		reviewRepository.deleteAll();
 
 		sessionRepository.deleteAll();
@@ -84,6 +85,9 @@ public class TestTutoringSystemService {
 		
 		tutorialRepository.deleteAll();
 		courseRepository.deleteAll();
+		
+		studentRepository.deleteAll();
+		tutorRepository.deleteAll();
 	}
 	
 	//This test creates a student and then reads its attributes from the database
