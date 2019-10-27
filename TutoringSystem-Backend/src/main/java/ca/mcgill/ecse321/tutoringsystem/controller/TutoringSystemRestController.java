@@ -159,50 +159,6 @@ public class TutoringSystemRestController {
 		return convertSessionToDto(studentName, session);
 	}
 	
-	/* GET request methods */
-	
-	//Get all existing Tutorial instances saved in persistence and return a List<TutorialDto> of tutorial DTOs that can be viewed/used by a student.
-	@GetMapping(value = { 
-		"/tutorials",
-		"/tutorials/" 
-	})
-	public List<TutorialDto> getAllTutorials() {
-		
-		List<TutorialDto> tutorialDtos = new ArrayList<>();
-		for (Tutorial tutorial : service.getAllTutorials()) {
-			
-			Set<Tutor> tutors = tutorial.getTutor();
-			if (tutors.size() == 0)	{
-				
-				//TODO check this delete method, make sure it doesn't bug and delete valid instances
-				String emptyTutorialId = tutorial.getId();
-				System.out.println("The tutorial instance with ID "+ emptyTutorialId + " saved in persistance does not have an assigned tutor. It will be deleted.");
-				deleteTutorial(emptyTutorialId);
-				continue;
-			}
-			
-			Course course = tutorial.getCourse();
-			CourseDto cDto = convertCourseToDto(course);
-			
-			if (tutors.size() > 1)	{
-				
-				for(java.util.Iterator<Tutor> iterate = tutors.iterator(); iterate.hasNext();) {
-					Tutor t = iterate.next();
-					TutorDto tDto = convertTutorToDto(t);
-					tutorialDtos.add(convertTutorialToDto(tDto, cDto));
-				} 	
-			
-			}	else if (tutors.size() == 1)	{
-				
-				Tutor t = tutors.iterator().next();
-				TutorDto tDto = convertTutorToDto(t);
-
-				tutorialDtos.add(convertTutorialToDto(tDto, cDto));
-			}
-		}	
-		return tutorialDtos;
-	}
-	
 	
 	/* Methods that converts instances stored in persistence into DTOs */
 	
@@ -256,6 +212,302 @@ public class TutoringSystemRestController {
 		return sessionDto;
 	}
 	
+	
+	
+	
+/**====================== GET Methods ===========================*/
+	
+	
+	/* --------- Courses ---------*/
+	
+	//1.1) get all courses
+	//TODO : working, but make sure this doesn't fail (try catch)
+	@GetMapping(value = {"/courses","/courses/"})
+	public List<CourseDto> getAllCourses() {
+		List<CourseDto> courseDtos = new ArrayList<>();
+		for(Course c : service.getAllCourses()) {
+			courseDtos.add(convertCourseToDto(c));
+		}
+		return courseDtos;
+	}
+	
+	
+	//1.2) working, but get course by ID
+	//TODO: make sure this doesn't fail (try catch)
+	@GetMapping(value = {"/courses/{courseID}","/courses/{courseID}/"})
+	public CourseDto getCourseByID(@PathVariable("courseID") String courseID) 
+	throws IllegalArgumentException{
+		return convertCourseToDto(service.getCourse(courseID));
+	}	
+	
+	/** --------- Tutorials ---------*/	
+		
+	//Get all existing Tutorial instances saved in persistence and return a List<TutorialDto> of tutorial DTOs that can be viewed/used by a student.
+	@GetMapping(value = { 
+		"/tutorials",
+		"/tutorials/" 
+	})
+	public List<TutorialDto> getAllTutorials() {
+		
+		List<TutorialDto> tutorialDtos = new ArrayList<>();
+		for (Tutorial tutorial : service.getAllTutorials()) {
+			
+			Set<Tutor> tutors = tutorial.getTutor();
+			if (tutors.size() == 0)	{
+				
+				//TODO check this delete method, make sure it doesn't bug and delete valid instances
+				String emptyTutorialId = tutorial.getId();
+				System.out.println("The tutorial instance with ID "+ emptyTutorialId + " saved in persistance does not have an assigned tutor. It will be deleted.");
+				deleteTutorial(emptyTutorialId);
+				continue;
+			}
+			
+			Course course = tutorial.getCourse();
+			CourseDto cDto = convertCourseToDto(course);
+			
+			if (tutors.size() > 1)	{
+				
+				for(java.util.Iterator<Tutor> iterate = tutors.iterator(); iterate.hasNext();) {
+					Tutor t = iterate.next();
+					TutorDto tDto = convertTutorToDto(t);
+					tutorialDtos.add(convertTutorialToDto(tDto, cDto));
+				} 	
+			
+			}	else if (tutors.size() == 1)	{
+				
+				Tutor t = tutors.iterator().next();
+				TutorDto tDto = convertTutorToDto(t);
+
+				tutorialDtos.add(convertTutorialToDto(tDto, cDto));
+			}
+		}	
+		return tutorialDtos;
+	}
+	
+	
+	//HELPER METHOD : Get tutor from set
+	//Since tutors are returned as sets from our domain model, we need a way to extract the tutor
+	private Tutor getTutorFromSet(Set<Tutor> tutorset) {
+		Tutor tutor = null;
+		if(tutorset.size() == 0) {
+			return tutor; //tutor will be null
+		}else if(tutorset.size() > 1) {
+			for(java.util.Iterator<Tutor> iterate = tutorset.iterator(); iterate.hasNext();) {
+				tutor = iterate.next();
+				return tutor;
+			}
+		}else {
+			tutor = tutorset.iterator().next();
+			return tutor;
+		}
+		return tutor;//default
+	}
+	
+	/** 2019 - 10 -26 : Sean Smith --> Doing my part from here down */
+	
+	//HELPER METHOD : Get student from set
+	//Since tutors are returned as sets from our domain model, we need a way to extract the tutor
+	private Student getStudentFromSet(Set<Student> studentset) {
+		Student student = null;
+		if(studentset.size() == 0) {
+			return student; //tutor will be null
+		}else if(studentset.size() > 1) {
+			for(java.util.Iterator<Student> iterate = studentset.iterator(); iterate.hasNext();) {
+				student = iterate.next();
+				return student;
+			}
+		}else {
+			student = studentset.iterator().next();
+			return student;
+		}
+		return student;//default
+	}
+
+	
+	//1.2) ------ get tutorial of tutor ------
+
+	private Tutor convertTutorToDomainObject(TutorDto tutorDto) {
+		List<Tutor> allTutors = service.getAllTutors();
+		for(Tutor t : allTutors) {
+			if(t.getUsername().equals(tutorDto.getUsername())) {
+				return t;
+			}
+		}
+		return null;
+	}
+	
+	/* --------------- THIS SHOULD BE IN SERVICE, BUT IMPLEMENTED DIFFERENTLY---------*/
+	private ArrayList<Tutorial> getAllTutorialsOfTutor(Tutor t){
+		ArrayList<Tutorial> returnTutorial = new ArrayList<Tutorial>();
+		List<Tutorial> allTutorials = service.getAllTutorials();
+		for(Tutorial tutorial: allTutorials) {
+			if(getTutorFromSet(tutorial.getTutor()).equals(t)) {
+				returnTutorial.add(tutorial);
+			}
+		} return returnTutorial;
+	}
+	
+	//is this even necessary?
+	private List<TutorialDto> createTutorialDtosForTutor(Tutor tutor) {
+		List<Tutorial> allTutorialsOfTutor = getAllTutorialsOfTutor(tutor);
+		List<TutorialDto> tutorials = new ArrayList<>();
+		for(Tutorial t: allTutorialsOfTutor) {
+			TutorDto tutorToAdd = convertTutorToDto(getTutorFromSet(t.getTutor()));
+			CourseDto courseToAdd = convertCourseToDto(t.getCourse());
+			tutorials.add(convertTutorialToDto(tutorToAdd,courseToAdd));
+		}
+		return tutorials;
+	}
+	
+	//TODO : CHECK THIS!!
+	@GetMapping(value = {"/tutorials/tutor/{username}","tutorials/tutor/{username}/"})
+	public List<TutorialDto> getTutorialsOfTutor(@PathVariable("username") TutorDto tutorDto){
+		Tutor tutor = convertTutorToDomainObject(tutorDto);
+		return createTutorialDtosForTutor(tutor);	
+	}
+	
+	
+	//1.3) get tutorials of a student
+	@GetMapping(value = {"/tutorials/{studentUsername}" , "tutorials/{studentUsername}/"})
+	public List<TutorialDto> getTutorialsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
+		List<TutorialDto> tutorialsOfStudent = new ArrayList<>();
+		List<Tutorial> allTutorials = service.getAllTutorials();
+		for(Tutorial t : allTutorials) { 
+			//if(t.getId().get)
+		}	
+		return tutorialsOfStudent;
+	}
+	
+	@GetMapping(value = {"/tutorials/{tutorialID}","/tutorials/{tutorialID}/"})
+	public TutorialDto getTutorialById(@PathVariable("tutorialID") String tutorialID) throws IllegalArgumentException {
+		TutorialDto tutorialDto = null;
+		List<Tutorial> allTutorials = service.getAllTutorials();
+		for(Tutorial t : allTutorials) {
+			if(t.getId().trim().equals(tutorialID) || t.getId().trim()==tutorialID) {
+				TutorDto tDto = convertTutorToDto(getTutorFromSet(t.getTutor()));
+				CourseDto cDto = convertCourseToDto(t.getCourse());
+				tutorialDto = convertTutorialToDto(tDto,cDto);
+			}
+		}
+		return tutorialDto;
+	} 
+	
+	//TODO : Make a convertTutorialToDto which takes a tutorial as argument.
+	// Suggestion: convertTutorialToDto will take tutorial as argument
+	// then you can access the tutors' fields (courses,tutor) through
+	// the return value (tutorialDto)
+	//TODO : Mark some of the issues as solved.
+	/*
+	@GetMapping(value = {"/tutorials/{tutorialID}","/tutorials/{tutorialID}/"})
+	public TutorialDto getTutorialById(@PathVariable("tutorialID") String tutorialID) throws IllegalArgumentException {
+		return convertTutorialToDto(service.getTutorial(tutorialID));
+	}
+	*/
+	
+	
+	@GetMapping(value = {"/sessions","/sessions/"})
+	public List<SessionDto> getAllSessions(){
+		List<Session> allSessions = service.getAllSessions();
+		List<SessionDto> allSessionsAsDto = new ArrayList<>();
+		for(Session s : allSessions) {
+			Student student = getStudentFromSet(s.getStudent());
+			String studentUserName = convertStudentToDto(student).getUsername();
+			allSessionsAsDto.add(convertSessionToDto(studentUserName,s));
+		}
+		return allSessionsAsDto;
+	}
+	
+	@GetMapping(value = {"/students","/students/"})
+	public List<StudentDto> getAllStudents(){
+		List<Student> allStudents = service.getAllStudents();
+		List<StudentDto> studentDtos = new ArrayList<>();
+		for(Student s : allStudents) {
+			studentDtos.add(convertStudentToDto(s));
+		}
+		return studentDtos;
+	}
+
+	
+	@GetMapping(value = {"/students/{studentUsername}","/students/{studentUsername}/"})
+	public StudentDto getStudentByUsername(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
+		List<StudentDto> allStudents = getAllStudents();
+		StudentDto student = null;
+		for(StudentDto s : allStudents) {
+			if(s.getUsername().trim().equals(studentUsername) || s.getUsername().trim()==studentUsername) {
+				student = s;
+				return student;
+			}
+		}
+		return student;
+	}
+	
+	
+	@GetMapping(value = {"/sessions/{studentUsername}","/sessions/{studentUsername}/"})
+	public List<SessionDto> getAllSessionsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
+		List<SessionDto> allSessions = getAllSessions();
+		List<SessionDto> allSessionsOfStudent = new ArrayList<>();
+		StudentDto student = getStudentByUsername(studentUsername);
+		for(SessionDto s: allSessions) {
+			if(s.getRegisteredStudents().contains(student)) {
+				allSessionsOfStudent.add(s);
+			}
+		}
+		return allSessionsOfStudent;
+	}
+	
+	
+	@GetMapping(value = {"/sessions/{sessionID}","/sessions/{sessionID}"})
+	public SessionDto getSessionById(@PathVariable("sessionID") String sessionID) throws IllegalArgumentException {
+		SessionDto sessionDto = null;
+		List<Session> getAllSessions = service.getAllSessions();
+		for(Session s: getAllSessions) {
+			if(s.getSessionId().trim().equals(sessionID) || s.getSessionId().trim()==sessionID) {
+				Student student = getStudentFromSet(s.getStudent());
+				String studentUserName = convertStudentToDto(student).getUsername();
+				sessionDto = convertSessionToDto(studentUserName,s);
+				return sessionDto;
+			}
+		} return sessionDto;
+	}
+		
+	@GetMapping(value = {"/tutors","/tutors/"})
+	public List<TutorDto> getAllTutors(){
+		List<Tutor> allTutors = service.getAllTutors();
+		List<TutorDto> tutorDtos = new ArrayList<>();
+		for(Tutor s : allTutors) {
+			tutorDtos.add(convertTutorToDto(s));
+		}
+		return tutorDtos;
+	}
+	
+	@GetMapping(value = {"/tutors/{tutorUsername}","/tutors/{tutorUsername}/"})
+	public TutorDto getTutorByUsername(@PathVariable("tutorUsername") String tutorUsername) throws IllegalArgumentException {
+		List<TutorDto> allTutors = getAllTutors();
+		TutorDto tutor = null;
+		for(TutorDto t : allTutors) {
+			if(t.getUsername().trim().equals(tutorUsername) || t.getUsername().trim()==tutorUsername) {
+				tutor = t;
+				return t;
+			}
+		}
+		return tutor;
+	}
+	
+	
+	//TODO:
+	//1) Helper method --DONE
+	/**2) GetTutorialByStudent*/
+	//3) GetSessionByID --DONE
+	//4) GetCourseByID --DONE
+	//6) GetTutorByUsername --DONE
+
+	//7) GetStudentByUsername --DONE
+		//Also did getAllStudents
+	//8) GetTutorialByID --> DONE
+	//9) GetAllSessions --Done
+		//Also added get sessions of student
+	
+	/** Sean Smith : Done Get methods for now */
 	
 	
 	/* Delete request methods */
