@@ -98,7 +98,6 @@ public class TutoringSystemService {
 	}
 	
 	
-	
 	//Services to create, get and get all tutors
 	@Transactional
 	public Tutor createTutor(String name, String email, String username, String password, double hourlyRate) {
@@ -145,6 +144,16 @@ public class TutoringSystemService {
 	public List<Tutor> getAllTutors() {
 		return toList(tutorRepository.findAll());
 	}
+	
+	
+	////////////////////////////////////Added this to update the persistence, is it needed???? -Dom
+	@Transactional
+	public Tutor updateTutor(Tutor tutor)	{
+		//Very general method that is called to save new info into the persistence 
+		tutorRepository.save(tutor);
+		return tutor;
+	}
+	
 	
 	//Services to create, get and get all reviews
 	@Transactional
@@ -229,6 +238,17 @@ public class TutoringSystemService {
 		Session session = sessionRepository.findSessionBySessionId(sessionId);
 		return session;
 	}
+	
+	
+	////////////////////////////////////Added this to update the persistence, is it correct???? -Dom
+	@Transactional
+	public Session updateSession(Session session)	{
+		//Very general method that is called to save new info into the persistence 
+		sessionRepository.save(session);
+		return session;
+	}
+	
+	
 	
 	@Transactional
 	public List<Session> getAllSessions() {
