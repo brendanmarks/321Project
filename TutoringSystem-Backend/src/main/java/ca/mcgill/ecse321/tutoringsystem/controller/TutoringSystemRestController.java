@@ -442,7 +442,7 @@ public class TutoringSystemRestController {
 	}
 	
 	
-	@GetMapping(value = {"/sessions/{studentUsername}","/sessions/{studentUsername}/"})
+	@GetMapping(value = {"/sessions/student/{studentUsername}","/sessions/student/{studentUsername}/"})
 	public List<SessionDto> getAllSessionsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
 		List<SessionDto> allSessions = getAllSessions();
 		List<SessionDto> allSessionsOfStudent = new ArrayList<>();
@@ -456,8 +456,8 @@ public class TutoringSystemRestController {
 	}
 	
 	
-	@GetMapping(value = {"/sessions/{sessionID}","/sessions/{sessionID}"})
-	public SessionDto getSessionById(@PathVariable("sessionID") String sessionID) throws IllegalArgumentException {
+	@GetMapping(value = {"/sessions/{sessionID}","/sessions/{sessionID}/"})
+	public SessionDto getSessionById(@PathVariable String sessionID) throws IllegalArgumentException {
 		SessionDto sessionDto = null;
 		List<Session> getAllSessions = service.getAllSessions();
 		for(Session s: getAllSessions) {
