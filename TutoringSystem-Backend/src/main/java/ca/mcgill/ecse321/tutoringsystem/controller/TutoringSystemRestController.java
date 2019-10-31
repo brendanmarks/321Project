@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ca.mcgill.ecse321.tutoringsystem.dto.*;
 import ca.mcgill.ecse321.tutoringsystem.model.*;
 import ca.mcgill.ecse321.tutoringsystem.service.*;
-import javassist.bytecode.Descriptor.Iterator;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -29,6 +27,16 @@ public class TutoringSystemRestController {
 
 	@Autowired
 	TutoringSystemService service;
+	
+	
+	/**====================== POST Request Methods ===========================*/
+
+/*	In order, this section contains the following methods:
+ * 
+ * 1.1)
+ * 
+ */
+	
 	
 	//Creating a new Student
 	@PostMapping(value = { 
@@ -43,8 +51,13 @@ public class TutoringSystemRestController {
 		)	throws IllegalArgumentException {
 		
 		//create a student instance in persistence using the method in the service class
-		Student student = service.createStudent(name, email, username, password);
-		return convertStudentToDto(student);	
+		try	{
+			Student student = service.createStudent(name, email, username, password);
+			return convertStudentToDto(student);
+		} catch(Exception e) {
+			System.out.println("Error ocured when creating a new student with the name: "+name+".");
+			return null;
+		}	
 	}
 	
 	
@@ -62,8 +75,13 @@ public class TutoringSystemRestController {
 		)	throws IllegalArgumentException {
 			
 		//create a tutor instance in persistence using the method in the service class
-		Tutor tutor = service.createTutor(name, email, username, password, rate);
-		return convertTutorToDto(tutor);	
+		try {
+			Tutor tutor = service.createTutor(name, email, username, password, rate);
+			return convertTutorToDto(tutor);	
+		} catch(Exception e) {
+			System.out.println("Error ocured when creating a new tutor with the name: "+name+".");
+			return null;
+		}	
 	}
 	
 	
@@ -295,14 +313,18 @@ public class TutoringSystemRestController {
 	/* --------- Courses ---------*/
 	
 	//1.1) get all courses
-	//TODO : working, but make sure this doesn't fail (try catch)
 	@GetMapping(value = {"/courses","/courses/"})
 	public List<CourseDto> getAllCourses() {
 		List<CourseDto> courseDtos = new ArrayList<>();
-		for(Course c : service.getAllCourses()) {
-			courseDtos.add(convertCourseToDto(c));
+		try {
+			for(Course c : service.getAllCourses()) {
+				courseDtos.add(convertCourseToDto(c));
+			}
+			return courseDtos;
+		}catch(Exception e) {
+			System.out.println("Error getting all courses");
+			return null;
 		}
-		return courseDtos;
 	}
 	
 	
@@ -311,7 +333,12 @@ public class TutoringSystemRestController {
 	@GetMapping(value = {"/courses/{courseID}","/courses/{courseID}/"})
 	public CourseDto getCourseByID(@PathVariable("courseID") String courseID) 
 	throws IllegalArgumentException{
-		return convertCourseToDto(service.getCourse(courseID));
+		try{
+			return convertCourseToDto(service.getCourse(courseID));
+		}catch(Exception e) {
+			System.out.println("Could not get course "+courseID);
+			return null;
+		}
 	}	
 	
 	/** --------- Tutorials ---------*/	
@@ -322,38 +349,43 @@ public class TutoringSystemRestController {
 		"/tutorials/" 
 	})
 	public List<TutorialDto> getAllTutorials() {
-		
-		List<TutorialDto> tutorialDtos = new ArrayList<>();
-		for (Tutorial tutorial : service.getAllTutorials()) {
-			
-			Set<Tutor> tutors = tutorial.getTutor();
-			if (tutors.size() == 0)	{
+		try {
+			List<TutorialDto> tutorialDtos = new ArrayList<>();
+			for (Tutorial tutorial : service.getAllTutorials()) {
 				
-				String emptyTutorialId = tutorial.getId();
-				System.out.println("The tutorial instance with ID "+ emptyTutorialId + " saved in persistance does not have any assigned tutor(s).");
-				continue;
-			}
-			
-			Course course = tutorial.getCourse();
-			CourseDto cDto = convertCourseToDto(course);
-			
-			if (tutors.size() > 1)	{
+				Set<Tutor> tutors = tutorial.getTutor();
 				
-				for(java.util.Iterator<Tutor> iterate = tutors.iterator(); iterate.hasNext();) {
-					Tutor t = iterate.next();
+				if (tutors.size() == 0)	{
+					
+					String emptyTutorialId = tutorial.getId();
+					System.out.println("The tutorial instance with ID "+ emptyTutorialId + " saved in persistance does not have any assigned tutor(s).");
+					continue;
+				}
+				
+				Course course = tutorial.getCourse();
+				CourseDto cDto = convertCourseToDto(course);
+				
+				if (tutors.size() > 1)	{
+					
+					for(java.util.Iterator<Tutor> iterate = tutors.iterator(); iterate.hasNext();) {
+						Tutor t = iterate.next();
+						TutorDto tDto = convertTutorToDto(t);
+						tutorialDtos.add(convertTutorialToDto(tDto, cDto));
+					} 	
+				
+				}	else if (tutors.size() == 1)	{
+					
+					Tutor t = tutors.iterator().next();
 					TutorDto tDto = convertTutorToDto(t);
-					tutorialDtos.add(convertTutorialToDto(tDto, cDto));
-				} 	
-			
-			}	else if (tutors.size() == 1)	{
-				
-				Tutor t = tutors.iterator().next();
-				TutorDto tDto = convertTutorToDto(t);
 
-				tutorialDtos.add(convertTutorialToDto(tDto, cDto));
-			}
-		}	
-		return tutorialDtos;
+					tutorialDtos.add(convertTutorialToDto(tDto, cDto));
+				}
+			}	
+			return tutorialDtos;			
+		}catch(Exception e) {
+			System.out.println("Could not get all tutorials");
+			return null;
+		}
 	}
 	
 	
@@ -533,13 +565,7 @@ public class TutoringSystemRestController {
 		}
 		return tutorReviewsDtos;		
 	}
-		
-	
-	
-		
-		
-		
-		
+
 	
 	//HELPER METHOD : Get tutor from set
 	//Since tutors are returned as sets from our domain model, we need a way to extract the tutor
@@ -559,13 +585,7 @@ public class TutoringSystemRestController {
 		return tutor;//default
 	}
 	
-	
-	
-	
-	
-	
-	/** 2019 - 10 -26 : Sean Smith --> Doing my part from here down */
-	
+
 	//HELPER METHOD : Get student from set
 	//Since tutors are returned as sets from our domain model, we need a way to extract the tutor
 	private Student getStudentFromSet(Set<Student> studentset) {
@@ -583,10 +603,30 @@ public class TutoringSystemRestController {
 		}
 		return student;//default
 	}
-
+	
+	@GetMapping(value = {"/tutorials/tutor/{tutorUserName}","tutorials/tutor/{tutorUserName}/"})
+	public List<TutorialDto> getTutorialsOfTutor(@PathVariable("tutorUserName") String tutorUserName){
+		try {
+			List<TutorialDto> allTutorialsOfTutor  = new ArrayList<>();
+			List<Tutorial> allTutorials = service.getAllTutorials();
+			Tutor tutor = service.getTutor(tutorUserName);
+			TutorDto tutorDto = convertTutorToDto(tutor);
+			//TODO: use tutorDto instead for below???
+			for(Tutorial t : allTutorials) {
+				if(getTutorFromSet(t.getTutor()).equals(tutor)) {
+					CourseDto courseDto = convertCourseToDto(t.getCourse());
+					allTutorialsOfTutor.add(convertTutorialToDto(tutorDto,courseDto));
+				}
+			}
+			return allTutorialsOfTutor;
+		}catch(Exception e) {
+			System.out.println("Could not return all tutorials of "+tutorUserName);
+			return null;
+		}
+	}
 	
 	//1.2) ------ get tutorial of tutor ------
-
+	/*
 	private Tutor convertTutorToDomainObject(TutorDto tutorDto) {
 		List<Tutor> allTutors = service.getAllTutors();
 		for(Tutor t : allTutors) {
@@ -595,9 +635,10 @@ public class TutoringSystemRestController {
 			}
 		}
 		return null;
-	}
+	}*/
 	
 	/* --------------- THIS SHOULD BE IN SERVICE, BUT IMPLEMENTED DIFFERENTLY---------*/
+	/*
 	private ArrayList<Tutorial> getAllTutorialsOfTutor(Tutor t){
 		ArrayList<Tutorial> returnTutorial = new ArrayList<Tutorial>();
 		List<Tutorial> allTutorials = service.getAllTutorials();
@@ -606,9 +647,10 @@ public class TutoringSystemRestController {
 				returnTutorial.add(tutorial);
 			}
 		} return returnTutorial;
-	}
+	}*/
 	
 	//is this even necessary?
+	/*
 	private List<TutorialDto> createTutorialDtosForTutor(Tutor tutor) {
 		List<Tutorial> allTutorialsOfTutor = getAllTutorialsOfTutor(tutor);
 		List<TutorialDto> tutorials = new ArrayList<>();
@@ -625,20 +667,41 @@ public class TutoringSystemRestController {
 	public List<TutorialDto> getTutorialsOfTutor(@PathVariable("username") TutorDto tutorDto){
 		Tutor tutor = convertTutorToDomainObject(tutorDto);
 		return createTutorialDtosForTutor(tutor);	
-	}
+	}*/
 	
 	
 	//1.3) get tutorials of a student
-	@GetMapping(value = {"/tutorials/{studentUsername}" , "tutorials/{studentUsername}/"})
+	@GetMapping(value = {"/tutorials/student/{studentUsername}" , "tutorials/{studentUsername}/"})
 	public List<TutorialDto> getTutorialsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
 		List<TutorialDto> tutorialsOfStudent = new ArrayList<>();
 		List<Tutorial> allTutorials = service.getAllTutorials();
-		for(Tutorial t : allTutorials) { 
-			//if(t.getId().get)
-		}	
+		StudentDto studentDto = convertStudentToDto(service.getStudent(studentUsername));
+		ArrayList<SessionDto> sessions = studentDto.getSessions();
+		// ????
+		for(Tutorial t : allTutorials) {
+			
+		}
+		
 		return tutorialsOfStudent;
 	}
 	
+	@GetMapping(value = {"/tutorials/{tutorialID}","/tutorials/{tutorialID}/"})
+	public TutorialDto getTutorialById(@PathVariable("tutorialID") String tutorialID) throws IllegalArgumentException {
+		try {
+			TutorialDto tutorialDto = null;
+			Tutorial tutorial = service.getTutorial(tutorialID);
+			CourseDto courseDto = convertCourseToDto(tutorial.getCourse());
+			Tutor tutor = getTutorFromSet(tutorial.getTutor());
+			TutorDto tutorDto = convertTutorToDto(tutor);
+			tutorialDto = convertTutorialToDto(tutorDto,courseDto);
+			return tutorialDto;
+		}catch(Exception e) {
+			System.out.println("TutorialID : "+tutorialID+" not found");
+			return null;
+		}
+	}
+	
+	/*	
 	@GetMapping(value = {"/tutorials/{tutorialID}","/tutorials/{tutorialID}/"})
 	public TutorialDto getTutorialById(@PathVariable("tutorialID") String tutorialID) throws IllegalArgumentException {
 		TutorialDto tutorialDto = null;
@@ -652,111 +715,103 @@ public class TutoringSystemRestController {
 		}
 		return tutorialDto;
 	} 
-	
-	//TODO : Make a convertTutorialToDto which takes a tutorial as argument.
-	// Suggestion: convertTutorialToDto will take tutorial as argument
-	// then you can access the tutors' fields (courses,tutor) through
-	// the return value (tutorialDto)
-	//TODO : Mark some of the issues as solved.
-	/*
-	@GetMapping(value = {"/tutorials/{tutorialID}","/tutorials/{tutorialID}/"})
-	public TutorialDto getTutorialById(@PathVariable("tutorialID") String tutorialID) throws IllegalArgumentException {
-		return convertTutorialToDto(service.getTutorial(tutorialID));
-	}
 	*/
 	
 	
 	@GetMapping(value = {"/sessions","/sessions/"})
 	public List<SessionDto> getAllSessions(){
-		List<Session> allSessions = service.getAllSessions();
-		List<SessionDto> allSessionsAsDto = new ArrayList<>();
-		for(Session s : allSessions) {
-			Student student = getStudentFromSet(s.getStudent());
-			String studentUserName = convertStudentToDto(student).getUsername();
-			allSessionsAsDto.add(convertSessionToDto(studentUserName,s));
+		try {
+			List<Session> allSessions = service.getAllSessions();
+			List<SessionDto> allSessionsAsDto = new ArrayList<>();
+			for(Session s : allSessions) {
+				Student student = getStudentFromSet(s.getStudent());
+				String studentUserName = convertStudentToDto(student).getUsername();
+				allSessionsAsDto.add(convertSessionToDto(studentUserName,s));
+			}
+			return allSessionsAsDto;
+		}catch(Exception e) {
+			System.out.println("Could not get all sessions");
+			return null;
 		}
-		return allSessionsAsDto;
 	}
 	
 	@GetMapping(value = {"/students","/students/"})
 	public List<StudentDto> getAllStudents(){
-		List<Student> allStudents = service.getAllStudents();
-		List<StudentDto> studentDtos = new ArrayList<>();
-		for(Student s : allStudents) {
-			studentDtos.add(convertStudentToDto(s));
+		try {
+			List<Student> allStudents = service.getAllStudents();
+			List<StudentDto> studentDtos = new ArrayList<>();
+			for(Student s : allStudents) {
+				studentDtos.add(convertStudentToDto(s));
+			}
+			return studentDtos;
+		}catch(Exception e) {
+			System.out.println("Could not return all students");
+			return null;
 		}
-		return studentDtos;
 	}
 
 	
 	@GetMapping(value = {"/students/{studentUsername}","/students/{studentUsername}/"})
 	public StudentDto getStudentByUsername(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
-		List<StudentDto> allStudents = getAllStudents();
-		StudentDto student = null;
-		for(StudentDto s : allStudents) {
-			if(s.getUsername().trim().equals(studentUsername) || s.getUsername().trim()==studentUsername) {
-				student = s;
-				return student;
-			}
-		}
-		return student;
+		return convertStudentToDto(service.getStudent(studentUsername));
 	}
 	
-	
-	
-	
-	
-	
-	
-	@GetMapping(value = {"/sessions/{studentUsername}","/sessions/{studentUsername}/"})
+	@GetMapping(value = {"/sessions/student/{studentUsername}","/sessions/student/{studentUsername}/"})
 	public List<SessionDto> getAllSessionsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
-		List<SessionDto> allSessions = getAllSessions();
-		List<SessionDto> allSessionsOfStudent = new ArrayList<>();
-		StudentDto student = getStudentByUsername(studentUsername);
-		for(SessionDto s: allSessions) {
-			if(s.getRegisteredStudents().contains(student)) {
-				allSessionsOfStudent.add(s);
+		try {
+			List<SessionDto> allSessions = getAllSessions();
+			List<SessionDto> allSessionsOfStudent = new ArrayList<>();
+			StudentDto student = getStudentByUsername(studentUsername);
+			for(SessionDto s: allSessions) {
+				if(s.getRegisteredStudents().contains(student)) {
+					allSessionsOfStudent.add(s);
+				}
 			}
+			return allSessionsOfStudent;	
+		}catch(Exception e) {
+			System.out.println("Could not get all sessions of "+studentUsername);
+			return null;
 		}
-		return allSessionsOfStudent;
 	}
 	
 	
-	@GetMapping(value = {"/sessions/{sessionID}","/sessions/{sessionID}"})
-	public SessionDto getSessionById(@PathVariable("sessionID") String sessionID) throws IllegalArgumentException {
-		SessionDto sessionDto = null;
-		List<Session> getAllSessions = service.getAllSessions();
-		for(Session s: getAllSessions) {
-			if(s.getSessionId().trim().equals(sessionID) || s.getSessionId().trim()==sessionID) {
-				Student student = getStudentFromSet(s.getStudent());
-				String studentUserName = convertStudentToDto(student).getUsername();
-				sessionDto = convertSessionToDto(studentUserName,s);
-				return sessionDto;
-			}
-		} return sessionDto;
+	@GetMapping(value = {"/sessions/{sessionID}","/sessions/{sessionID}/"})
+	public SessionDto getSessionById(@PathVariable String sessionID) throws IllegalArgumentException {
+		try {
+			Session session = service.getSession(sessionID);
+			Student student = getStudentFromSet(session.getStudent());
+			StudentDto studentDto = convertStudentToDto(student);
+			SessionDto sessionDto = convertSessionToDto(studentDto.getUsername(),session);
+			return sessionDto;
+		}catch(Exception e){
+			System.out.println("Could not get session "+sessionID);
+			return null;
+		}
 	}
 		
 	@GetMapping(value = {"/tutors","/tutors/"})
 	public List<TutorDto> getAllTutors(){
-		List<Tutor> allTutors = service.getAllTutors();
-		List<TutorDto> tutorDtos = new ArrayList<>();
-		for(Tutor s : allTutors) {
-			tutorDtos.add(convertTutorToDto(s));
+		try {
+			List<Tutor> allTutors = service.getAllTutors();
+			List<TutorDto> tutorDtos = new ArrayList<>();
+			for(Tutor s : allTutors) {
+				tutorDtos.add(convertTutorToDto(s));
+			}
+			return tutorDtos;			
+		}catch(Exception e) {
+			System.out.println("Could not get all tutors");
+			return null;
 		}
-		return tutorDtos;
 	}
 	
 	@GetMapping(value = {"/tutors/{tutorUsername}","/tutors/{tutorUsername}/"})
 	public TutorDto getTutorByUsername(@PathVariable("tutorUsername") String tutorUsername) throws IllegalArgumentException {
-		List<TutorDto> allTutors = getAllTutors();
-		TutorDto tutor = null;
-		for(TutorDto t : allTutors) {
-			if(t.getUsername().trim().equals(tutorUsername) || t.getUsername().trim()==tutorUsername) {
-				tutor = t;
-				return t;
-			}
+		try {
+			return convertTutorToDto(service.getTutor(tutorUsername));
+		}catch(Exception e) {
+			System.out.println("Could not get tutor "+tutorUsername);
+			return null;
 		}
-		return tutor;
 	}
 	
 	
