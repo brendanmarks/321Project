@@ -29,6 +29,7 @@ import ca.mcgill.ecse321.tutoringsystem.dao.TutorialRepository;
 import ca.mcgill.ecse321.tutoringsystem.model.Bill;
 import ca.mcgill.ecse321.tutoringsystem.model.Course;
 import ca.mcgill.ecse321.tutoringsystem.model.Review;
+import ca.mcgill.ecse321.tutoringsystem.model.Session;
 import ca.mcgill.ecse321.tutoringsystem.model.Student;
 import ca.mcgill.ecse321.tutoringsystem.model.Tutor;
 import ca.mcgill.ecse321.tutoringsystem.model.Tutorial;
@@ -60,6 +61,8 @@ public class TutoringSystemServiceMockTest {
 	private BillRepository billDao;
 	@Mock
 	private TutorialRepository tutorialDao;
+	@Mock
+	private SessionRepository sessionDao;
 		
 	@InjectMocks
 	private TutoringSystemService service;
@@ -104,6 +107,11 @@ public class TutoringSystemServiceMockTest {
 	private static final String TUTORIAL_KEY_1 = "11111";
 	private static final String TUTORIAL_KEY_2 = "22222";
 	private static final String NONEXISTING_TUTORIAL_KEY = "55555";
+	
+	//Session
+	private static final String SESSION_KEY_1 = "11";
+	private static final String SESSION_KEY_2 = "22";
+	private static final String NONEXISTING_SESSION_KEY = "55";
 	
 	
 	@Before
@@ -245,6 +253,31 @@ public class TutoringSystemServiceMockTest {
 			tutorials.add(tutorial2);
 			tutorials.add(tutorial2);
 			return tutorials;
+		});
+		
+		when(sessionDao.findSessionBySessionId(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+			if(invocation.getArgument(0).equals(SESSION_KEY_1)) {
+				Session session = new Session();
+				Tutorial tutorial = new Tutorial();
+				Bill bill = new Bill();
+				session.setSessionId(SESSION_KEY_1);
+				session.setTutorial(tutorial);
+				session.setBill(bill);
+				return session;
+			} else {
+				return null;
+			}
+		});
+		
+		when(sessionDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+			List<Session> sessions = new ArrayList<Session>();
+			Session session1 = new Session();
+			Session session2 = new Session();
+			session1.setSessionId(SESSION_KEY_1);
+			session2.setSessionId(SESSION_KEY_2);
+			sessions.add(session1);
+			sessions.add(session2);
+			return sessions;
 		});
 	}
 	
@@ -526,7 +559,7 @@ public class TutoringSystemServiceMockTest {
 		List<Bill> bills = service.getAllBills();
 		assertEquals(2, bills.size());
 	}
-	/**====================== Bill Tests  ===========================*/
+	/**====================== Tutorial Tests  ===========================*/
 	@Test
 	public void testCreateTutorial() {
 		
@@ -535,7 +568,6 @@ public class TutoringSystemServiceMockTest {
 		Course course = new Course();
 		String courseId = "ECSE321";
 		String courseName = "Intro to Software Engineering";
-		String tutorName = "Tutor1";
 		course.setCourseId(courseId);
 		course.setCourseName(courseName);
 		
@@ -589,6 +621,71 @@ public class TutoringSystemServiceMockTest {
 	public void testGetAllTutorials() {
 		List<Tutorial> tutorials = service.getAllTutorials();
 		assertEquals(2, tutorials.size());
+	}
+	
+	/**====================== Session Tests  ===========================*/
+	@Test
+	public void testCreateSession() {
+		Session session = new Session();
+		Tutorial tutorial = new Tutorial();
+		Bill bill = new Bill();
+		Time startTime = Time.valueOf("10:30:00");
+		Time endTime = Time.valueOf("11:30:00");
+		Date date = Date.valueOf("2020-01-10");
+		String sessionId = "session1";
+		
+		try {
+			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial);
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}
+		assertEquals(sessionId, session.getSessionId());
+		
+	}
+	
+	@Test
+	public void testCreateSessionNull() {
+		Session session = new Session();
+		Tutorial tutorial = null;
+		Bill bill = null;
+		Time startTime = null;
+		Time endTime = null;
+		Date date = null;
+		String sessionId = "";
+		String error = null;
+		try {
+			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial);
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			error = e.getMessage();
+		}
+		assertEquals("Session sessionId cannot be empty when creating a new Session."
+				+ "Session's bill cannot be empty when creating a new Session." 
+				+ "Session's tutorial cannot be empty when creating a new Session."
+				+ "Session's startTime cannot be empty when creating a new Session." 
+				+ "Session's endTime cannot be empty when creating a new Session."
+				+ "Session's date cannot be empty when creating a new Session.", error);
+		
+	}
+	
+	
+	@Test
+	public void testGetSessionBySessionIdExistingSessionId() {
+		Session session = service.getSession(SESSION_KEY_1);
+		assertEquals(SESSION_KEY_1, session.getSessionId());
+	}
+	
+	@Test
+	public void testGetSessionBySessionIdNonExistingSessionId() {
+		Session session = service.getSession(NONEXISTING_SESSION_KEY);
+		assertNull(session);
+	}
+	
+	@Test
+	public void testGetAllSessions() {
+		List<Session> sessions = service.getAllSessions();
+		assertEquals(2, sessions.size());
 	}
 	
 }
