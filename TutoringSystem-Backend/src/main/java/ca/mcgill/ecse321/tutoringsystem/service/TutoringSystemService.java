@@ -196,10 +196,27 @@ public class TutoringSystemService {
 	//Services to create, get and get all courses
 	@Transactional
 	public Course createCourse(String courseId, String courseName) {
-		Course course = new Course();
-		course.setCourseId(courseId);
-		course.setCourseName(courseName);
-		courseRepository.save(course);
+		// Input validation
+	    String error = "";
+	    if (courseId == null || courseId.trim().length() == 0) {
+	        error = error + "Course courseId cannot be empty when creating a new Course.";
+	    }
+	    if (courseName == null || courseName.trim().length() == 0) {
+	        error = error + "Course name cannot be empty when creating a new Course.";
+	    }
+	
+	    error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+		
+	    Course course = courseRepository.findCourseByCourseId(courseId);
+		if(course == null) {
+			course = new Course();
+			course.setCourseId(courseId);
+			course.setCourseName(courseName);
+			courseRepository.save(course);
+		}
 		return course;
 	}
 	
@@ -217,10 +234,14 @@ public class TutoringSystemService {
 	//Services to create, get and get all bills
 	@Transactional
 	public Bill createBill(boolean isPaid, int billId) {
-		Bill bill = new Bill();
-		bill.setBillId(billId);
-		bill.setIsPaid(isPaid);
-		billRepository.save(bill);
+		
+	    Bill bill = billRepository.findBillByBillId(billId);
+		if(bill == null) {
+			bill = new Bill();
+			bill.setBillId(billId);
+			bill.setIsPaid(isPaid);
+			billRepository.save(bill);
+		}
 		return bill;
 	}
 	
@@ -263,15 +284,33 @@ public class TutoringSystemService {
 	//Services to create, get and get all sessions
 	@Transactional
 	public Tutorial createTutorial(String id, Course course, Tutor tutor) {
-		Tutorial tutorial = new Tutorial();
-		tutorial.setId(id);
-		tutorial.setCourse(course);
+		// Input validation
+	    String error = "";
+	    if (id == null || id.trim().length() == 0) {
+	        error = error + "Tutorial Id cannot be empty when creating a new Tutorial.";
+	    }
+	    if (course == null) {
+	        error = error + "Tutorial's course cannot be empty when creating a new Tutorial.";
+	    }
+	
+	    error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
 		
-		Set<Tutor> tutors = new HashSet<>();
-		tutors.add(tutor);
-		tutorial.setTutor(tutors);
-		
-		tutorialRepository.save(tutorial);
+	    Tutorial tutorial = tutorialRepository.findTutorialById(id);
+		if(tutorial == null) {
+			
+			tutorial = new Tutorial();
+			tutorial.setId(id);
+			tutorial.setCourse(course);
+			
+			Set<Tutor> tutors = new HashSet<>();
+			tutors.add(tutor);
+			tutorial.setTutor(tutors);
+			
+			tutorialRepository.save(tutorial);
+		}
 		return tutorial;
 	}
 	
