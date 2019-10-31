@@ -368,7 +368,7 @@ public class TutoringSystemRestController {
 	
 	
 	//1.3) get tutorials of a student
-	@GetMapping(value = {"/tutorials/{studentUsername}" , "tutorials/{studentUsername}/"})
+	@GetMapping(value = {"/tutorials/student/{studentUsername}" , "tutorials/{studentUsername}/"})
 	public List<TutorialDto> getTutorialsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
 		List<TutorialDto> tutorialsOfStudent = new ArrayList<>();
 		List<Tutorial> allTutorials = service.getAllTutorials();
