@@ -185,6 +185,7 @@ public class TutoringSystemRestController {
 			return convertReviewToDto(review);	
 		}
 	
+	
 	//Create a session
 	@PostMapping(value = { 
 		"/sessions/{sessionId}", 
@@ -207,7 +208,9 @@ public class TutoringSystemRestController {
 		
 		Session session = service.createSession(sessionId, Time.valueOf(startTime), Time.valueOf(endTime), date, bill, tutorial);
 		return convertSessionToDto(studentName, session);
-	}	
+	}
+	
+		
 	
 	
 	/* Methods that converts instances stored in persistence into DTOs */
@@ -755,10 +758,6 @@ public class TutoringSystemRestController {
 		}
 		return tutor;
 	}
-	
-	
-	
-	
 	
 	
 	
