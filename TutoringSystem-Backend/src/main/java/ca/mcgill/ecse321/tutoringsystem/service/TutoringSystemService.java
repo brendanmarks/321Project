@@ -259,14 +259,44 @@ public class TutoringSystemService {
 	//Services to create, get and get all sessions
 	@Transactional
 	public Session createSession(String sessionId, Time startTime, Time endTime, Date date, Bill bill, Tutorial tutorial) {
-		Session session = new Session();
-		session.setSessionId(sessionId);
-		session.setStartTime(startTime);
-		session.setEndTime(endTime);
-		session.setDate(date);
-		session.setBill(bill);
-		session.setTutorial(tutorial);
-		sessionRepository.save(session);
+		// Input validation
+	    String error = "";
+	    if (sessionId == null || sessionId.trim().length() == 0) {
+	        error = error + "Session sessionId cannot be empty when creating a new Session.";
+	    }
+	    if (bill == null) {
+	        error = error + "Session's bill cannot be empty when creating a new Session.";
+	    }
+	    if (tutorial == null) {
+	        error = error + "Session's tutorial cannot be empty when creating a new Session.";
+	    }
+	    
+	    if (startTime == null) {
+	        error = error + "Session's startTime cannot be empty when creating a new Session.";
+	    }
+	    if (endTime == null) {
+	        error = error + "Session's endTime cannot be empty when creating a new Session.";
+	    }
+	    if (date == null) {
+	        error = error + "Session's date cannot be empty when creating a new Session.";
+	    }
+	
+	    error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+		
+	    Session session = sessionRepository.findSessionBySessionId(sessionId);
+		if(session == null) {
+			session = new Session();
+			session.setSessionId(sessionId);
+			session.setStartTime(startTime);
+			session.setEndTime(endTime);
+			session.setDate(date);
+			session.setBill(bill);
+			session.setTutorial(tutorial);
+			sessionRepository.save(session);
+		}
 		return session;	
 	}
 	
