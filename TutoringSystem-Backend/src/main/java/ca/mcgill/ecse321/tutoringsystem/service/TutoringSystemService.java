@@ -101,7 +101,6 @@ public class TutoringSystemService {
 	}
 	
 	
-	
 	//Services to create, get and get all tutors
 	@Transactional
 	public Tutor createTutor(String name, String email, String username, String password, double hourlyRate) {
@@ -151,6 +150,16 @@ public class TutoringSystemService {
 		return toList(tutorRepository.findAll());
 	}
 	
+	
+	////////////////////////////////////Added this to update the persistence, is it needed???? -Dom
+	@Transactional
+	public Tutor updateTutor(Tutor tutor)	{
+		//Very general method that is called to save new info into the persistence 
+		tutorRepository.save(tutor);
+		return tutor;
+	}
+	
+	
 	//Services to create, get and get all reviews
 	@Transactional
 	public Review createReview(String reviewId, String comment, int rating) {
@@ -196,10 +205,27 @@ public class TutoringSystemService {
 	//Services to create, get and get all courses
 	@Transactional
 	public Course createCourse(String courseId, String courseName) {
-		Course course = new Course();
-		course.setCourseId(courseId);
-		course.setCourseName(courseName);
-		courseRepository.save(course);
+		// Input validation
+	    String error = "";
+	    if (courseId == null || courseId.trim().length() == 0) {
+	        error = error + "Course courseId cannot be empty when creating a new Course.";
+	    }
+	    if (courseName == null || courseName.trim().length() == 0) {
+	        error = error + "Course name cannot be empty when creating a new Course.";
+	    }
+	
+	    error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+		
+	    Course course = courseRepository.findCourseByCourseId(courseId);
+		if(course == null) {
+			course = new Course();
+			course.setCourseId(courseId);
+			course.setCourseName(courseName);
+			courseRepository.save(course);
+		}
 		return course;
 	}
 	
@@ -217,10 +243,14 @@ public class TutoringSystemService {
 	//Services to create, get and get all bills
 	@Transactional
 	public Bill createBill(boolean isPaid, int billId) {
-		Bill bill = new Bill();
-		bill.setBillId(billId);
-		bill.setIsPaid(isPaid);
-		billRepository.save(bill);
+		
+	    Bill bill = billRepository.findBillByBillId(billId);
+		if(bill == null) {
+			bill = new Bill();
+			bill.setBillId(billId);
+			bill.setIsPaid(isPaid);
+			billRepository.save(bill);
+		}
 		return bill;
 	}
 	
@@ -238,14 +268,44 @@ public class TutoringSystemService {
 	//Services to create, get and get all sessions
 	@Transactional
 	public Session createSession(String sessionId, Time startTime, Time endTime, Date date, Bill bill, Tutorial tutorial) {
-		Session session = new Session();
-		session.setSessionId(sessionId);
-		session.setStartTime(startTime);
-		session.setEndTime(endTime);
-		session.setDate(date);
-		session.setBill(bill);
-		session.setTutorial(tutorial);
-		sessionRepository.save(session);
+		// Input validation
+	    String error = "";
+	    if (sessionId == null || sessionId.trim().length() == 0) {
+	        error = error + "Session sessionId cannot be empty when creating a new Session.";
+	    }
+	    if (bill == null) {
+	        error = error + "Session's bill cannot be empty when creating a new Session.";
+	    }
+	    if (tutorial == null) {
+	        error = error + "Session's tutorial cannot be empty when creating a new Session.";
+	    }
+	    
+	    if (startTime == null) {
+	        error = error + "Session's startTime cannot be empty when creating a new Session.";
+	    }
+	    if (endTime == null) {
+	        error = error + "Session's endTime cannot be empty when creating a new Session.";
+	    }
+	    if (date == null) {
+	        error = error + "Session's date cannot be empty when creating a new Session.";
+	    }
+	
+	    error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+		
+	    Session session = sessionRepository.findSessionBySessionId(sessionId);
+		if(session == null) {
+			session = new Session();
+			session.setSessionId(sessionId);
+			session.setStartTime(startTime);
+			session.setEndTime(endTime);
+			session.setDate(date);
+			session.setBill(bill);
+			session.setTutorial(tutorial);
+			sessionRepository.save(session);
+		}
 		return session;	
 	}
 	
@@ -255,6 +315,17 @@ public class TutoringSystemService {
 		return session;
 	}
 	
+	
+	////////////////////////////////////Added this to update the persistence, is it correct???? -Dom
+	@Transactional
+	public Session updateSession(Session session)	{
+		//Very general method that is called to save new info into the persistence 
+		sessionRepository.save(session);
+		return session;
+	}
+	
+	
+	
 	@Transactional
 	public List<Session> getAllSessions() {
 		return toList(sessionRepository.findAll());
@@ -263,15 +334,33 @@ public class TutoringSystemService {
 	//Services to create, get and get all sessions
 	@Transactional
 	public Tutorial createTutorial(String id, Course course, Tutor tutor) {
-		Tutorial tutorial = new Tutorial();
-		tutorial.setId(id);
-		tutorial.setCourse(course);
+		// Input validation
+	    String error = "";
+	    if (id == null || id.trim().length() == 0) {
+	        error = error + "Tutorial Id cannot be empty when creating a new Tutorial.";
+	    }
+	    if (course == null) {
+	        error = error + "Tutorial's course cannot be empty when creating a new Tutorial.";
+	    }
+	
+	    error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
 		
-		Set<Tutor> tutors = new HashSet<>();
-		tutors.add(tutor);
-		tutorial.setTutor(tutors);
-		
-		tutorialRepository.save(tutorial);
+	    Tutorial tutorial = tutorialRepository.findTutorialById(id);
+		if(tutorial == null) {
+			
+			tutorial = new Tutorial();
+			tutorial.setId(id);
+			tutorial.setCourse(course);
+			
+			Set<Tutor> tutors = new HashSet<>();
+			tutors.add(tutor);
+			tutorial.setTutor(tutors);
+			
+			tutorialRepository.save(tutorial);
+		}
 		return tutorial;
 	}
 	

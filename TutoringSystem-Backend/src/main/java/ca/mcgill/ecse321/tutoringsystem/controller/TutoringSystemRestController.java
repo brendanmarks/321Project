@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ca.mcgill.ecse321.tutoringsystem.dto.*;
 import ca.mcgill.ecse321.tutoringsystem.model.*;
 import ca.mcgill.ecse321.tutoringsystem.service.*;
-import javassist.bytecode.Descriptor.Iterator;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -30,9 +28,14 @@ public class TutoringSystemRestController {
 	@Autowired
 	TutoringSystemService service;
 	
-	//??????What about our PersonDto Class???? Should we also include methods forthem in the controller???
-	//I don't think it is necessary since we only have students or tutors in the persistence, never just a person
-	//     -Dominic
+	
+	/**====================== POST Request Methods ===========================*/
+
+/*	In order, this section contains the following methods:
+ * 
+ * 1.1)
+ * 
+ */
 	
 	
 	//Creating a new Student
@@ -48,12 +51,14 @@ public class TutoringSystemRestController {
 		)	throws IllegalArgumentException {
 		
 		//create a student instance in persistence using the method in the service class
-		Student student = service.createStudent(name, email, username, password);
-		return convertStudentToDto(student);	
+		try	{
+			Student student = service.createStudent(name, email, username, password);
+			return convertStudentToDto(student);
+		} catch(Exception e) {
+			System.out.println("Error ocured when creating a new student with the name: "+name+".");
+			return null;
+		}	
 	}
-	
-	//Retrieving a Tutor from database to view his details
-	
 	
 	
 	//Creating a new Tutor
@@ -70,8 +75,13 @@ public class TutoringSystemRestController {
 		)	throws IllegalArgumentException {
 			
 		//create a tutor instance in persistence using the method in the service class
-		Tutor tutor = service.createTutor(name, email, username, password, rate);
-		return convertTutorToDto(tutor);	
+		try {
+			Tutor tutor = service.createTutor(name, email, username, password, rate);
+			return convertTutorToDto(tutor);	
+		} catch(Exception e) {
+			System.out.println("Error ocured when creating a new tutor with the name: "+name+".");
+			return null;
+		}	
 	}
 	
 	
@@ -94,12 +104,12 @@ public class TutoringSystemRestController {
 	
 	//Create a new tutorial
 	@PostMapping(value = { 
-		"/tutorials/{id}", 
-		"/tutorials/{id}/" 
+		"/tutorials/{tutorialId}", 
+		"/tutorials/{tutorialId}/" 
 	})
 	public TutorialDto createTutorial(
 		
-		@PathVariable("id") String id,
+		@PathVariable("tutorialId") String tutorialId,
 		
 		@RequestParam(name = "tutorName") String tutorName, 
 		@RequestParam(name = "courseId") String courseId
@@ -118,8 +128,26 @@ public class TutoringSystemRestController {
 		//try {
 			Course course = service.getCourse(courseId);
 			
-			////////String uniqueTutorialID = UUID.randomUUID().toString();
-			service.createTutorial(/*uniqueTutorialID*/id, course, tutor);
+			Tutorial newTutorial = service.createTutorial(/*uniqueTutorialID*/tutorialId, course, tutor);
+			
+			//Check if tutor already has tutorials assigned to them and saved in database
+			Set<Tutorial> tutorTutorials = tutor.getTutorial();
+			
+			//If the Tutorial field of the specified tutor instance hasn't been instantiated, we create a new empty Set<Tutorial>
+			if(tutorTutorials.equals(null) || tutorTutorials == null || tutorTutorials.size() == 0)	{
+				
+				tutorTutorials = new HashSet<Tutorial>();
+				
+			}
+			//If there already was an existing set of tutorials saved for this specified tutor instance, then we just add the new tutorial to the set
+			tutorTutorials.add(newTutorial);
+			
+			//Assign the new set of tutorials to the tutor instance
+			tutor.setTutorial(tutorTutorials);
+			
+			//Call the service method that will update the saved tutor and add the new tutorial
+			tutor = service.updateTutor(tutor);		//method at line 151 of service class
+			
 		//}
 		//catch(IllegalArgumentException e)	{
 		//	System.out.println("The requested course does not exist in the system database or the course ID was written incorrectly.");
@@ -132,6 +160,49 @@ public class TutoringSystemRestController {
 	}	
 
 	
+	//Create a new review
+	@PostMapping(value = { 
+		"/reviews/{sessionId}/{reviewId}", 
+		"/reviews/{sessionId}/{reviewId}/" 
+	})
+	public ReviewDto createReview(
+			
+		@PathVariable("sessionId") String sessionId, 		
+		@PathVariable("reviewId") String reviewId,
+		
+		@RequestParam(name = "comment") String comment, 		//For now the comment must be one string... Must change the method to accept multi word...or use a text file as param after creating the review to then call setComment on the review and [ass thet text file ....   -Dom
+		@RequestParam(name = "rating") int rating,				
+		@RequestParam(name = "studentName") String name			//The name of the student that will be posting the review 
+			
+		)	throws IllegalArgumentException {
+		
+			//First we save to persistence the new review
+			Review review = service.createReview(reviewId, comment, rating);
+			
+			//Fetch the session that has just been completed
+			Session session = service.getSession(sessionId);
+			
+			//Check if session already has reviews saved
+			Set<Review> reviews = session.getReview();
+			
+			//If the Review field of the specified session instance hasn't been instantiated, we create a new empty Set<Review>
+			if(reviews.equals(null) || reviews == null || reviews.size() == 0)	{
+				
+				reviews = new HashSet<Review>();
+				
+			}
+			//If there already was an existing set of reviews saved for this specified session instance, then we just add the new created review to the set
+			reviews.add(review);
+			
+			//Assign the new set of reviews to the session instance
+			session.setReview(reviews);
+			
+			//Call the service method that will update the saved session and add the new reviews
+			session = service.updateSession(session);		//method at line 232 of service class
+			
+			return convertReviewToDto(review);	
+		}
+	
 	
 	//Create a session
 	@PostMapping(value = { 
@@ -139,25 +210,25 @@ public class TutoringSystemRestController {
 		"/sessions/{sessionId}/" 
 	})
 	public SessionDto createSession(
-		@PathVariable ("sessionId") String id,
+		@PathVariable ("sessionId") String sessionId,
 		@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
 		@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime,
-		@RequestParam Date date,            /*(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd")*/ 
+		@RequestParam Date date,         
 		@RequestParam(name = "tutorialId") String tutorialId,
 		@RequestParam(name = "studentName") String studentName
 		)	throws IllegalArgumentException {
-		
-		String uniqueSessionID = id; /* UUID.randomUUID().toString(); */
-		
-		Integer billId = Integer.parseInt(uniqueSessionID);
+			
+		Integer billId = Integer.parseInt(sessionId);
 		
 		Tutorial tutorial = service.getTutorial(tutorialId);
 		
 		Bill bill = service.createBill(false, billId);	//Make the Bill id a string parameter to be able to assign to it the same id as the session... -Dominic
 		
-		Session session = service.createSession(uniqueSessionID, Time.valueOf(startTime), Time.valueOf(endTime), date, bill, tutorial);
+		Session session = service.createSession(sessionId, Time.valueOf(startTime), Time.valueOf(endTime), date, bill, tutorial);
 		return convertSessionToDto(studentName, session);
 	}
+	
+		
 	
 	
 	/* Methods that converts instances stored in persistence into DTOs */
@@ -196,20 +267,41 @@ public class TutoringSystemRestController {
 		TutorialDto tutorialDto = new TutorialDto(t, c);
 		return tutorialDto;
 	}
+	
 	//Converts session DTOs
 	private SessionDto convertSessionToDto(String name, Session ss) {
 		if (name == null || ss == null) {
 			throw new IllegalArgumentException("This student or session does not exist.");
 		}	
+		Set<Student> students = ss.getStudent();
 		
 		ArrayList<StudentDto> sessionStudentDtos = new ArrayList<>();
-		Student student = service.getStudent(name);
-		StudentDto firstStudent = convertStudentToDto(student);
-		sessionStudentDtos.add(firstStudent);
 		
+		if(students.size() > 0)	{
+			
+			for(java.util.Iterator<Student> iterate = students.iterator(); iterate.hasNext();) {
+				Student s = iterate.next();
+				StudentDto sDto = convertStudentToDto(s);
+				sessionStudentDtos.add(sDto);
+			}
+		}	else if(students.size() == 0 || students == null)	{
+			
+			Student student = service.getStudent(name);
+			StudentDto firstStudent = convertStudentToDto(student);
+			sessionStudentDtos.add(firstStudent);
+		}
 		
 		SessionDto sessionDto = new SessionDto(ss.getSessionId(), ss.getDate(), ss.getStartTime(), ss.getEndTime(), sessionStudentDtos);
 		return sessionDto;
+	}
+
+	//Converts review DTOs
+	private ReviewDto convertReviewToDto(Review r) {
+		if (r == null) {
+			throw new IllegalArgumentException("This review does not exist.");
+		}		
+		ReviewDto reviewDto = new ReviewDto(r.getReviewId(), r.getComment(), r.getRating());
+		return reviewDto;
 	}
 	
 	
@@ -221,14 +313,18 @@ public class TutoringSystemRestController {
 	/* --------- Courses ---------*/
 	
 	//1.1) get all courses
-	//TODO : working, but make sure this doesn't fail (try catch)
 	@GetMapping(value = {"/courses","/courses/"})
 	public List<CourseDto> getAllCourses() {
 		List<CourseDto> courseDtos = new ArrayList<>();
-		for(Course c : service.getAllCourses()) {
-			courseDtos.add(convertCourseToDto(c));
+		try {
+			for(Course c : service.getAllCourses()) {
+				courseDtos.add(convertCourseToDto(c));
+			}
+			return courseDtos;
+		}catch(Exception e) {
+			System.out.println("Error getting all courses");
+			return null;
 		}
-		return courseDtos;
 	}
 	
 	
@@ -237,7 +333,12 @@ public class TutoringSystemRestController {
 	@GetMapping(value = {"/courses/{courseID}","/courses/{courseID}/"})
 	public CourseDto getCourseByID(@PathVariable("courseID") String courseID) 
 	throws IllegalArgumentException{
-		return convertCourseToDto(service.getCourse(courseID));
+		try{
+			return convertCourseToDto(service.getCourse(courseID));
+		}catch(Exception e) {
+			System.out.println("Could not get course "+courseID);
+			return null;
+		}
 	}	
 	
 	/** --------- Tutorials ---------*/	
@@ -248,42 +349,223 @@ public class TutoringSystemRestController {
 		"/tutorials/" 
 	})
 	public List<TutorialDto> getAllTutorials() {
-		
-		List<TutorialDto> tutorialDtos = new ArrayList<>();
-		for (Tutorial tutorial : service.getAllTutorials()) {
-			
-			Set<Tutor> tutors = tutorial.getTutor();
-			if (tutors.size() == 0)	{
+		try {
+			List<TutorialDto> tutorialDtos = new ArrayList<>();
+			for (Tutorial tutorial : service.getAllTutorials()) {
 				
-				//TODO check this delete method, make sure it doesn't bug and delete valid instances
-				String emptyTutorialId = tutorial.getId();
-				System.out.println("The tutorial instance with ID "+ emptyTutorialId + " saved in persistance does not have an assigned tutor. It will be deleted.");
-				deleteTutorial(emptyTutorialId);
-				continue;
-			}
-			
-			Course course = tutorial.getCourse();
-			CourseDto cDto = convertCourseToDto(course);
-			
-			if (tutors.size() > 1)	{
+				Set<Tutor> tutors = tutorial.getTutor();
 				
-				for(java.util.Iterator<Tutor> iterate = tutors.iterator(); iterate.hasNext();) {
-					Tutor t = iterate.next();
+				if (tutors.size() == 0)	{
+					
+					String emptyTutorialId = tutorial.getId();
+					System.out.println("The tutorial instance with ID "+ emptyTutorialId + " saved in persistance does not have any assigned tutor(s).");
+					continue;
+				}
+				
+				Course course = tutorial.getCourse();
+				CourseDto cDto = convertCourseToDto(course);
+				
+				if (tutors.size() > 1)	{
+					
+					for(java.util.Iterator<Tutor> iterate = tutors.iterator(); iterate.hasNext();) {
+						Tutor t = iterate.next();
+						TutorDto tDto = convertTutorToDto(t);
+						tutorialDtos.add(convertTutorialToDto(tDto, cDto));
+					} 	
+				
+				}	else if (tutors.size() == 1)	{
+					
+					Tutor t = tutors.iterator().next();
 					TutorDto tDto = convertTutorToDto(t);
-					tutorialDtos.add(convertTutorialToDto(tDto, cDto));
-				} 	
-			
-			}	else if (tutors.size() == 1)	{
-				
-				Tutor t = tutors.iterator().next();
-				TutorDto tDto = convertTutorToDto(t);
 
-				tutorialDtos.add(convertTutorialToDto(tDto, cDto));
-			}
-		}	
-		return tutorialDtos;
+					tutorialDtos.add(convertTutorialToDto(tDto, cDto));
+				}
+			}	
+			return tutorialDtos;			
+		}catch(Exception e) {
+			System.out.println("Could not get all tutorials");
+			return null;
+		}
 	}
 	
+	
+	/*
+	 * Get a review saved in the system database using the unique reviewId specified in the GET requestURL parameter.
+	 * We also retrieve the session instance associated to the requested review using the unique sessionId passed in the GET requestURL parameter.
+	 * 
+	 * Returns a reviewDto that contains a sessionDto of its associated session.
+	 */
+	@GetMapping(value = { 
+		"/reviews/{reviewId}",
+		"/reviews/{reviewId}/" 
+	})
+	public ReviewDto getReviewById(@PathVariable("reviewId") String reviewId)	
+		throws IllegalArgumentException {
+			
+		//Get the instances that are required from database
+		Review review = service.getReview(reviewId);
+
+		//Create a review DTO. It needs a sessionDto as a parameter	
+		ReviewDto reviewDto = convertReviewToDto(review);
+		
+		return reviewDto;
+	}
+		
+		
+	/*
+	 * Get all reviews saved in the system database that are associated to a unique Tutor instance saved in the system database.
+	 * The name of the concerned Tutor needs to be specified in the GET requestURL parameter.
+	 * 
+	 * Returns a List<ReviewDto> of reviewDtos that are related to the given tutor.
+	 */
+	@GetMapping(value = { 
+			"/reviews",
+			"/reviews/" 
+		})
+	public List<ReviewDto> getReviewsOfTutor(@RequestParam(name = "tutorName") String tutorName)
+		throws IllegalArgumentException {
+		
+		//Instantiate to null the returned variable
+		List<ReviewDto> tutorReviewsDtos = new ArrayList<ReviewDto>();
+		
+		//Retrieve from database the saved instance
+		Tutor tutor = service.getTutor(tutorName);
+		
+		//Exit this function if the tutor was not fund in the database
+		if(tutor == null || tutor.equals(null))	{
+			System.out.println("Error: The specified Tutor was not found in the system database. The tutor '"+tutorName+"' does not exist or the specified name ("+tutorName+") might be invalid/contains a spelling error.");
+			return tutorReviewsDtos;
+		}
+		
+		//Get all tutorials offered by the specified tutor
+		Set<Tutorial> tutorTutorials = tutor.getTutorial();
+		
+		//The specified tutor does not have any assigned tutorials
+		if (tutorTutorials == null || tutorTutorials.equals(null) || tutorTutorials.size() == 0)	{
+			System.out.println("The specified tutor ("+tutorName+") does not have any assigned tutorials yet. Therefore, he does not have any reviews to their name at the moment.");
+			return tutorReviewsDtos;
+		}
+		
+		
+		//The specified tutor only has one assigned Tutorial, thus we do not need to iterate in a for loop
+		if (tutorTutorials.size() == 1)	{
+			
+			
+			//We retrieve the only tutorial in the set 
+			java.util.Iterator<Tutorial> iterateT = tutorTutorials.iterator();
+			Tutorial tutorial = iterateT.next();
+			Set<Session> sessions = tutorial.getSession();
+			
+			
+			//The tutor has one tutorial, but no assigned sessions
+			if (sessions == null || sessions.equals(null) || sessions.size() == 0)	{
+				System.out.println("One tutorial instance was found for the specified tutor ("+tutorName+").However, they have not yet been assigned any sessions yet. Therefore, he does not have any reviews to their name at the moment.");
+				return tutorReviewsDtos;
+			}
+			
+			
+			//The tutor has one tutorial, with one assigned session
+			if (sessions.size() == 1)	{
+			
+				
+				java.util.Iterator<Session> iterateS = sessions.iterator();
+				Session session = iterateS.next();
+				Set<Review> reviews = session.getReview();
+				
+				
+				//The tutor has one tutorial, with one assigned session, but no reviews have been created
+				if (reviews == null || reviews.equals(null) || reviews.size() == 0)	{
+				
+					
+					System.out.println("One session instance for the "+tutorial.getCourse()+" tutorial was found for the specified tutor ("+tutorName+").However, this tutor did not receive any reviews at the moment.");
+					return tutorReviewsDtos;
+					
+					
+				//The tutor has one tutorial, with one assigned session and one or multiple review instance(s) have been found	
+				} else	{
+					for(java.util.Iterator<Review> iterateR = reviews.iterator(); iterateR.hasNext();) {
+						Review review = iterateR.next();
+						ReviewDto rDto = convertReviewToDto(review);
+						tutorReviewsDtos.add(rDto);	
+					} 
+					return tutorReviewsDtos;
+				}
+				
+				
+			//The tutor has one tutorial, with many assigned session instances
+			} else	{
+				//We iterate through the multiple session instances of the tutorial
+				for(java.util.Iterator<Session> iterateS = sessions.iterator(); iterateS.hasNext();) {
+					Session session = iterateS.next();
+					
+					Set<Review> reviews = session.getReview();
+					
+					//Some sessions might not have any reviews related to them. In this case, we skip to the next loop iteration (continue)
+					if (reviews == null || reviews.equals(null) || reviews.size() == 0)	{
+						continue;
+					
+					
+					//One or multiple reviews were found. We iterate through the Set of reviews, convert them to Dtos and add them to the List<ReviewDto>
+					} else	{
+						for(java.util.Iterator<Review> iterateR = reviews.iterator(); iterateR.hasNext();) {
+							Review review = iterateR.next();
+							ReviewDto rDto = convertReviewToDto(review);
+							tutorReviewsDtos.add(rDto);	
+						} 
+					}
+				} 
+				return tutorReviewsDtos;
+			}	
+				
+		//The specified tutor has multiple assigned Tutorials
+		} else {
+			//We iterate through the multiple tutorials assigned to the specified tutor
+			for(java.util.Iterator<Tutorial> iterateT = tutorTutorials.iterator(); iterateT.hasNext();) {
+				Tutorial tutorial = iterateT.next();
+
+				/* We repeat the same steps in this for loop as the previous steps (i.e. when the tutor had only one tutorial), but we skip */
+			
+				Set<Session> sessions = tutorial.getSession();
+			
+				//Some tutorial assigned to the specified tutor might not have any session instance. In this case, we skip this loop iteration (continue)
+				if (sessions == null || sessions.equals(null) || sessions.size() == 0)	{
+					continue;
+				}
+				
+				//One or multiple session instances were found
+				else {
+					
+					//We iterate through all the multiple session instances
+					for(java.util.Iterator<Session> iterateS = sessions.iterator(); iterateS.hasNext();) {
+						Session session = iterateS.next();
+						
+						Set<Review> reviews = session.getReview();
+						
+						//Some session instances might not have any reviews related to them. In this case, we skip this loop iteration (continue)
+						if (reviews == null || reviews.equals(null) || reviews.size() == 0)	{
+							continue;
+						}
+						
+						//One or multiple reviews were found. We iterate through the Set of reviews, convert them to Dtos and add them to the List<ReviewDto>
+						else	{
+							//We iterate through the Set of reviews, convert them to Dtos and add them to the List<ReviewDto>
+							for(java.util.Iterator<Review> iterateR = reviews.iterator(); iterateR.hasNext();) {
+								Review review = iterateR.next();
+								ReviewDto rDto = convertReviewToDto(review);
+								tutorReviewsDtos.add(rDto);	
+							} 
+						}
+					}
+
+				}
+			}
+			if(tutorReviewsDtos.size() == 0)	{
+				System.out.println("After completion of this request, although the specified tutor has many assigned tutorials with many session instances, no review instances were found in the system database. Either none exist, or some unknow error occured during the execution of this request.");
+			}
+		}
+		return tutorReviewsDtos;		
+	}
+
 	
 	//HELPER METHOD : Get tutor from set
 	//Since tutors are returned as sets from our domain model, we need a way to extract the tutor
@@ -303,8 +585,7 @@ public class TutoringSystemRestController {
 		return tutor;//default
 	}
 	
-	/** 2019 - 10 -26 : Sean Smith --> Doing my part from here down */
-	
+
 	//HELPER METHOD : Get student from set
 	//Since tutors are returned as sets from our domain model, we need a way to extract the tutor
 	private Student getStudentFromSet(Set<Student> studentset) {
@@ -322,10 +603,30 @@ public class TutoringSystemRestController {
 		}
 		return student;//default
 	}
-
+	
+	@GetMapping(value = {"/tutorials/tutor/{tutorUserName}","tutorials/tutor/{tutorUserName}/"})
+	public List<TutorialDto> getTutorialsOfTutor(@PathVariable("tutorUserName") String tutorUserName){
+		try {
+			List<TutorialDto> allTutorialsOfTutor  = new ArrayList<>();
+			List<Tutorial> allTutorials = service.getAllTutorials();
+			Tutor tutor = service.getTutor(tutorUserName);
+			TutorDto tutorDto = convertTutorToDto(tutor);
+			//TODO: use tutorDto instead for below???
+			for(Tutorial t : allTutorials) {
+				if(getTutorFromSet(t.getTutor()).equals(tutor)) {
+					CourseDto courseDto = convertCourseToDto(t.getCourse());
+					allTutorialsOfTutor.add(convertTutorialToDto(tutorDto,courseDto));
+				}
+			}
+			return allTutorialsOfTutor;
+		}catch(Exception e) {
+			System.out.println("Could not return all tutorials of "+tutorUserName);
+			return null;
+		}
+	}
 	
 	//1.2) ------ get tutorial of tutor ------
-
+	/*
 	private Tutor convertTutorToDomainObject(TutorDto tutorDto) {
 		List<Tutor> allTutors = service.getAllTutors();
 		for(Tutor t : allTutors) {
@@ -334,9 +635,10 @@ public class TutoringSystemRestController {
 			}
 		}
 		return null;
-	}
+	}*/
 	
 	/* --------------- THIS SHOULD BE IN SERVICE, BUT IMPLEMENTED DIFFERENTLY---------*/
+	/*
 	private ArrayList<Tutorial> getAllTutorialsOfTutor(Tutor t){
 		ArrayList<Tutorial> returnTutorial = new ArrayList<Tutorial>();
 		List<Tutorial> allTutorials = service.getAllTutorials();
@@ -345,9 +647,10 @@ public class TutoringSystemRestController {
 				returnTutorial.add(tutorial);
 			}
 		} return returnTutorial;
-	}
+	}*/
 	
 	//is this even necessary?
+	/*
 	private List<TutorialDto> createTutorialDtosForTutor(Tutor tutor) {
 		List<Tutorial> allTutorialsOfTutor = getAllTutorialsOfTutor(tutor);
 		List<TutorialDto> tutorials = new ArrayList<>();
@@ -364,20 +667,41 @@ public class TutoringSystemRestController {
 	public List<TutorialDto> getTutorialsOfTutor(@PathVariable("username") TutorDto tutorDto){
 		Tutor tutor = convertTutorToDomainObject(tutorDto);
 		return createTutorialDtosForTutor(tutor);	
-	}
+	}*/
 	
 	
 	//1.3) get tutorials of a student
-	@GetMapping(value = {"/tutorials/{studentUsername}" , "tutorials/{studentUsername}/"})
+	@GetMapping(value = {"/tutorials/student/{studentUsername}" , "tutorials/{studentUsername}/"})
 	public List<TutorialDto> getTutorialsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
 		List<TutorialDto> tutorialsOfStudent = new ArrayList<>();
 		List<Tutorial> allTutorials = service.getAllTutorials();
-		for(Tutorial t : allTutorials) { 
-			//if(t.getId().get)
-		}	
+		StudentDto studentDto = convertStudentToDto(service.getStudent(studentUsername));
+		ArrayList<SessionDto> sessions = studentDto.getSessions();
+		// ????
+		for(Tutorial t : allTutorials) {
+			
+		}
+		
 		return tutorialsOfStudent;
 	}
 	
+	@GetMapping(value = {"/tutorials/{tutorialID}","/tutorials/{tutorialID}/"})
+	public TutorialDto getTutorialById(@PathVariable("tutorialID") String tutorialID) throws IllegalArgumentException {
+		try {
+			TutorialDto tutorialDto = null;
+			Tutorial tutorial = service.getTutorial(tutorialID);
+			CourseDto courseDto = convertCourseToDto(tutorial.getCourse());
+			Tutor tutor = getTutorFromSet(tutorial.getTutor());
+			TutorDto tutorDto = convertTutorToDto(tutor);
+			tutorialDto = convertTutorialToDto(tutorDto,courseDto);
+			return tutorialDto;
+		}catch(Exception e) {
+			System.out.println("TutorialID : "+tutorialID+" not found");
+			return null;
+		}
+	}
+	
+	/*	
 	@GetMapping(value = {"/tutorials/{tutorialID}","/tutorials/{tutorialID}/"})
 	public TutorialDto getTutorialById(@PathVariable("tutorialID") String tutorialID) throws IllegalArgumentException {
 		TutorialDto tutorialDto = null;
@@ -391,107 +715,107 @@ public class TutoringSystemRestController {
 		}
 		return tutorialDto;
 	} 
-	
-	//TODO : Make a convertTutorialToDto which takes a tutorial as argument.
-	// Suggestion: convertTutorialToDto will take tutorial as argument
-	// then you can access the tutors' fields (courses,tutor) through
-	// the return value (tutorialDto)
-	//TODO : Mark some of the issues as solved.
-	/*
-	@GetMapping(value = {"/tutorials/{tutorialID}","/tutorials/{tutorialID}/"})
-	public TutorialDto getTutorialById(@PathVariable("tutorialID") String tutorialID) throws IllegalArgumentException {
-		return convertTutorialToDto(service.getTutorial(tutorialID));
-	}
 	*/
 	
 	
 	@GetMapping(value = {"/sessions","/sessions/"})
 	public List<SessionDto> getAllSessions(){
-		List<Session> allSessions = service.getAllSessions();
-		List<SessionDto> allSessionsAsDto = new ArrayList<>();
-		for(Session s : allSessions) {
-			Student student = getStudentFromSet(s.getStudent());
-			String studentUserName = convertStudentToDto(student).getUsername();
-			allSessionsAsDto.add(convertSessionToDto(studentUserName,s));
+		try {
+			List<Session> allSessions = service.getAllSessions();
+			List<SessionDto> allSessionsAsDto = new ArrayList<>();
+			for(Session s : allSessions) {
+				Student student = getStudentFromSet(s.getStudent());
+				String studentUserName = convertStudentToDto(student).getUsername();
+				allSessionsAsDto.add(convertSessionToDto(studentUserName,s));
+			}
+			return allSessionsAsDto;
+		}catch(Exception e) {
+			System.out.println("Could not get all sessions");
+			return null;
 		}
-		return allSessionsAsDto;
 	}
 	
 	@GetMapping(value = {"/students","/students/"})
 	public List<StudentDto> getAllStudents(){
-		List<Student> allStudents = service.getAllStudents();
-		List<StudentDto> studentDtos = new ArrayList<>();
-		for(Student s : allStudents) {
-			studentDtos.add(convertStudentToDto(s));
+		try {
+			List<Student> allStudents = service.getAllStudents();
+			List<StudentDto> studentDtos = new ArrayList<>();
+			for(Student s : allStudents) {
+				studentDtos.add(convertStudentToDto(s));
+			}
+			return studentDtos;
+		}catch(Exception e) {
+			System.out.println("Could not return all students");
+			return null;
 		}
-		return studentDtos;
 	}
 
 	
 	@GetMapping(value = {"/students/{studentUsername}","/students/{studentUsername}/"})
 	public StudentDto getStudentByUsername(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
-		List<StudentDto> allStudents = getAllStudents();
-		StudentDto student = null;
-		for(StudentDto s : allStudents) {
-			if(s.getUsername().trim().equals(studentUsername) || s.getUsername().trim()==studentUsername) {
-				student = s;
-				return student;
-			}
-		}
-		return student;
+		return convertStudentToDto(service.getStudent(studentUsername));
 	}
-	
 	
 	@GetMapping(value = {"/sessions/student/{studentUsername}","/sessions/student/{studentUsername}/"})
 	public List<SessionDto> getAllSessionsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
-		List<SessionDto> allSessions = getAllSessions();
-		List<SessionDto> allSessionsOfStudent = new ArrayList<>();
-		StudentDto student = getStudentByUsername(studentUsername);
-		for(SessionDto s: allSessions) {
-			if(s.getRegisteredStudents().contains(student)) {
-				allSessionsOfStudent.add(s);
+		try {
+			List<SessionDto> allSessions = getAllSessions();
+			List<SessionDto> allSessionsOfStudent = new ArrayList<>();
+			StudentDto student = getStudentByUsername(studentUsername);
+			for(SessionDto s: allSessions) {
+				if(s.getRegisteredStudents().contains(student)) {
+					allSessionsOfStudent.add(s);
+				}
 			}
+			return allSessionsOfStudent;	
+		}catch(Exception e) {
+			System.out.println("Could not get all sessions of "+studentUsername);
+			return null;
 		}
-		return allSessionsOfStudent;
 	}
 	
 	
 	@GetMapping(value = {"/sessions/{sessionID}","/sessions/{sessionID}/"})
 	public SessionDto getSessionById(@PathVariable String sessionID) throws IllegalArgumentException {
-		SessionDto sessionDto = null;
-		List<Session> getAllSessions = service.getAllSessions();
-		for(Session s: getAllSessions) {
-			if(s.getSessionId().trim().equals(sessionID) || s.getSessionId().trim()==sessionID) {
-				Student student = getStudentFromSet(s.getStudent());
-				String studentUserName = convertStudentToDto(student).getUsername();
-				sessionDto = convertSessionToDto(studentUserName,s);
-				return sessionDto;
-			}
-		} return sessionDto;
+		try {
+			Session session = service.getSession(sessionID);
+			Student student = getStudentFromSet(session.getStudent());
+			StudentDto studentDto = convertStudentToDto(student);
+			SessionDto sessionDto = convertSessionToDto(studentDto.getUsername(),session);
+			return sessionDto;
+		}catch(Exception e){
+			System.out.println("Could not get session "+sessionID);
+			return null;
+		}
 	}
 		
 	@GetMapping(value = {"/tutors","/tutors/"})
 	public List<TutorDto> getAllTutors(){
-		List<Tutor> allTutors = service.getAllTutors();
-		List<TutorDto> tutorDtos = new ArrayList<>();
-		for(Tutor s : allTutors) {
-			tutorDtos.add(convertTutorToDto(s));
+		try {
+			List<Tutor> allTutors = service.getAllTutors();
+			List<TutorDto> tutorDtos = new ArrayList<>();
+			for(Tutor s : allTutors) {
+				tutorDtos.add(convertTutorToDto(s));
+			}
+			return tutorDtos;			
+		}catch(Exception e) {
+			System.out.println("Could not get all tutors");
+			return null;
 		}
-		return tutorDtos;
 	}
 	
 	@GetMapping(value = {"/tutors/{tutorUsername}","/tutors/{tutorUsername}/"})
 	public TutorDto getTutorByUsername(@PathVariable("tutorUsername") String tutorUsername) throws IllegalArgumentException {
-		List<TutorDto> allTutors = getAllTutors();
-		TutorDto tutor = null;
-		for(TutorDto t : allTutors) {
-			if(t.getUsername().trim().equals(tutorUsername) || t.getUsername().trim()==tutorUsername) {
-				tutor = t;
-				return t;
-			}
+		try {
+			return convertTutorToDto(service.getTutor(tutorUsername));
+		}catch(Exception e) {
+			System.out.println("Could not get tutor "+tutorUsername);
+			return null;
 		}
-		return tutor;
 	}
+	
+	
+	
 	
 	
 	//TODO:
@@ -509,13 +833,4 @@ public class TutoringSystemRestController {
 	
 	/** Sean Smith : Done Get methods for now */
 	
-	
-	/* Delete request methods */
-	
-	//Delete method for Tutorial
-	private void deleteTutorial(String ID)	{
-		
-		//TODO Create the method that gets a Tutorial instance saved in persistence using an ID function argument. Use a @DeleteRequest...?
-		
-	}
 }
