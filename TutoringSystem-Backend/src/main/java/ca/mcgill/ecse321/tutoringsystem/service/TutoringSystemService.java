@@ -73,12 +73,15 @@ public class TutoringSystemService {
 	        throw new IllegalArgumentException(error);
 	    }
 		
-		Student student = new Student();
-		student.setName(name);
-		student.setEmail(email);
-		student.setUsername(username);
-		student.setPassword(password);
-		studentRepository.save(student);
+	    Student student = studentRepository.findStudentByName(name);
+	    if(student == null) {
+			student = new Student();
+			student.setName(name);
+			student.setEmail(email);
+			student.setUsername(username);
+			student.setPassword(password);
+			studentRepository.save(student);
+	    }
 		return student;
 	}
 	
@@ -124,14 +127,16 @@ public class TutoringSystemService {
 	        hourlyRate = 20;
 	    }
 		
-		Tutor tutor = new Tutor();
-		
-		tutor.setName(name);
-		tutor.setEmail(email);
-		tutor.setUsername(username);
-		tutor.setPassword(password);
-		tutor.setHourlyRate(hourlyRate);
-		tutorRepository.save(tutor);
+		Tutor tutor = tutorRepository.findTutorByName(name);
+		if(tutor == null) {
+			tutor = new Tutor();
+			tutor.setName(name);
+			tutor.setEmail(email);
+			tutor.setUsername(username);
+			tutor.setPassword(password);
+			tutor.setHourlyRate(hourlyRate);
+			tutorRepository.save(tutor);
+		}
 		return tutor;
 	}
 	
@@ -149,11 +154,31 @@ public class TutoringSystemService {
 	//Services to create, get and get all reviews
 	@Transactional
 	public Review createReview(String reviewId, String comment, int rating) {
-		Review review = new Review();
-		review.setReviewId(reviewId);
-		review.setComment(comment);
-		review.setRating(rating);
-		reviewRepository.save(review);
+		// Input validation
+	    String error = "";
+	    if (reviewId == null || reviewId.trim().length() == 0) {
+	        error = error + "Review ReviewId cannot be empty when creating a new Review.";
+	    }
+	    if (comment == null || comment.trim().length() == 0) {
+	        error = error + "Review comment cannot be empty when creating a new Review.";
+	    }
+	    if (rating < 0 || rating > 10) {
+	        error = error + "Review rating must be from 0 to 10.";
+	    }
+	
+	    error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+		
+	    Review review = reviewRepository.findReviewByReviewId(reviewId);
+		if(review == null) {
+		    review = new Review();
+			review.setReviewId(reviewId);
+			review.setComment(comment);
+			review.setRating(rating);
+			reviewRepository.save(review);
+		}
 		return review;
 	}
 	
