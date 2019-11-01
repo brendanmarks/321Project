@@ -565,6 +565,22 @@ public class TutoringSystemRestController {
 		}
 		return tutorReviewsDtos;		
 	}
+	
+	@GetMapping(value = { 
+			"/reviews/",
+			"/reviews//" 
+		})
+		public List<ReviewDto> getAllReviews()	
+			throws IllegalArgumentException {
+				
+			//Get the instances that are required from database
+			List<Review> reviews = service.getAllReviews();
+			List<ReviewDto> reviewsDtos = new ArrayList<ReviewDto>();
+			for (int i = 0; i < reviews.size(); i++) {
+				reviewsDtos.add(convertReviewToDto(reviews.get(i)));
+			}
+			return reviewsDtos;
+		}
 
 	
 	//HELPER METHOD : Get tutor from set
