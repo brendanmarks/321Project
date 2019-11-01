@@ -222,9 +222,11 @@ public class TutoringSystemRestController {
 		
 		Tutorial tutorial = service.getTutorial(tutorialId);
 		
-		Bill bill = service.createBill(false, billId);	//Make the Bill id a string parameter to be able to assign to it the same id as the session... -Dominic
+		Student firstStudent = service.getStudent(studentName);
 		
-		Session session = service.createSession(sessionId, Time.valueOf(startTime), Time.valueOf(endTime), date, bill, tutorial);
+		Bill bill = service.createBill(false, billId);
+		
+		Session session = service.createSession(sessionId, Time.valueOf(startTime), Time.valueOf(endTime), date, bill, tutorial, firstStudent);
 		return convertSessionToDto(studentName, session);
 	}
 	
@@ -565,6 +567,22 @@ public class TutoringSystemRestController {
 		}
 		return tutorReviewsDtos;		
 	}
+	
+	@GetMapping(value = { 
+			"/reviews/",
+			"/reviews//" 
+		})
+		public List<ReviewDto> getAllReviews()	
+			throws IllegalArgumentException {
+				
+			//Get the instances that are required from database
+			List<Review> reviews = service.getAllReviews();
+			List<ReviewDto> reviewsDtos = new ArrayList<ReviewDto>();
+			for (int i = 0; i < reviews.size(); i++) {
+				reviewsDtos.add(convertReviewToDto(reviews.get(i)));
+			}
+			return reviewsDtos;
+		}
 
 	
 	//HELPER METHOD : Get tutor from set
@@ -587,19 +605,17 @@ public class TutoringSystemRestController {
 	
 
 	//HELPER METHOD : Get student from set
-	//Since tutors are returned as sets from our domain model, we need a way to extract the tutor
+	//Since students are returned as sets from our domain model, we need a way to extract the student
 	private Student getStudentFromSet(Set<Student> studentset) {
 		Student student = null;
 		if(studentset.size() == 0) {
-			return student; //tutor will be null
-		}else if(studentset.size() > 1) {
+			return student; //student will be null
+		} else if(studentset.size() > 1) {
 			for(java.util.Iterator<Student> iterate = studentset.iterator(); iterate.hasNext();) {
 				student = iterate.next();
-				return student;
 			}
-		}else {
+		} else {
 			student = studentset.iterator().next();
-			return student;
 		}
 		return student;//default
 	}
@@ -725,8 +741,10 @@ public class TutoringSystemRestController {
 			List<SessionDto> allSessionsAsDto = new ArrayList<>();
 			for(Session s : allSessions) {
 				Student student = getStudentFromSet(s.getStudent());
-				String studentUserName = convertStudentToDto(student).getUsername();
-				allSessionsAsDto.add(convertSessionToDto(studentUserName,s));
+				
+				String studentName = student.getName();
+				
+				allSessionsAsDto.add(convertSessionToDto(studentName,s));
 			}
 			return allSessionsAsDto;
 		}catch(Exception e) {
