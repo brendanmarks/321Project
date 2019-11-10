@@ -738,11 +738,15 @@ public class TutoringSystemRestController {
 	public List<SessionDto> getAllSessions(){
 		try {
 			List<Session> allSessions = service.getAllSessions();
+			
 			List<SessionDto> allSessionsAsDto = new ArrayList<>();
+			System.out.println("here");
 			for(Session s : allSessions) {
-				Student student = getStudentFromSet(s.getStudent());
-				String studentUserName = convertStudentToDto(student).getUsername();
-				allSessionsAsDto.add(convertSessionToDto(studentUserName,s));
+				System.out.println(s);
+				allSessionsAsDto.add(new SessionDto(s.getSessionId()));
+//				Student student = getStudentFromSet(s.getStudent());
+//				String studentUserName = convertStudentToDto(student).getUsername();
+//				allSessionsAsDto.add(convertSessionToDto(studentUserName,s));
 			}
 			return allSessionsAsDto;
 		}catch(Exception e) {
