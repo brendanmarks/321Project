@@ -278,6 +278,18 @@ public class TestTutoringSystemService {
 		} catch(IllegalArgumentException e) {
 			fail();
 		}
+		String name = "John1";
+		String email = "john@gmail.com";
+		String username = "john11";
+		String password = "johnpassword";
+
+		try {
+			service.createStudent(name, email, username, password);
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}
+		Student student = service.getStudent(username);
 		Course course = service.getCourse(courseId);
 		Tutor tutor = service.getTutor(tutorName);
 		//Creating Tutorial 
@@ -290,7 +302,7 @@ public class TestTutoringSystemService {
 
 		//Creating a session
 		try {
-			service.createSession(sessionId, startTime, endTime, date, bill, tutorial);
+			service.createSession(sessionId, startTime, endTime, date, bill, tutorial, student);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();

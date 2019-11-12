@@ -634,9 +634,20 @@ public class TutoringSystemServiceMockTest {
 		Time endTime = Time.valueOf("11:30:00");
 		Date date = Date.valueOf("2020-01-10");
 		String sessionId = "session1";
-		
+		String name = "John1";
+		String email = "john@gmail.com";
+		String username = "john11";
+		String password = "johnpassword";
+
 		try {
-			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial);
+			service.createStudent(name, email, username, password);
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}
+		Student student = service.getStudent(username);
+		try {
+			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial, student);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -655,8 +666,20 @@ public class TutoringSystemServiceMockTest {
 		Date date = null;
 		String sessionId = "";
 		String error = null;
+		String name = "John1";
+		String email = "john@gmail.com";
+		String username = "john11";
+		String password = "johnpassword";
+
 		try {
-			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial);
+			service.createStudent(name, email, username, password);
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}
+		Student student = service.getStudent(username);
+		try {
+			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial, student);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
