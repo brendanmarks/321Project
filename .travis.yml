@@ -11,6 +11,10 @@ matrix:
                                 on:
                                         repo: McGill-ECSE321-Fall2019/project-group-4
               - language: node_js
+                before_install:
+                        "cd tutoringsystem-frontend"
+                install:
+                        - npm install
                 script:
                         - npm run build
                 deploy:
