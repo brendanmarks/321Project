@@ -279,9 +279,6 @@ public class TutoringSystemService {
 	    if (tutorial == null) {
 	        error = error + "Session's tutorial cannot be empty when creating a new Session.";
 	    }
-	    if (student == null) {
-	        error = error + "Session's student cannot be empty when creating a new Session.";
-	    }
 	    if (startTime == null) {
 	        error = error + "Session's startTime cannot be empty when creating a new Session.";
 	    }
@@ -290,6 +287,9 @@ public class TutoringSystemService {
 	    }
 	    if (date == null) {
 	        error = error + "Session's date cannot be empty when creating a new Session.";
+	    }
+	    if (student == null) {
+	        error = error + "Session's student cannot be empty when creating a new Session.";
 	    }
 	
 	    error = error.trim();

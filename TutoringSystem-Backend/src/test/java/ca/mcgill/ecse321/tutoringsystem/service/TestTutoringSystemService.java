@@ -289,7 +289,7 @@ public class TestTutoringSystemService {
 			// Check that no error occurred
 			fail();
 		}
-		Student student = service.getStudent(username);
+		Student student = service.getStudent(name);
 		Course course = service.getCourse(courseId);
 		Tutor tutor = service.getTutor(tutorName);
 		//Creating Tutorial 

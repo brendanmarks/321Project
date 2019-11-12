@@ -634,18 +634,7 @@ public class TutoringSystemServiceMockTest {
 		Time endTime = Time.valueOf("11:30:00");
 		Date date = Date.valueOf("2020-01-10");
 		String sessionId = "session1";
-		String name = "John1";
-		String email = "john@gmail.com";
-		String username = "john11";
-		String password = "johnpassword";
-
-		try {
-			service.createStudent(name, email, username, password);
-		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
-			fail();
-		}
-		Student student = service.getStudent(username);
+		Student student = new Student();
 		try {
 			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial, student);
 		} catch (IllegalArgumentException e) {
@@ -666,18 +655,7 @@ public class TutoringSystemServiceMockTest {
 		Date date = null;
 		String sessionId = "";
 		String error = null;
-		String name = "John1";
-		String email = "john@gmail.com";
-		String username = "john11";
-		String password = "johnpassword";
-
-		try {
-			service.createStudent(name, email, username, password);
-		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
-			fail();
-		}
-		Student student = service.getStudent(username);
+		Student student = null;
 		try {
 			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial, student);
 		} catch (IllegalArgumentException e) {
@@ -689,7 +667,8 @@ public class TutoringSystemServiceMockTest {
 				+ "Session's tutorial cannot be empty when creating a new Session."
 				+ "Session's startTime cannot be empty when creating a new Session." 
 				+ "Session's endTime cannot be empty when creating a new Session."
-				+ "Session's date cannot be empty when creating a new Session.", error);
+				+ "Session's date cannot be empty when creating a new Session."
+				+ "Session's student cannot be empty when creating a new Session.", error);
 		
 	}
 	
