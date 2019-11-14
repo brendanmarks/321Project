@@ -738,9 +738,12 @@ public class TutoringSystemRestController {
 	public List<SessionDto> getAllSessions(){
 		try {
 			List<Session> allSessions = service.getAllSessions();
+			
 			List<SessionDto> allSessionsAsDto = new ArrayList<>();
+			System.out.println("here");
 			for(Session s : allSessions) {
 				allSessionsAsDto.add(new SessionDto(s.getSessionId()));
+
 			}
 			return allSessionsAsDto;
 		}catch(Exception e) {
@@ -773,7 +776,6 @@ public class TutoringSystemRestController {
 	@GetMapping(value = {"/students/{studentUsername}/{password}","/students/{studentUsername}/{password}/"})
 	public int login(@PathVariable("studentUsername") String studentUsername, @PathVariable("password") String password) throws IllegalArgumentException{
 		Student student = service.getStudent(studentUsername);
-		System.out.println(student.getUsername() + " here");
 		if (student == null) {
 			return 401;
 		}

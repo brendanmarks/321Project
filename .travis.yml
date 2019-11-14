@@ -1,4 +1,5 @@
 language: java
+<<<<<<< HEAD
 matrix:
         include:
              - language: java
@@ -24,4 +25,3 @@ matrix:
                         app: tutoringsystem-frontend
                         on:
                              repo: McGill-ECSE321-Fall2019/project-group-4
-
