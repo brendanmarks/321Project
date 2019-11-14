@@ -3,7 +3,7 @@ import axios from 'axios'
 var config = require('../../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'https://cors-anywhere.herokuapp.com/' + 'https://tutoringsystem-backend.herokuapp.com/'
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
     baseURL: backendUrl,
@@ -14,8 +14,8 @@ export default {
     name: 'login',
     data() {
         return {
-            username: this.$cookie.get("username") || '',
-            password: this.$cookie.get("password") || '',
+            username: '',
+            password: '',
             errorLogin: '',
             response: '',
         }
@@ -34,19 +34,17 @@ export default {
                 this.errorLogin = errorMsg
                 return
             }
-            AXIOS.get(`/students/` + username + '/')
+            AXIOS.get(`/students/` + username + '/' + password)
                 .then(response => {
                     // JSON responses are automatically parsed.
                     this.response = response.data
                     this.errorLogin = ''
                     // PROBLEMS HERE
-                    if (this.response == 'Accepted') {
+                    if (response.data !== 200) {
                         this.errorLogin = response.data
                         console.log(this.response)
-                    }
-                    else {
-                        this.errorLogin = response.data
-                        console.log(this.response)
+                    }else{
+                        this.$router.push('Hello');
                     }
                 })
                 .catch(e => {

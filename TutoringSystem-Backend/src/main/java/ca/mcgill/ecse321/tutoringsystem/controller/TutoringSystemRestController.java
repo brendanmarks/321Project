@@ -770,6 +770,16 @@ public class TutoringSystemRestController {
 		return convertStudentToDto(service.getStudent(studentUsername));
 	}
 	
+	@GetMapping(value = {"/students/{studentUsername}/{password}","/students/{studentUsername}/{password}/"})
+	public int login(@PathVariable("studentUsername") String studentUsername, @PathVariable("password") String password) throws IllegalArgumentException{
+		Student student = service.getStudent(studentUsername);
+		System.out.println(student.getUsername() + " here");
+		if (student == null) {
+			return 401;
+		}
+		return (password.equals(student.getPassword()) ? 200 : 401);
+	}
+	
 	@GetMapping(value = {"/sessions/student/{studentUsername}","/sessions/student/{studentUsername}/"})
 	public List<SessionDto> getAllSessionsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
 		try {
