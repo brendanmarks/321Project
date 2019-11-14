@@ -1,5 +1,4 @@
 language: java
-<<<<<<< HEAD
 matrix:
         include:
              - language: java
