@@ -22,14 +22,6 @@
               value="Login"
               class="btn btn-primary py-2 px-4 text-white"
             />
-            <div>
-              <input
-                @click="login(username, password)"
-                type="submit"
-                value="SignUp"
-                class="btn btn-primary py-2 px-4 text-white"
-              />
-            </div>
 
             <br />
             <span v-if="errorLogin" style="color:red">Error: {{errorLogin}}</span>
@@ -40,3 +32,4 @@
   </div>
 </template>
 
+<script src="./javascript/login.js"></script>

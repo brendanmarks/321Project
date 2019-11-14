@@ -40,12 +40,6 @@ export default {
                 this.errorSignup = errorMsg
                 return
             }
-            if (userId == '') {
-                var errorMsg = "Invalid user ID"
-                console.log(errorMsg)
-                this.errorSignup = errorMsg
-                return
-            }
             if (email == '') {
                 var errorMsg = "Invalid email "
                 console.log(errorMsg)
@@ -73,7 +67,6 @@ export default {
                     }
                     this.name = ''
                     this.username = ''
-                    this.userId = ''
                     this.email = ''
                     this.password = ''
                 })

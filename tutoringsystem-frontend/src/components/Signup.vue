@@ -16,13 +16,12 @@
           <hr />
           <input class="login-text" type="text" placeholder="Name" v-model="name" />
           <input class="login-text" type="text" placeholder="Username" v-model="username" />
-          <input class="login-text" type="text" placeholder="User ID" v-model="userId" />
           <input class="login-text" type="text" placeholder="Email" v-model="email" />
           <input class="login-text" type="password" placeholder="Password" v-model="password" />
           <input
             @click="signup(name, username, userId, email, password)"
             type="submit"
-            value="Register"
+            value="Sign Up"
             class="btn btn-primary py-2 px-4 text-white"
           />
           <br />
