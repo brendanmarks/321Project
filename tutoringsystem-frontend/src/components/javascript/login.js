@@ -3,7 +3,7 @@ import axios from 'axios'
 var config = require('../../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'https://cors-anywhere.herokuapp.com/' + 'https://tutoringsystem-backend.herokuapp.com/'
+var backendUrl = 'https://cors-anywhere.herokuapp.com/' + 'http://tutoringsystem-backend.herokuapp.com/'
 
 var AXIOS = axios.create({
     baseURL: backendUrl,
