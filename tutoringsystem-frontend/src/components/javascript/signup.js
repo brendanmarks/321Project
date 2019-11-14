@@ -3,7 +3,7 @@ import axios from 'axios'
 var config = require('../../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'http://tutoringsystem-backend.herokuapp.com/'
+var backendUrl = 'https://cors-anywhere.herokuapp.com/' + 'http://tutoringsystem-backend.herokuapp.com/'
 
 var AXIOS = axios.create({
     baseURL: backendUrl,
@@ -59,7 +59,7 @@ export default {
                 return
             }
 
-            AXIOS.post(`/students/` + name + "/" + email + "/" + username + "/" + password, {}, {})
+            AXIOS.post(`/students/` + name + '?' + "email=" + email + "&username=" + username + "&password=" + password, {}, {})
                 .then(response => {
                     // JSON responses are automatically parsed.
                     this.response = response.data

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import EventRegistration from '@/components/Login'
-import Signup from '@/components/signup'
+import Signup from '@/components/Signup'
 
 Vue.use(Router)
 
