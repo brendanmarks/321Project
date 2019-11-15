@@ -1,26 +1,28 @@
 language: java
 matrix:
-        include:
-             - language: java
-               script:
-                        - gradle build
-               deploy:
-                        provider: heroku
-                        api_key:
-                                secure: IIhKCXr6xt7jwc10Uut5UrWB3UIVcwge2YOYZsnPBIHBWMpEzKAO/V79vtj+1GGr8G+vuzGGJwqdOq/+r/YtQvWNDJrSZWhSsPR4QsCB+LSGRe/1xEOsUj9GfAJXlyDC9q0sgIc2CdC+aUMMQkntq3A/E5rzOxXkm5sTkO5fllKHrPD5uZ1Z5XKJg/jO+pzT8YfmHXK1hNRxB5183i0KTinwb7mpN7kyUMbiGike4Bfa+9mfDmGRbrohi33VYp4cJEBXmeTwTRKrRzxruQaPNCQxOdA0puErN8UxFNf2POQEmj3X4rpXyCOigsIsH41f5hdIuzjLi/SRKpRgjiXVhBP7L64eQ1j8xXzM5JsW/w8AWhG+VXckbP4dCeK9+eSjb1H4b3ZUREwapQloeQs/RiNwpyzVwgfQJVpvMfC+OITiebgLEOU5I6OnfM9D4OSWd7XoeZj56Ij6gkm6bo5pulLqUNQ7nBtSQmIwTMoyWEd/rMKUEK7jAmENPItp4EAncDHZom38Vsgz2CZDNm2fvvGC7wj2VK1OfG5DS0bcXM0458EiSCINi/scvgolLGmxKz9ItDROzoSeUVO0AlxlPiaCBPsZGo/o3mJ01DhOPwmKdsdzqTwfhHIXG9fflat74J/e9T5DQtf1WPUsddx+cUaw4rQcrP1VskNCbbWiSkk=
-                        app: tutoringsystem-backend
-                        on:
-                             repo: McGill-ECSE321-Fall2019/project-group-4
-             - language: node_js
-               node_js: stable
-               before_install:
-                        "cd tutoringsystem-frontend"
-               script:
-                        - npm run build
-               deploy:
-                        provider: heroku
-                        api_key:
-                                secure: IIhKCXr6xt7jwc10Uut5UrWB3UIVcwge2YOYZsnPBIHBWMpEzKAO/V79vtj+1GGr8G+vuzGGJwqdOq/+r/YtQvWNDJrSZWhSsPR4QsCB+LSGRe/1xEOsUj9GfAJXlyDC9q0sgIc2CdC+aUMMQkntq3A/E5rzOxXkm5sTkO5fllKHrPD5uZ1Z5XKJg/jO+pzT8YfmHXK1hNRxB5183i0KTinwb7mpN7kyUMbiGike4Bfa+9mfDmGRbrohi33VYp4cJEBXmeTwTRKrRzxruQaPNCQxOdA0puErN8UxFNf2POQEmj3X4rpXyCOigsIsH41f5hdIuzjLi/SRKpRgjiXVhBP7L64eQ1j8xXzM5JsW/w8AWhG+VXckbP4dCeK9+eSjb1H4b3ZUREwapQloeQs/RiNwpyzVwgfQJVpvMfC+OITiebgLEOU5I6OnfM9D4OSWd7XoeZj56Ij6gkm6bo5pulLqUNQ7nBtSQmIwTMoyWEd/rMKUEK7jAmENPItp4EAncDHZom38Vsgz2CZDNm2fvvGC7wj2VK1OfG5DS0bcXM0458EiSCINi/scvgolLGmxKz9ItDROzoSeUVO0AlxlPiaCBPsZGo/o3mJ01DhOPwmKdsdzqTwfhHIXG9fflat74J/e9T5DQtf1WPUsddx+cUaw4rQcrP1VskNCbbWiSkk=
-                        app: tutoringsystem-frontend
-                        on:
-                             repo: McGill-ECSE321-Fall2019/project-group-4
+  include:
+  - language: java
+    script:
+    - gradle build
+    deploy:
+      provider: heroku
+      api_key:
+        secure:  QOomQh1Df9ZRqy0WvRwVLptB6ARB0Nx2EeCD1mVdqKDOEs/mcm6nmGthyVVlC5kZGT6TG3+uCLjTFT4dylOhQdvZugGzdF7RrMiXsa6o3fxRYkYH0CxmICEDe29ihL4lfysV/ZF3qHiKZv20ObMzJ02VGjylxv4maR4AG4UdI2xCRIIN4xvZIkDz9WOxQWQoeX9LvkogbL3nxqjRP/MRtMUIsT+KjK0n5WAmscY+NvEcz25YlxguphqsDkYjUguSwxfx2ZfQf4f3BvYu++hZbn7ydgcY5mOt9othLyD08YgMZVxDs7IyRHO2Yc/JHzYxckOK4QVYSaSuIinAm1epKigVplT9SxjBDQGLLV4ojp4XC3nIX0U9M+5ckOwjd8OOM5v26hSOS/lRuaaAR1qGjz3y5qTAoJqW1IFIN/iTuRWmamIpiZf5LG/m+QZ2Xp/Vk2Wj0I8XtwSrCaa5mUVLGgv7z4oPs4VZ74k9R4FTkJ1Ms1LaiOcCeG30GMpia7Hp5ImqeQRaQGqkTLy06ikcMqsYx9ysJPcYQEG+yLr3HK+vQmKRnw8wRH+yJBIHGCzeJEU5d8e7bqpfrYhWqVigV5GuWaTpI9vmmQKk3FdzvaEpntkt28rBB0eZdsbbMdEnXMz8B+1MZtbJdPZRUfu2b6sdOXnsf/lI0sjbcVL2rSI=
+      app: tutoringsystem-backend
+      on:
+        repo: McGill-ECSE321-Fall2019/project-group-4
+  - language: node_js
+    node_js: stable
+    before_install: cd tutoringsystem-frontend
+    script:
+    - npm run build
+    deploy:
+      provider: heroku
+      api_key:
+        secure:  QOomQh1Df9ZRqy0WvRwVLptB6ARB0Nx2EeCD1mVdqKDOEs/mcm6nmGthyVVlC5kZGT6TG3+uCLjTFT4dylOhQdvZugGzdF7RrMiXsa6o3fxRYkYH0CxmICEDe29ihL4lfysV/ZF3qHiKZv20ObMzJ02VGjylxv4maR4AG4UdI2xCRIIN4xvZIkDz9WOxQWQoeX9LvkogbL3nxqjRP/MRtMUIsT+KjK0n5WAmscY+NvEcz25YlxguphqsDkYjUguSwxfx2ZfQf4f3BvYu++hZbn7ydgcY5mOt9othLyD08YgMZVxDs7IyRHO2Yc/JHzYxckOK4QVYSaSuIinAm1epKigVplT9SxjBDQGLLV4ojp4XC3nIX0U9M+5ckOwjd8OOM5v26hSOS/lRuaaAR1qGjz3y5qTAoJqW1IFIN/iTuRWmamIpiZf5LG/m+QZ2Xp/Vk2Wj0I8XtwSrCaa5mUVLGgv7z4oPs4VZ74k9R4FTkJ1Ms1LaiOcCeG30GMpia7Hp5ImqeQRaQGqkTLy06ikcMqsYx9ysJPcYQEG+yLr3HK+vQmKRnw8wRH+yJBIHGCzeJEU5d8e7bqpfrYhWqVigV5GuWaTpI9vmmQKk3FdzvaEpntkt28rBB0eZdsbbMdEnXMz8B+1MZtbJdPZRUfu2b6sdOXnsf/lI0sjbcVL2rSI=
+      app: tutoringsystem-frontend
+      on:
+        repo: McGill-ECSE321-Fall2019/project-group-4
+
+
+
