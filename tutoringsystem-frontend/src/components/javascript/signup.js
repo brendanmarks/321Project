@@ -27,6 +27,9 @@ export default {
 
     },
     methods: {
+        login() {
+            this.$router.push('Login');
+        },
         signup(name, username, userId, email, password) {
             if (name == '') {
                 var errorMsg = "Invalid name"

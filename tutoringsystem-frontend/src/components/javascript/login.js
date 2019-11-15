@@ -21,6 +21,9 @@ export default {
         }
     },
     methods: {
+        signup() {
+            this.$router.push('SignUp');
+        },
         login(username, password) {
             if (username == '') {
                 var errorMsg = "Invalid username"
