@@ -222,9 +222,11 @@ public class TutoringSystemRestController {
 		
 		Tutorial tutorial = service.getTutorial(tutorialId);
 		
-		Bill bill = service.createBill(false, billId);	//Make the Bill id a string parameter to be able to assign to it the same id as the session... -Dominic
+		Student firstStudent = service.getStudent(studentName);
 		
-		Session session = service.createSession(sessionId, Time.valueOf(startTime), Time.valueOf(endTime), date, bill, tutorial);
+		Bill bill = service.createBill(false, billId);
+		
+		Session session = service.createSession(sessionId, Time.valueOf(startTime), Time.valueOf(endTime), date, bill, tutorial, firstStudent);
 		return convertSessionToDto(studentName, session);
 	}
 	
@@ -603,19 +605,17 @@ public class TutoringSystemRestController {
 	
 
 	//HELPER METHOD : Get student from set
-	//Since tutors are returned as sets from our domain model, we need a way to extract the tutor
+	//Since students are returned as sets from our domain model, we need a way to extract the student
 	private Student getStudentFromSet(Set<Student> studentset) {
 		Student student = null;
 		if(studentset.size() == 0) {
-			return student; //tutor will be null
-		}else if(studentset.size() > 1) {
+			return student; //student will be null
+		} else if(studentset.size() > 1) {
 			for(java.util.Iterator<Student> iterate = studentset.iterator(); iterate.hasNext();) {
 				student = iterate.next();
-				return student;
 			}
-		}else {
+		} else {
 			student = studentset.iterator().next();
-			return student;
 		}
 		return student;//default
 	}
@@ -742,11 +742,8 @@ public class TutoringSystemRestController {
 			List<SessionDto> allSessionsAsDto = new ArrayList<>();
 			System.out.println("here");
 			for(Session s : allSessions) {
-				System.out.println(s);
 				allSessionsAsDto.add(new SessionDto(s.getSessionId()));
-//				Student student = getStudentFromSet(s.getStudent());
-//				String studentUserName = convertStudentToDto(student).getUsername();
-//				allSessionsAsDto.add(convertSessionToDto(studentUserName,s));
+
 			}
 			return allSessionsAsDto;
 		}catch(Exception e) {
@@ -774,6 +771,15 @@ public class TutoringSystemRestController {
 	@GetMapping(value = {"/students/{studentUsername}","/students/{studentUsername}/"})
 	public StudentDto getStudentByUsername(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
 		return convertStudentToDto(service.getStudent(studentUsername));
+	}
+	
+	@GetMapping(value = {"/students/{studentUsername}/{password}","/students/{studentUsername}/{password}/"})
+	public int login(@PathVariable("studentUsername") String studentUsername, @PathVariable("password") String password) throws IllegalArgumentException{
+		Student student = service.getStudent(studentUsername);
+		if (student == null) {
+			return 401;
+		}
+		return (password.equals(student.getPassword()) ? 200 : 401);
 	}
 	
 	@GetMapping(value = {"/sessions/student/{studentUsername}","/sessions/student/{studentUsername}/"})

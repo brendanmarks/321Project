@@ -267,7 +267,7 @@ public class TutoringSystemService {
 	
 	//Services to create, get and get all sessions
 	@Transactional
-	public Session createSession(String sessionId, Time startTime, Time endTime, Date date, Bill bill, Tutorial tutorial) {
+	public Session createSession(String sessionId, Time startTime, Time endTime, Date date, Bill bill, Tutorial tutorial, Student student) {
 		// Input validation
 	    String error = "";
 	    if (sessionId == null || sessionId.trim().length() == 0) {
@@ -279,7 +279,6 @@ public class TutoringSystemService {
 	    if (tutorial == null) {
 	        error = error + "Session's tutorial cannot be empty when creating a new Session.";
 	    }
-	    
 	    if (startTime == null) {
 	        error = error + "Session's startTime cannot be empty when creating a new Session.";
 	    }
@@ -288,6 +287,9 @@ public class TutoringSystemService {
 	    }
 	    if (date == null) {
 	        error = error + "Session's date cannot be empty when creating a new Session.";
+	    }
+	    if (student == null) {
+	        error = error + "Session's student cannot be empty when creating a new Session.";
 	    }
 	
 	    error = error.trim();
@@ -304,6 +306,11 @@ public class TutoringSystemService {
 			session.setDate(date);
 			session.setBill(bill);
 			session.setTutorial(tutorial);
+
+			Set<Student> registeredStudents = new HashSet<>();
+			registeredStudents.add(student);
+			session.setStudent(registeredStudents);
+			
 			sessionRepository.save(session);
 		}
 		return session;	

@@ -634,9 +634,9 @@ public class TutoringSystemServiceMockTest {
 		Time endTime = Time.valueOf("11:30:00");
 		Date date = Date.valueOf("2020-01-10");
 		String sessionId = "session1";
-		
+		Student student = new Student();
 		try {
-			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial);
+			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial, student);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -655,8 +655,9 @@ public class TutoringSystemServiceMockTest {
 		Date date = null;
 		String sessionId = "";
 		String error = null;
+		Student student = null;
 		try {
-			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial);
+			session = service.createSession(sessionId, startTime, endTime, date, bill, tutorial, student);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
@@ -666,7 +667,8 @@ public class TutoringSystemServiceMockTest {
 				+ "Session's tutorial cannot be empty when creating a new Session."
 				+ "Session's startTime cannot be empty when creating a new Session." 
 				+ "Session's endTime cannot be empty when creating a new Session."
-				+ "Session's date cannot be empty when creating a new Session.", error);
+				+ "Session's date cannot be empty when creating a new Session."
+				+ "Session's student cannot be empty when creating a new Session.", error);
 		
 	}
 	
