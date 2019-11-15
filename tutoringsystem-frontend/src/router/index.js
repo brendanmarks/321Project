@@ -6,6 +6,7 @@ import Signup from '@/components/Signup'
 import SessionList from '@/components/SessionList'
 import Register from '@/components/Register'
 import ReviewSession from '@/components/ReviewSession'
+import PickTutor from '@/components/PickTutor'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/ReviewSession',
       name: 'ReviewSession',
       component: ReviewSession
+    },
+    {
+      path: '/PickTutor',
+      name: 'PickTutor',
+      component: PickTutor
     }
   ]
 })
