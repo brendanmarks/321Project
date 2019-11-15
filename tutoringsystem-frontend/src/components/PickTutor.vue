@@ -14,18 +14,37 @@
                 <div class="col-2">		
 			        <a href="#"><button type="button" class="btn btn-dark">View Reviews</button></a>
 		        </div>
-                <div class="col-2">		<!--Define the number of columns for different size of displays-->
+                <div class="col-2">	
 			        <a href="#"><button type="button" class="btn btn-dark">Select Tutor</button></a>
 		        </div>
 	        </div>
+            <div>
+
+            </div>
+            <!--
+            <div class="row">
+                <div class="col-md-6" v-for="tutor in tutors" v-bind="tutor.name">
+                    <div class="article">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ post.title }}</h3>
+                                <h6 class="card-subtitle text-muted">21st Dec 17</h6>
+                                <p class="card-text">{{ post.content }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+	        </div>
+            -->
         </div>
+
     </div>
 
 </div>
 
 </template>
 
-<script src="./javascript/pickTutor.js"></script>
+<script src="./javascript/picktutor.js"></script>
 
 
 <style>
@@ -63,6 +82,9 @@ img {
   border-radius: 4px;
   padding: 5px;
   width: 250px;
+}
+img:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
 }
 
 [class*="col-"] {
