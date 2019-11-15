@@ -1,72 +1,101 @@
+<!DOCTYPE html>
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a href="https://vuejs.org" target="_blank">Core Docs</a>
-      </li>
-      <li>
-        <a href="https://forum.vuejs.org" target="_blank">Forum</a>
-      </li>
-      <li>
-        <a href="https://chat.vuejs.org" target="_blank">Community Chat</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/vuejs" target="_blank">Twitter</a>
-      </li>
-      <br />
-      <li>
-        <a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a href="http://router.vuejs.org/" target="_blank">vue-router</a>
-      </li>
-      <li>
-        <a href="http://vuex.vuejs.org/" target="_blank">vuex</a>
-      </li>
-      <li>
-        <a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a>
-      </li>
-      <li>
-        <a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a>
-      </li>
-    </ul>
-  </div>
+<html lang="en">
+  <head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="container-fluid" id="top-container">
+      <div class="container text-center" id="img-container">
+        <img
+          src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
+          width="500"
+          height="100"
+        />
+      </div>
+    </div>
+    <br />
+    <div class="container-fluid text-center" id="background">
+      <div class="col-sm-0 sidenav"></div>
+      <div class="col-sm-0">
+        <div class="row">
+          <br />
+          <div class="container-fluid" id="welcome">
+            <h2></h2>
+            <br />
+            <h3>Welcome USER!</h3>
+            <hr />
+          </div>
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <div>
+          <div class="container" align="left">
+            <div class="login-grid">
+              <input
+                @click="SessionRegister()"
+                type="submit"
+                value="View Personal Session Schedule"
+                class="btn btn-primary btn-lg btn-block"
+              />
+              <br />
+              <span v-if="errorLogin" style="color:red">Error: {{errorLogin}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="container" align="left">
+          <div class="login-grid">
+            <input
+              @click="SessionList()"
+              type="submit"
+              value="Register for a Tutoring Session"
+              class="btn btn-primary btn-lg btn-block"
+            />
+            <br />
+            <span v-if="errorLogin" style="color:red">Error: {{errorLogin}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2 sidenav"></div>
+    </div>
+  </body>
+</html>
 </template>
 
-<script>
-export default {
-  name: "hello",
-  data() {
-    return {
-      msg: "Login"
-    };
-  }
-};
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
+<style>
+#top-container {
+  margin-bottom: 0;
+  margin-top: 0;
+  color: #d3d3d3;
+  background-color: #d3d3d3;
+  color: #ffffff;
 }
-
-ul {
-  list-style-type: none;
-  padding: 0;
+#welcome h2 {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 37px;
 }
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+#welcome h3 {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  font-size: 30px;
+  font-family: Lucida;
+  font-style: oblique;
+  color: #d3d3d3;
 }
 </style>
+
+<script src="./javascript/hello.js"></script>
+

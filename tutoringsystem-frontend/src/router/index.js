@@ -3,13 +3,16 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import EventRegistration from '@/components/Login'
 import Signup from '@/components/Signup'
+import SessionList from '@/components/SessionList'
+import Register from '@/components/Register'
+
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/Hello',
       name: 'Hello',
       component: Hello
     },
@@ -22,6 +25,17 @@ export default new Router({
       path: '/Signup',
       name: 'Signup',
       component: Signup
+    },
+    {
+      path: '/SessionList',
+      name: 'SessionList',
+      component: SessionList
+    },
+    {
+      path: '/Register',
+      name: 'Register',
+      component: Register
     }
+
   ]
 })

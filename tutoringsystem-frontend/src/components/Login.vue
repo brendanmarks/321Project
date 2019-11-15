@@ -10,7 +10,6 @@
           </div>
         </div>
       </div>
-
       <div class="half right" data-aos="fade-up">
         <div class="container" align="center">
           <div class="login-grid" style="padding-right:10%">
@@ -22,7 +21,6 @@
               value="Login"
               class="btn btn-primary py-2 px-4 text-white"
             />
-
             <br />
             <span v-if="errorLogin" style="color:red">Error: {{errorLogin}}</span>
           </div>

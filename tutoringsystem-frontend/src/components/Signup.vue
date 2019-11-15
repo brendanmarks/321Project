@@ -14,8 +14,8 @@
       <div class="half right" data-aos="fade-up">
         <div class="container" align="center">
           <hr />
-          <input class="login-text" type="text" placeholder="Name" v-model="name" />
-          <input class="login-text" type="text" placeholder="Username" v-model="username" />
+          <input class="login-text" type="text" placeholder="Name" v-model="username" />
+          <input class="login-text" type="text" placeholder="Username" v-model="name" />
           <input class="login-text" type="text" placeholder="Email" v-model="email" />
           <input class="login-text" type="password" placeholder="Password" v-model="password" />
           <input
