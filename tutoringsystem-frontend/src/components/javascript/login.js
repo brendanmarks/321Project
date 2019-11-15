@@ -41,6 +41,7 @@ export default {
                 .then(response => {
                     // JSON responses are automatically parsed.
                     this.response = response.data
+                    window.sessionStorage.setItem("username", username)
                     this.errorLogin = ''
                     // PROBLEMS HERE
                     if (response.data !== 200) {
