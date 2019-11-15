@@ -22,3 +22,23 @@ Documentation:
   - System Requirements and Use-Cases [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/System-Requirements).
   - Persistence layer design and test [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Persistence-Layer).
   
+  ***Deliverable 2:***
+
+Meeting 3 - Distrubution of tasks (2 hours) [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Meeting-2019-10-21-2:00-4:00pm-SPRINT-2).
+
+Meeting 4 - Update + solve team problems (2 hours) [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Meeting-2019-10-28-5:00-7:00pm-SPRINT-2).
+  
+|Name                    |Total hours |Responsibility                                                       |
+|------------------------|------------|---------------------------------------------------------------------|
+|Brendan Marks           |   16 hours |CI/CD, Integration tests,debug                                       |
+|Brad McBain             |   17 hours |Mock unit test suite                                                 |
+|Sami Hilal              |   22 hours |API                                                                  |
+|Sean Smith              |   20 hours |API                                                                  |
+|Dominic Wener           |   21 hours |API                                                                  |
+
+Documentation:
+
+  - SQA Test Plan [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Software-Quality-Assurance-Plan-and-Report).
+  - Integration Tests [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Integration-Tests).
+  - RESTful Service Endpoints [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/RESTful-Service-Endpoints).
+  
