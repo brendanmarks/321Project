@@ -5,7 +5,7 @@ import EventRegistration from '@/components/Login'
 import Signup from '@/components/Signup'
 import SessionList from '@/components/SessionList'
 import Register from '@/components/Register'
-
+import ReviewSession from '@/components/ReviewSession'
 
 Vue.use(Router)
 
@@ -35,7 +35,11 @@ export default new Router({
       path: '/Register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/ReviewSession',
+      name: 'ReviewSession',
+      component: ReviewSession
     }
-
   ]
 })
