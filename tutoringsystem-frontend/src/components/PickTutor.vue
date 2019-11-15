@@ -44,8 +44,8 @@
 
 </template>
 
-<script src="./javascript/picktutor.js"></script>
-
+<script src="./javascript/pickTutor.js"></script>
+<script src="./javascript/verifyUser.js"></script>
 
 <style>
 
