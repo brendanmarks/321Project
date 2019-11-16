@@ -15,7 +15,7 @@ matrix:
     node_js: stable
     before_install: cd tutoringsystem-frontend
     install:
-                       - npm install -g npm
+                       - npm install
     script:
     - npm run build
     deploy:
