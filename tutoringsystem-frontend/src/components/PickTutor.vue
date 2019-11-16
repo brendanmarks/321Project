@@ -18,8 +18,12 @@
 			        <a href="#"><button type="button" class="btn btn-dark">Select Tutor</button></a>
 		        </div>
 	        </div>
-            <div>
-
+            <div class="test">
+                <table>
+                    <tr>
+                        <td>{{tutor.name}}</td>
+                    </tr>
+                </table>
             </div>
             <!--
             <div class="row">
@@ -48,6 +52,13 @@
 
 
 <style>
+
+.test{
+    background-color: rgb(145, 0, 0);;
+    border-style: dashed;
+    border-width:2rem;
+    border-color: rgb(4, 0, 63);
+}
 
 #headerBar{
     background-color: rgb(0, 100, 100);;
