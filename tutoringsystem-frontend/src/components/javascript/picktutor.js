@@ -101,13 +101,15 @@ export default {
 
     //add a test initialization for the data
     created: function () {
-        // Test data
-        const p3 = new PersonDto('Sean')
-        const p1 = new PersonDto('Naes')
-        const p2 = new PersonDto('qwert')
-        const p4 = new PersonDto('new')
-        // Sample initial content
-        this.people = [p3,p1, p2,p4]
+        // Initializing people from backend
+          AXIOS.get(`/persons`)
+          .then(response => {
+            // JSON responses are automatically parsed.
+            this.people = response.data
+          })
+          .catch(e => {
+            this.errorPerson = e;
+          });
       },
 
     //add event handling method: createPerson()
@@ -119,6 +121,22 @@ export default {
           // Reset the name field for new people
           this.newPerson = ''
         }
+        /*
+createPerson: function (personName) {
+  AXIOS.post(`/persons/`+personName, {}, {})
+  .then(response => {
+    // JSON responses are automatically parsed.
+    this.people.push(response.data)
+    this.newPerson = ''
+    this.errorPerson = ''
+  })
+  .catch(e => {
+    var errorMsg = e.message
+    console.log(errorMsg)
+    this.errorPerson = errorMsg
+  });
+}
+        */
       }
 }
 

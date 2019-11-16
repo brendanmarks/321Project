@@ -21,6 +21,7 @@
             
             <div class="test">
                 <table>
+                    <!-- Iterate along all people, dynamically print -->
                     <tr v-for="person in people" :key="person" >
                         <td>{{ person.name }}</td>
                         <td>
@@ -32,6 +33,14 @@
                         </td>
                     </tr>
                     <!-- ... -->
+                      <tr>
+                        <td>
+                            <input type="text" v-model="newPerson" placeholder="Person Name">
+                        </td>
+                        <td>
+                            <button @click="createPerson(newPerson)">Create Person</button>
+                        </td>
+                    </tr>
                 </table>
             </div> 
             <!--
