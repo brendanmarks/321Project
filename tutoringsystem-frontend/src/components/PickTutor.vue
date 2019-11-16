@@ -1,65 +1,45 @@
 <template>
 
 <div >
+    
     <div id="headerBar">
         <h1 class="pickTutorHeader">GradeSmash Tutors</h1>
         <h2 class="pickTutorSubHeader">Step 2: pick a tutor for your session</h2>
     </div>
+
+    <!-- Here is where the tutors will be displayed -->
     <div id=tutorDisplays>
         <div class="container-fluid">
-	        <div class="row">
-		        <div class="col-8">		
-			        <a href="#"><img class="tutorImg" src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=802&q=80"></a>
-		        </div>
-                <div class="col-2">		
-			        <a href="#"><button type="button" class="btn btn-dark">View Reviews</button></a>
-		        </div>
-                <div class="col-2">	
-			        <a href="#"><button type="button" class="btn btn-dark">Select Tutor</button></a>
-		        </div>
-	        </div>
-            
-            <div class="test">
-                <table>
-                    <!-- Iterate along all people, dynamically print -->
-                    <tr v-for="person in people" :key="person" >
-                        <td>{{ person.name }}</td>
-                        <td>
-                            <ul>
-                                <li v-for="event in person.events" :key="event">
-                                    {{event.name}}
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <!-- ... -->
-                      <tr>
-                        <td>
-                            <input type="text" v-model="newPerson" placeholder="Person Name">
-                        </td>
-                        <td>
-                            <button @click="createPerson(newPerson)">Create Person</button>
-                        </td>
-                    </tr>
-                </table>
-            </div> 
-            <!--
-            <div class="row">
-                <div class="col-md-6" v-for="tutor in tutors" v-bind="tutor.name">
-                    <div class="article">
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">{{ post.title }}</h3>
-                                <h6 class="card-subtitle text-muted">21st Dec 17</h6>
-                                <p class="card-text">{{ post.content }}</p>
+
+            <!-- Each row will display 2 tutors -->
+            <div class="row" >
+
+                <!-- Loop through -->
+                <div class="col-6" v-for="person in people" :key="person">
+                    <div class="card w-100 mb-4">
+                        <div class="row no-gutters">
+                            
+                            <div class="col-3">
+                                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=802&q=80" class="card-img">
                             </div>
+                            
+                            <div class="col-9">
+                                <div class="card-body">
+                                
+                                    <h5 class="card-title">{{person.name}}</h5>
+                                    <p class="card-text">{{person.username}}</p>
+                                    <a class="btn btn-success" href="#" role="button">Select Tutor</a>
+                                    <a class="btn btn-dark" href="#" role="button">View Tutor Reviews</a>
+
+                                </div>
+                            </div>    
+
                         </div>
                     </div>
                 </div>
-	        </div>
-            -->
+            </div>            
+        
         </div>
-
     </div>
 
 </div>
@@ -71,13 +51,24 @@
 
 <style>
 
-.test{
-    color: wheat;
-    background-color: rgb(145, 0, 0);;
-    border-style: dashed;
-    border-width:2rem;
-    border-color: rgb(4, 0, 63);
+/* Ensure the tutor options takes up 100% of width */
+.container-fluid{
+    width: 100%;
+    max-width: 100%;
 }
+
+/* Each of the tutor cards */
+.card{
+    max-width: 100%;
+    color: rgb(255, 248, 235);
+    background-color: rgb(0, 100, 100);;
+    border-style:inset;
+    border-width:0.3rem;
+    border-color: rgb(0, 0, 0);
+}
+
+
+
 
 #headerBar{
     background-color: rgb(0, 100, 100);;
@@ -108,16 +99,17 @@
 }
 
 img {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
-  width: 250px;
+  border: 0.1rem solid rgb(0, 100, 100);
+  border-radius: 0.1rem;
+  padding: 0.3rem;
 }
+
 img:hover {
-  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+  box-shadow: 0 0 3px 3px rgb(0, 150, 150);
 }
 
 [class*="col-"] {
     padding: 0.5rem;
 }
+
 </style>
