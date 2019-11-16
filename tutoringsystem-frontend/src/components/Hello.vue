@@ -56,7 +56,7 @@
         <div class="container" align="left">
           <div class="login-grid">
             <input
-              @click="SessionList()"
+              @click="login()"
               type="submit"
               value="Register for a Tutoring Session"
               class="btn btn-primary btn-lg btn-block"
@@ -98,4 +98,4 @@
 </style>
 
 <script src="./javascript/hello.js"></script>
-
+<script src="./javascript/filterSessions.js"></script>

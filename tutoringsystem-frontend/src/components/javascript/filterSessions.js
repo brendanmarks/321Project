@@ -22,12 +22,17 @@ export default {
     },
     methods: {
         login() {
-            AXIOS.get(`/sessions/`)
+            var currentuser = window.sessionStorage.getItem("username")
+            console.log(currentuser)
+            AXIOS.get(`/sessions/` + currentuser + '/')
                 .then(response => {
                     // JSON responses are automatically parsed.
-                    this.response = response.data
-                    var currentuser = window.sessionStorage.getItem("username")
-
+                    if (response.data !== 200) {
+                        this.errorLogin = response.data
+                        console.log(this.response)
+                    } else {
+                        this.$router.push('SessionList');
+                    }
                 })
                 .catch(e => {
                     var errorMsg = e.message
