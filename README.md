@@ -58,4 +58,4 @@ Meeting 6 - Update + team design decisions (2 hours) [page]().
 
 Documentation:
 
-  - Architecture Diagram [page]().
+  - Architecture Diagram [page]()
