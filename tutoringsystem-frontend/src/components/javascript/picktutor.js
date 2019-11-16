@@ -9,6 +9,9 @@ var AXIOS = axios.create({
     headers: { 'Access-Control-Allow-Origin': frontendUrl }
   })
 
+
+/*
+  
 function TutorDto(name,email,username,password,sessions) {
     this.name = name
     this.email = email
@@ -38,15 +41,14 @@ export default {
         }
     },
     created: function () {
-        /*
+        
         //Test data for tutors
         const t1 = new TutorDto('sean','sean@gmail.com','seanusername','seanpassword', [])
         const t2 = new TutorDto('naes','naes@gmail.com','naesusername','naespassword', [])
         //Sample initial content for tutors
         this.tutors = [t1,t2]
-        */
+        
 
-        // Initializing tutors from backend
         AXIOS.get(`/tutors`)
         .then(response => {
             // JSON responses are automatically parsed.
@@ -66,4 +68,58 @@ export default {
     }
     
 } 
+*/
 
+
+
+//Constructor methods
+function PersonDto (name) {
+    this.name = name
+    this.events = []
+}
+  
+function EventDto (name, date, start, end) {
+    this.name = name
+    this.eventDate = date
+    this.startTime = start
+    this.endTime = end
+}
+
+
+export default {
+    
+    //add data variables to the export declaration of the component
+    name: 'eventregistration',
+    data () {
+      return {
+        people: [],
+        newPerson: '',
+        errorPerson: '',
+        response: []
+      }
+    },
+
+    //add a test initialization for the data
+    created: function () {
+        // Test data
+        const p3 = new PersonDto('Sean')
+        const p1 = new PersonDto('Naes')
+        const p2 = new PersonDto('qwert')
+        const p4 = new PersonDto('new')
+        // Sample initial content
+        this.people = [p3,p1, p2,p4]
+      },
+
+    //add event handling method: createPerson()
+    methods: {
+        createPerson: function (personName) {
+          // Create a new person and add it to the list of people
+          var p = new PersonDto(personName)
+          this.people.push(p)
+          // Reset the name field for new people
+          this.newPerson = ''
+        }
+      }
+}
+
+ 

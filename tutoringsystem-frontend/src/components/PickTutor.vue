@@ -18,13 +18,22 @@
 			        <a href="#"><button type="button" class="btn btn-dark">Select Tutor</button></a>
 		        </div>
 	        </div>
+            
             <div class="test">
                 <table>
-                    <tr>
-                        <td>{{tutor.name}}</td>
+                    <tr v-for="person in people" :key="person" >
+                        <td>{{ person.name }}</td>
+                        <td>
+                            <ul>
+                                <li v-for="event in person.events" :key="event">
+                                    {{event.name}}
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
+                    <!-- ... -->
                 </table>
-            </div>
+            </div> 
             <!--
             <div class="row">
                 <div class="col-md-6" v-for="tutor in tutors" v-bind="tutor.name">
@@ -54,6 +63,7 @@
 <style>
 
 .test{
+    color: wheat;
     background-color: rgb(145, 0, 0);;
     border-style: dashed;
     border-width:2rem;
