@@ -14,15 +14,19 @@
             <!-- Each row will display 2 tutors -->
             <div class="row" >
 
-                <!-- Loop through -->
+                <!-- Loop through all tutors (each "person" is a tutor) -->
                 <div class="col-6" v-for="person in people" :key="person">
+                    
+                    <!-- Bootstrap card-->
                     <div class="card w-100 mb-4">
                         <div class="row no-gutters">
                             
+                            <!-- Image will take up 3/12ths of the card -->
                             <div class="col-3">
                                 <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=802&q=80" class="card-img">
                             </div>
                             
+                            <!--Info takes up 9/12ths of the card -->
                             <div class="col-9">
                                 <div class="card-body">
                                 
