@@ -1,5 +1,5 @@
 // var chalk = require('chalk')
-var semver = require('semver')
+// var semver = require('semver')
 var packageConfig = require('../package.json')
 var shell = require('shelljs')
 function exec (cmd) {
@@ -9,7 +9,7 @@ function exec (cmd) {
 var versionRequirements = [
   {
     name: 'node',
-    currentVersion: semver.clean(process.version),
+    // currentVersion: semver.clean(process.version),
     versionRequirement: packageConfig.engines.node
   }
 ]
@@ -26,10 +26,10 @@ module.exports = function () {
   var warnings = []
   for (var i = 0; i < versionRequirements.length; i++) {
     var mod = versionRequirements[i]
-    if (!semver.satisfies(mod.currentVersion, mod.versionRequirement)) {
-      warnings.push(mod.name + ': '
-      )
-    }
+    // if (!semver.satisfies(mod.currentVersion, mod.versionRequirement)) {
+    //   warnings.push(mod.name + ': '
+    //   )
+    // }
   }
 
   if (warnings.length) {
