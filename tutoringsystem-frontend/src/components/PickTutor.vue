@@ -3,8 +3,8 @@
 <div >
     
     <div id="headerBar">
-        <h1 class="pickTutorHeader">GradeSmash Tutors</h1>
-        <h2 class="pickTutorSubHeader">Step 2: pick a tutor for your session</h2>
+        <h1 id="pickTutorHeader">GradeSmash Tutors</h1>
+        <h2 id="pickTutorSubHeader">Step 2: pick a tutor for your session</h2>
     </div>
 
     <!-- Here is where the tutors will be displayed -->
@@ -50,10 +50,23 @@
 
 </template>
 
+
+
+
 <script src="./javascript/picktutor.js"></script>
 
 
+
+
+
 <style>
+
+/* ============= For the tutor cards ============== */
+
+/* Container where all the cards will be stored  */
+#tutorDisplays{
+    background-color: rgb(0, 153, 153);;
+}
 
 /* Ensure the tutor options takes up 100% of width */
 .container-fluid{
@@ -71,8 +84,18 @@
     border-color: rgb(0, 0, 0);
 }
 
+/* Image formatting for cards */
+img {
+  border: 0.1rem solid rgb(0, 100, 100);
+  border-radius: 0.1rem;
+  padding: 0.3rem;
+}
+img:hover {
+  box-shadow: 0 0 3px 3px rgb(0, 150, 150);
+}
 
 
+/* ============= Header ============== */
 
 #headerBar{
     background-color: rgb(0, 100, 100);;
@@ -81,37 +104,23 @@
     border-color: rgb(0, 63, 63);
 }
 
-.pickTutorHeader{
+#pickTutorHeader{
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     background: rgb(0, 100, 100);;
     color: rgb(255, 255, 255);
     align-self: auto;
 }
 
-.pickTutorSubHeader{
+#pickTutorSubHeader{
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     background: rgb(0, 100, 100);;
     color: rgb(255, 255, 255);
     align-self: auto;
 }
 
-#tutorDisplays{
-    background-color: rgb(0, 153, 153);;
-    border-style: solid;
-    border-width:1rem;
-    border-color: rgb(0, 63, 63);
-}
+/* ================================= */
 
-img {
-  border: 0.1rem solid rgb(0, 100, 100);
-  border-radius: 0.1rem;
-  padding: 0.3rem;
-}
-
-img:hover {
-  box-shadow: 0 0 3px 3px rgb(0, 150, 150);
-}
-
+/* Seperating all elements */
 [class*="col-"] {
     padding: 0.5rem;
 }

@@ -34,7 +34,7 @@ export default {
     },
 
     //2. add an initialization for the data
-    
+    /*
     created: function () {
         // Test data
         const t0 = new TutorDto('name','email','username','password',[])
@@ -47,8 +47,6 @@ export default {
         const t7 = new TutorDto('Gareth Richards','email7','uname7','7',[])
         const t8 = new TutorDto('Jame Jon','email8','uname8','8',[])
         const t9 = new TutorDto('Samuel Frodo','email9','uname9','9',[])
-
-
 
         // Sample initial content
         this.people = [t1,t2,t3,t4,t5,t6,t7,t8,t9]
@@ -63,8 +61,9 @@ export default {
           this.newPerson = ''
         }
       }
+    */
 
-    /*
+    
     created: function () {
         // Initializing people from backend
         AXIOS.get(`/tutors`)
@@ -79,7 +78,7 @@ export default {
 
     //3. add event handling method: createTutor()
     createTutor: function (tutorUserName) {
-        AXIOS.post(`/tutors/`+tutorUserName, {}, {})
+        AXIOS.get(`/tutors/`+tutorUserName, {}, {})
         .then(response => {
             // JSON responses are automatically parsed.
             this.tutor.push(response.data)
@@ -92,7 +91,7 @@ export default {
             this.errorPerson = errorMsg
         });
     }
-    */
+    
 }
 
 
