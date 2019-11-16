@@ -758,7 +758,7 @@ public class TutoringSystemRestController {
 			for(Session s: allSessions) {
 				Set<Student> sessionStudents = s.getStudent();
 				for (Student student: sessionStudents) {
-					if(student.getUsername().equals(studentUsername)) {
+					if(student.getName().equals(studentUsername)) {
 						allSessionsOfStudent.add(new SessionDto(s.getSessionId()));
 					}
 				}
