@@ -740,14 +740,32 @@ public class TutoringSystemRestController {
 			List<Session> allSessions = service.getAllSessions();
 			
 			List<SessionDto> allSessionsAsDto = new ArrayList<>();
-			System.out.println("here");
 			for(Session s : allSessions) {
 				allSessionsAsDto.add(new SessionDto(s.getSessionId()));
-
 			}
 			return allSessionsAsDto;
 		}catch(Exception e) {
 			System.out.println("Could not get all sessions");
+			return null;
+		}
+	}
+	
+	@GetMapping(value = {"/sessions/student/{studentUsername}","/sessions/student/{studentUsername}/"})
+	public List<SessionDto> getAllSessionsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
+		try {
+			List<Session> allSessions = service.getAllSessions();
+			List<SessionDto> allSessionsOfStudent = new ArrayList<>();
+			for(Session s: allSessions) {
+				Set<Student> sessionStudents = s.getStudent();
+				for (Student student: sessionStudents) {
+					if(student.getUsername().equals(studentUsername)) {
+						allSessionsOfStudent.add(new SessionDto(s.getSessionId()));
+					}
+				}
+			}
+			return allSessionsOfStudent;	
+		}catch(Exception e) {
+			System.out.println("Could not get all sessions of "+studentUsername);
 			return null;
 		}
 	}
@@ -780,24 +798,6 @@ public class TutoringSystemRestController {
 			return 401;
 		}
 		return (password.equals(student.getPassword()) ? 200 : 401);
-	}
-	
-	@GetMapping(value = {"/sessions/student/{studentUsername}","/sessions/student/{studentUsername}/"})
-	public List<SessionDto> getAllSessionsOfStudent(@PathVariable("studentUsername") String studentUsername) throws IllegalArgumentException{
-		try {
-			List<SessionDto> allSessions = getAllSessions();
-			List<SessionDto> allSessionsOfStudent = new ArrayList<>();
-			StudentDto student = getStudentByUsername(studentUsername);
-			for(SessionDto s: allSessions) {
-				if(s.getRegisteredStudents().contains(student)) {
-					allSessionsOfStudent.add(s);
-				}
-			}
-			return allSessionsOfStudent;	
-		}catch(Exception e) {
-			System.out.println("Could not get all sessions of "+studentUsername);
-			return null;
-		}
 	}
 	
 	
