@@ -74,21 +74,21 @@ public class TestTutoringSystemService {
 		tutorRepository.deleteAll();
 	}
 	//The following methods clears the database after all the tests
-	@After
-	public void clearDatabase() {
-		// Then we can clear the other tables
-
-		reviewRepository.deleteAll();
-
-		sessionRepository.deleteAll();
-		billRepository.deleteAll();
-		
-		tutorialRepository.deleteAll();
-		courseRepository.deleteAll();
-		
-		studentRepository.deleteAll();
-		tutorRepository.deleteAll();
-	}
+//	@After
+//	public void clearDatabase() {
+//		// Then we can clear the other tables
+//
+//		reviewRepository.deleteAll();
+//
+//		sessionRepository.deleteAll();
+//		billRepository.deleteAll();
+//		
+//		tutorialRepository.deleteAll();
+//		courseRepository.deleteAll();
+//		
+//		studentRepository.deleteAll();
+//		tutorRepository.deleteAll();
+//	}
 	
 	//This test creates a student and then reads its attributes from the database
 	@Test

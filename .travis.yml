@@ -14,6 +14,9 @@ matrix:
   - language: node_js
     node_js: stable
     before_install: cd tutoringsystem-frontend
+    install:
+                       - brew install yarn
+                       - yarn global add npm
     script:
     - npm run build
     deploy:
@@ -23,6 +26,4 @@ matrix:
       app: tutoringsystem-frontend
       on:
         repo: McGill-ECSE321-Fall2019/project-group-4
-
-
 
