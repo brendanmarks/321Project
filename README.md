@@ -42,3 +42,20 @@ Documentation:
   - Integration Tests [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Integration-Tests).
   - RESTful Service Endpoints [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/RESTful-Service-Endpoints).
   
+  ***Deliverable 3:***
+
+Meeting 5 - Distribution of components/tasks (2 hours) [page]().
+
+Meeting 6 - Update + team design decisions (2 hours) [page]().
+  
+|Name                    |Total hours |Responsibility                                                       |
+|------------------------|------------|---------------------------------------------------------------------|
+|Brendan Marks           |   19 hours |CI/CD, Deployments, Frontend + Fix Backend as needed                 |
+|Brad McBain             |   15 hours |Frontend + Fix Backend as needed                                     |
+|Sami Hilal              |   18 hours |Frontend + Fix Backend as needed                                     |
+|Sean Smith              |   18 hours |Frontend + Fix Backend as needed                                     |
+|Dominic Wener           |   19 hours |Frontend + Fix Backend as needed                                     |
+
+Documentation:
+
+  - Architecture Diagram [page]().
