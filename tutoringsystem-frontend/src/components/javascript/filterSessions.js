@@ -1,5 +1,4 @@
 import axios from 'axios'
-//import forge from 'node-forge'
 var config = require('../../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -11,28 +10,36 @@ var AXIOS = axios.create({
 })
 
 export default {
-    name: 'login',
+    name: 'SessionList',
     data() {
         return {
-            username: '',
-            password: '',
+            sessions: [],
+            date: '',
             errorLogin: '',
             response: '',
         }
     },
     methods: {
-        login() {
+        SessionList() {
+            alert("a")
+            this.$router.push('SignUp');
+        },
+        getSessions() {
+            //this.$router.push('SessionList');
             var currentuser = window.sessionStorage.getItem("username")
             console.log(currentuser)
-            AXIOS.get(`/sessions/` + currentuser + '/')
+            AXIOS.get('/sessions/')
                 .then(response => {
+                    alert(response.data)
+                    this.sessions = response.data
+                    console.log("hi" + sessions)
                     // JSON responses are automatically parsed.
-                    if (response.data !== 200) {
-                        this.errorLogin = response.data
-                        console.log(this.response)
-                    } else {
-                        this.$router.push('SessionList');
-                    }
+                    // if (response.data !== 200) {
+                    //    this.errorLogin = response.data
+                    //   console.log(this.response)
+                    //} else {
+                    //   this.$router.push('SessionList');
+                    //}
                 })
                 .catch(e => {
                     var errorMsg = e.message
