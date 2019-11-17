@@ -30,7 +30,7 @@
           <div class="container-fluid" id="welcome">
             <h2></h2>
             <br />
-            <h3>Welcome USER!</h3>
+            <h3>Welcome!</h3>
             <hr />
           </div>
         </div>
@@ -43,7 +43,7 @@
           <div class="container" align="left">
             <div class="login-grid">
               <input
-                @click="SessionRegister()"
+                @click="SessionList()"
                 type="submit"
                 value="View Personal Session Schedule"
                 class="btn btn-primary btn-lg btn-block"
@@ -96,6 +96,7 @@
   color: #d3d3d3;
 }
 </style>
+
 
 <script src="./javascript/hello.js"></script>
 <script src="./javascript/filterSessions.js"></script>

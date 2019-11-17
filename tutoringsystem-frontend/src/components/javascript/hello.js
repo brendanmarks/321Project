@@ -10,7 +10,7 @@ export default {
     },
     methods: {
         SessionRegister() {
-            this.$router.push('Login');
+            this.$router.push('SessionList');
         },
         SessionList() {
             this.$router.push('SessionList')

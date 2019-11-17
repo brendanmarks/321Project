@@ -50,18 +50,9 @@
 
 </template>
 
-<<<<<<< HEAD
 
-
-
-<script src="./javascript/picktutor.js"></script>
-
-=======
 <script src="./javascript/pickTutor.js"></script>
 <script src="./javascript/verifyUser.js"></script>
->>>>>>> 42e2b59196bdec4f1985a7415fac5a3869db106c
-
-
 
 
 <style>

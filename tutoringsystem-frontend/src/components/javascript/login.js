@@ -42,6 +42,7 @@ export default {
         login(username, password) {
             if (username == '') {
                 var errorMsg = "Invalid username"
+                //alert("a");
                 console.log(errorMsg)
                 this.errorLogin = errorMsg
                 return

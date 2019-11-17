@@ -1,24 +1,8 @@
 import axios from 'axios'
-//import forge from 'node-forge'
 var config = require('../../../config')
-let frontendUrlConfig = function(){
-    if (process.env.NODE_END === 'production'){
-        return 'https://' + config.build.host + ':' + config.build.port
-    }
-    else {
-        return 'http://' + config.dev.host + ':' + config.dev.port
-    } 
-}
-let backendUrlConfig = function(){
-    if (process.env.NODE_END === 'production'){
-        return 'https://' + config.build.backendHost + ':' + config.build.backendPort
-    }
-    else {
-        return 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-    } 
-}
-var frontendUrl = frontendUrlConfig()
-var backendUrl = backendUrlConfig()
+
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
     baseURL: backendUrl,
@@ -26,28 +10,30 @@ var AXIOS = axios.create({
 })
 
 export default {
-    name: 'login',
+    name: 'SessionList',
     data() {
         return {
-            username: '',
-            password: '',
+            sessions: [],
+            date: '',
             errorLogin: '',
             response: '',
         }
     },
     methods: {
-        login() {
+        SessionList() {
+            //alert("a")
+            this.$router.push('SignUp');
+        },
+        getSessions() {
+            //alert("a")
+            this.$router.push('SessionList');
             var currentuser = window.sessionStorage.getItem("username")
             console.log(currentuser)
-            AXIOS.get(`/sessions/` + currentuser + '/')
+            AXIOS.get('/sessions/')
                 .then(response => {
-                    // JSON responses are automatically parsed.
-                    if (response.data !== 200) {
-                        this.errorLogin = response.data
-                        console.log(this.response)
-                    } else {
-                        this.$router.push('SessionList');
-                    }
+                    alert(response.data)
+                    this.sessions = response.data
+                    console.log("hi" + sessions)
                 })
                 .catch(e => {
                     var errorMsg = e.message

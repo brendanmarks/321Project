@@ -1,24 +1,9 @@
 import axios from 'axios'
 //import forge from 'node-forge'
 var config = require('../../../config')
-let frontendUrlConfig = function(){
-    if (process.env.NODE_END === 'production'){
-        return 'https://' + config.build.host + ':' + config.build.port
-    }
-    else {
-        return 'http://' + config.dev.host + ':' + config.dev.port
-    } 
-}
-let backendUrlConfig = function(){
-    if (process.env.NODE_END === 'production'){
-        return 'https://' + config.build.backendHost + ':' + config.build.backendPort
-    }
-    else {
-        return 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-    } 
-}
-var frontendUrl = frontendUrlConfig()
-var backendUrl = backendUrlConfig()
+
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
     baseURL: backendUrl,
