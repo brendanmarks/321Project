@@ -227,6 +227,7 @@ public class TutoringSystemRestController {
 		Bill bill = service.createBill(false, billId);
 		
 		Session session = service.createSession(sessionId, Time.valueOf(startTime), Time.valueOf(endTime), date, bill, tutorial, firstStudent);
+		System.out.println(session.getDate());
 		return convertSessionToDto(studentName, session);
 	}
 	
@@ -292,8 +293,9 @@ public class TutoringSystemRestController {
 			StudentDto firstStudent = convertStudentToDto(student);
 			sessionStudentDtos.add(firstStudent);
 		}
-		
-		SessionDto sessionDto = new SessionDto(ss.getSessionId(), ss.getDate(), ss.getStartTime(), ss.getEndTime(), sessionStudentDtos);
+		Tutor tutor = ss.getTutorial().getTutor().iterator().next();
+		Course course = ss.getTutorial().getCourse();
+		SessionDto sessionDto = new SessionDto(ss.getSessionId(), ss.getDate(), ss.getStartTime(), ss.getEndTime(), sessionStudentDtos, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName())));
 		return sessionDto;
 	}
 
@@ -741,7 +743,13 @@ public class TutoringSystemRestController {
 			
 			List<SessionDto> allSessionsAsDto = new ArrayList<>();
 			for(Session s : allSessions) {
-				allSessionsAsDto.add(new SessionDto(s.getSessionId()));
+				ArrayList<StudentDto> students = new ArrayList<>();
+				for (Student stu : s.getStudent()) {
+					students.add(new StudentDto(stu.getName(), stu.getEmail(), stu.getUsername(), stu.getPassword(), null));
+				}
+				Tutor tutor = s.getTutorial().getTutor().iterator().next();
+				Course course = s.getTutorial().getCourse();
+				allSessionsAsDto.add(new SessionDto(s.getSessionId(), s.getDate(), s.getStartTime(), s.getEndTime(), students, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName()))));
 			}
 			return allSessionsAsDto;
 		}catch(Exception e) {
@@ -755,11 +763,18 @@ public class TutoringSystemRestController {
 		try {
 			List<Session> allSessions = service.getAllSessions();
 			List<SessionDto> allSessionsOfStudent = new ArrayList<>();
+			ArrayList<StudentDto> students = new ArrayList<>();
+
 			for(Session s: allSessions) {
 				Set<Student> sessionStudents = s.getStudent();
 				for (Student student: sessionStudents) {
 					if(student.getName().equals(studentUsername)) {
-						allSessionsOfStudent.add(new SessionDto(s.getSessionId()));
+						for (Student stu : s.getStudent()) {
+							students.add(new StudentDto(stu.getName(), stu.getEmail(), stu.getUsername(), stu.getPassword(), null));
+						}
+						Tutor tutor = s.getTutorial().getTutor().iterator().next();
+						Course course = s.getTutorial().getCourse();
+						allSessionsOfStudent.add(new SessionDto(s.getSessionId(), s.getDate(), s.getStartTime(), s.getEndTime(), students, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName()))));
 					}
 				}
 			}
