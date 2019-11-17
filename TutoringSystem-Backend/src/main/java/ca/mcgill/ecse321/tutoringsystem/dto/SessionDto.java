@@ -10,7 +10,7 @@ public class SessionDto {
 	private Time startTime;
 	private Time endTime;
 	private Date date;
-	private TutorialDto assignedTutorial;
+	private static TutorialDto assignedTutorial;
 	private static ArrayList<StudentDto> registeredStudents;
 	
 
@@ -18,14 +18,15 @@ public class SessionDto {
 	}
 	
 	public SessionDto(String sessionId) {
-		this(sessionId, Date.valueOf("1971-01-01"), Time.valueOf("00:00:00"), Time.valueOf("23:59:59"), registeredStudents);
+		this(sessionId, Date.valueOf("1971-01-01"), Time.valueOf("00:00:00"), Time.valueOf("23:59:59"), registeredStudents, assignedTutorial);
 	}
 	
-	public SessionDto(String sessionId, Date date, Time startTime, Time endTime, ArrayList<StudentDto> registeredStudents) {
+	public SessionDto(String sessionId, Date date, Time startTime, Time endTime, ArrayList<StudentDto> registeredStudents, TutorialDto assignedTutorial) {
 		this.sessionId = sessionId;
 		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
+		SessionDto.assignedTutorial = assignedTutorial;
 		SessionDto.registeredStudents = registeredStudents;
 	}
 	
@@ -58,7 +59,7 @@ public class SessionDto {
 	}
 
 	public void setAssignedTutorial(TutorialDto assignedTutorial) {
-		this.assignedTutorial = assignedTutorial;
+		SessionDto.assignedTutorial = assignedTutorial;
 	}
 	
 
