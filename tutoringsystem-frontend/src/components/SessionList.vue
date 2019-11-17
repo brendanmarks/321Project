@@ -1,12 +1,18 @@
 <template>
   <div id="id">
     <div class="site-wrap">
-      <div class="container text-center" id="img-container">
-        <img
-          src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
-          width="500"
-          height="100"
-        />
+      <div>
+        <router-link to="/Hello">Go your to HomePage &nbsp; &nbsp;</router-link>
+        <router-link to="/SessionList">Register for a Session</router-link>
+      </div>
+      <div class="container-fluid" id="top-container">
+        <div class="container text-center" id="img-container">
+          <img
+            src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
+            width="500"
+            height="100"
+          />
+        </div>
       </div>
       <div class="container-fluid text-center" id="background">
         <div class="site-section" style="padding-top:10%">
@@ -33,7 +39,7 @@
                     <input
                       @click="submitReview(session.sessionId)"
                       type="submit"
-                      value="rev"
+                      value="review"
                       class="btn btn-primary py-2 px-4 text-white"
                     />
                   </td>
@@ -41,7 +47,7 @@
                     <input
                       @click="deleteSession(session.sessionId)"
                       type="submit"
-                      value="del"
+                      value="cancel"
                       class="btn btn-primary py-2 px-4 text-white"
                     />
                   </td>
@@ -93,11 +99,16 @@ export default {
     },
     deleteSession(sessionId) {
       alert(sessionId);
+      var self = this;
+      const url =
+        "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
+
+      var currentuser = window.sessionStorage.getItem("username");
       AXIOS.delete("/sessions/" + sessionId, {}, {}).then(function(response) {
         console.log(response.data);
         self.Sessions = response.data;
+        window.location.reload();
       });
-      //this.$router.push("ReviewSession", { sessionId: sessionId });
     },
     getSessions: function() {
       var self = this;

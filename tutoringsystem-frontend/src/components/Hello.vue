@@ -30,7 +30,7 @@
           <div class="container-fluid" id="welcome">
             <h2></h2>
             <br />
-            <h3>Welcome!</h3>
+            <h3>Welcome !</h3>
             <hr />
           </div>
         </div>
