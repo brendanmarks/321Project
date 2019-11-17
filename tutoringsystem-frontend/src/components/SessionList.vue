@@ -21,6 +21,7 @@
                   <th style="padding:5px">Date</th>
                   <th style="padding:5px">Room Number</th>
                   <th style="padding:5px">Write a review</th>
+                  <th style="padding:5px">Refuse a session</th>
                 </tr>
                 <tr v-for="session in Sessions" :key="session.sessionId">
                   <td>{{ session.sessionId }}</td>
@@ -33,6 +34,14 @@
                       @click="submitReview(session.sessionId)"
                       type="submit"
                       value="rev"
+                      class="btn btn-primary py-2 px-4 text-white"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      @click="deleteSession(session.sessionId)"
+                      type="submit"
+                      value="del"
                       class="btn btn-primary py-2 px-4 text-white"
                     />
                   </td>
@@ -66,7 +75,7 @@ export default {
   name: "course-list-row",
   mounted: function() {
     this.getSessions();
-    console.log("mounted: got here");
+    //console.log("mounted: got here");
   },
   data: function() {
     return {
@@ -76,10 +85,17 @@ export default {
   },
   methods: {
     submitReview(sessionId) {
-      alert(sessionId);
       this.$router.push({
         name: "ReviewSession",
         params: { sessionId: sessionId }
+      });
+      //this.$router.push("ReviewSession", { sessionId: sessionId });
+    },
+    deleteSession(sessionId) {
+      alert(sessionId);
+      AXIOS.delete("/sessions/" + sessionId, {}, {}).then(function(response) {
+        console.log(response.data);
+        self.Sessions = response.data;
       });
       //this.$router.push("ReviewSession", { sessionId: sessionId });
     },
@@ -88,6 +104,13 @@ export default {
       const url =
         "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
 
+      var currentuser = window.sessionStorage.getItem("username");
+      console.log(currentuser);
+      AXIOS.get("/sessions/student/" + currentuser).then(function(response) {
+        console.log(JSON.stringify(response.data));
+        self.Sessions = response.data;
+      });
+      /*
       AXIOS.get("/sessions/")
         .then(function(response) {
           console.log(JSON.stringify(response.data));
@@ -96,6 +119,7 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+        */
     }
   }
 };
