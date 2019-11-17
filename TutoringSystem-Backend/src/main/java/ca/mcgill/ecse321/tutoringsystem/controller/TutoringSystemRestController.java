@@ -11,6 +11,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -343,7 +344,20 @@ public class TutoringSystemRestController {
 			System.out.println("Could not get course "+courseID);
 			return null;
 		}
-	}	
+	}
+	
+	//1.2) working, but get course by ID
+		//TODO: make sure this doesn't fail (try catch)
+		@DeleteMapping(value = {"/sessions/{sessionID}","/sessions/{sessionID}/"})
+		public int deleteSessionByID(@PathVariable("sessionID") String sessionID) 
+		throws IllegalArgumentException{
+			try{
+				return service.deleteSession(sessionID);
+			}catch(Exception e) {
+				System.out.println("Could not delete session "+ sessionID);
+				return 500;
+			}
+		}
 	
 	/** --------- Tutorials ---------*/	
 		
