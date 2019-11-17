@@ -47,11 +47,6 @@ export default new Router({
       path: '/PickTutor',
       name: 'PickTutor',
       component: PickTutor
-    },
-    {
-      path: '/TutorReviews',
-      name: 'TutorReviews',
-      component: TutorReviews
     }
   ]
 })
