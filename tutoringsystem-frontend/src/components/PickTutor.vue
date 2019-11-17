@@ -21,7 +21,8 @@
                     <div class="card w-100 mb-4">
                         <div class="row no-gutters">
                             
-                            <!-- Image will take up 3/12ths of the card -->
+                            <!-- Image will take up 3/12ths of the card
+                            TODO: Change this to include pictures of the tutors -->
                             <div class="col-3">
                                 <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=802&q=80" class="card-img">
                             </div>
@@ -32,8 +33,24 @@
                                 
                                     <h5 class="card-title">{{person.name}}</h5>
                                     <p class="card-text">{{person.username}}</p>
-                                    <a class="btn btn-success" href="#" role="button">Select Tutor</a>
-                                    <a class="btn btn-dark" href="#" role="button">View Tutor Reviews</a>
+                                    <a 
+                                    class="btn btn-success" 
+                                    @click="submitTutor(person.name)"
+                                    type="submit"
+                                    value="tutor"
+                                    href="#"
+                                    role="button">
+                                        Select Tutor
+                                    </a>
+
+                                    <a class="btn btn-dark"
+                                    @click="submitTutor(person.name)"
+                                    type="submit"
+                                    value="tutor"
+                                    href="#"
+                                    role="button">
+                                        View Tutor Reviews
+                                    </a>
 
                                 </div>
                             </div>    
