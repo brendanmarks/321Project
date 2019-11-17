@@ -1,6 +1,20 @@
 <template>
   <div id="Signup">
     <div class="site-section site-hero inner">
+      <div class="container-fluid" id="top-container">
+        <div class="container text-center" id="img-container">
+          <img
+            src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
+            width="500"
+            height="100"
+          />
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <br />
+      <br />
       <div class="half left">
         <div class="container" align="center">
           <div class="row align-items-center" align="center">
@@ -29,6 +43,13 @@
           <span v-if="response" style="color:green">Success: {{ response }}</span>
         </div>
       </div>
+
+      <input
+        @click="login()"
+        type="submit"
+        value="Go to Login"
+        class="btn btn-primary py-2 px-4 text-white"
+      />
     </div>
   </div>
 </template>

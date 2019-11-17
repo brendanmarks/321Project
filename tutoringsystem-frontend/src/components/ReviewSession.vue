@@ -54,13 +54,10 @@
 
         <div>
           <div class="form-group">
-            <label for="exampleFormControlTextarea1">Let us know how the tutor was!</label>
-            <input class="form-control" type="exampleFormControlTextarea1" v-model="message" />
+            <label form="exampleFormControlTextarea1">Let us know how the tutor was!</label>
+            <input class="form-control" v-model="message" />
           </div>
         </div>
-
-        <br />
-        <br />
 
         <div class="container" align="left">
           <div class="login-grid">
