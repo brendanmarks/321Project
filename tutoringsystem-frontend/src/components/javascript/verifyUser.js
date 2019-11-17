@@ -2,7 +2,7 @@ import axios from 'axios'
 //import forge from 'node-forge'
 var config = require('../../../config')
 let frontendUrlConfig = function(){
-    if (process.env.NODE_END === 'production'){
+    if (process.env.NODE_ENV === 'production'){
         return 'https://' + config.build.host + ':' + config.build.port
     }
     else {
@@ -10,7 +10,7 @@ let frontendUrlConfig = function(){
     } 
 }
 let backendUrlConfig = function(){
-    if (process.env.NODE_END === 'production'){
+    if (process.env.NODE_ENV === 'production'){
         return 'https://' + config.build.backendHost + ':' + config.build.backendPort
     }
     else {
