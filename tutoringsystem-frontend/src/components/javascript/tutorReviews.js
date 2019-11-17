@@ -86,7 +86,7 @@ export default {
     created: function () {
 
         
-        this.tutorName = 'Brad' /*this.$route.params.tutorName*/
+        this.tutorName = this.$route.params.tutorName
         var tutorN = ''
         tutorN = this.tutorName
         if (tutorN == '') {
