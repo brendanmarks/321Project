@@ -118,6 +118,11 @@ export default {
           console.log(errorMsg)
           this.errorPerson = errorMsg
       });
+      AXIOS.post(`/tutors/`+tutorName, {}, {})
+      .then(response => {
+        this.response = response.data;
+        this.tutor.name = tutorName;
+      })
     }
   }
 }
