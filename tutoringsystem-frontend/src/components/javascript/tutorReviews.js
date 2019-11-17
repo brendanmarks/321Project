@@ -35,13 +35,17 @@ export default {
             reviews: [],
             newReview: '',
             errorReview: '',
-            response: []
+            response: [],
+            message: '',
+            errorLogin: '',
+            selected: '',
+            tutorName: ''
         }
     },
 
     //2. add an initialization for the data
     
-    created: function () {
+    /*created: function () {
         // Test data
         const t0 = new ReviewDto('111','GreatGreat Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great','5')
         const t1 = new ReviewDto('222', 'Good','4')
@@ -51,8 +55,8 @@ export default {
 
         // Sample initial content
         this.reviews = [t0,t1,t2,t3,t4]
-      },
-      methods: {
+      }*/
+      /*methods: {
         createReview: function (reviewId) {
           // Create a new person and add it to the list of people
           var t = new ReviewDto(reviewId)
@@ -60,36 +64,57 @@ export default {
           // Reset the name field for new people
           this.newReview = ''
         }
-      }
-    
+      }*/
 
-    /*
+    
     created: function () {
+
+        
+        this.tutorName = 'Brad' /*this.$route.params.tutorName*/
+        var tutorN = ''
+        tutorN = this.tutorName
+        if (tutorN == '') {
+          var errorMsg = "Missing tutor name"
+          //alert("a");
+          console.log(errorMsg)
+          this.errorReview= errorMsg
+          return
+        }
+        
         // Initializing people from backend
-        AXIOS.get(`/tutors`)
+        
+        AXIOS.get(`/reviews?tutorName=`+ tutorN)
         .then(response => {
             // JSON responses are automatically parsed.
-            this.tutor = response.data
+            this.reviews = response.data
+            if(response.data.length == 0){
+              this.errorReview = 'This tutor has no reviews'
+            }
+           
+            
         })
         .catch(e => {
-            this.errorPerson = e;
+            this.errorReview = e.message;
+            console.log(e)
         });
-    },*/
+
+    }
 
     //3. add event handling method: createTutor()
-    /*createTutor: function (tutorUserName) {
-        AXIOS.get(`/tutors/`+tutorUserName, {}, {})
-        .then(response => {
-            // JSON responses are automatically parsed.
-            this.tutor.push(response.data)
-            this.newTutor = ''
-            this.errorTutor = ''
-        })
-        .catch(e => {
-            var errorMsg = e.message
-            console.log(errorMsg)
-            this.errorPerson = errorMsg
-        });
+    /*methods: {
+      createReview: function (tutorName) {
+          AXIOS.get(`/reviews`+tutorName, {}, {})
+          .then(response => {
+              // JSON responses are automatically parsed.
+              this.reviews.push(response.data)
+              this.newReview = ''
+              this.errorReview = ''
+          })
+          .catch(e => {
+              var errorMsg = e.message
+              console.log(errorMsg)
+              this.errorReview = errorMsg
+          });
+      }
     }*/
-    
 }

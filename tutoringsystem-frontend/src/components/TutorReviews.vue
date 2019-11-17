@@ -4,9 +4,9 @@
     
     <div id="headerBar">
         <h1 id="pickTutorHeader">Tutor Reviews</h1>
-        <h2 id="pickTutorSubHeader">A collection of all reviews for your selected tutor</h2>
+        <h2 id="pickTutorSubHeader">A collection of all reviews of {{tutorName}}</h2>
     </div>
-
+    <span v-if="errorReview" style="color:red">{{ errorReview }}</span>
     <!-- Here is where the tutors will be displayed -->
     <div id=tutorDisplays>
         <div class="container-fluid">
@@ -20,18 +20,14 @@
                     <!-- Bootstrap card-->
                     <div class="card w-100 mb-4">
                         <div class="row no-gutters">
-                            
-                            <!-- Image will take up 3/12ths of the card -->
-                            <div class="col-3">
-                                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=802&q=80" class="card-img">
-                            </div>
+                           
                             
                             <!--Info takes up 9/12ths of the card -->
-                            <div class="col-9">
+                            <div class="col-12">
                                 <div class="card-body">
                                 
-                                    <h5 class="card-title">{{review.rating}}</h5>
-                                    <p class="card-text">{{review.comment}}</p>
+                                    <h5 class="card-title">Rating: {{review.rating}}</h5>
+                                    <p class="card-text">Comment: {{review.comment}}</p>
                                     
 
                                 </div>

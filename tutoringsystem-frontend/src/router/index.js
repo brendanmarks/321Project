@@ -49,7 +49,7 @@ export default new Router({
       component: PickTutor
     },
     {
-      path: '/TutorReviews/',
+      path: '/TutorReviews',
       name: 'TutorReviews',
       component: TutorReviews
     }
