@@ -3,18 +3,24 @@
 <div >
     
     <div id="headerBar">
-        <h1 id="pickTutorHeader">GradeSmash Tutors</h1>
-        <h2 id="pickTutorSubHeader">Step 2: pick a tutor for your session</h2>
+        <h1 id="pickCourseHeader">GradeSmash Courses</h1>
+        <h2 id="pickCourseSubHeader">Step 2: pick a course for your session</h2>
     </div>
 
     <!-- Here is where the tutors will be displayed -->
-    <div id=tutorDisplays>
+    <div id=courseDisplays>
         <div class="container-fluid">
 
             <!-- Each row will display 2 tutors -->
             <div class="row" >
 
-                <!-- Loop through all tutors (each "person" is a tutor) -->
+                <!-- Loop through all tutors 
+                
+                
+                CHANGE THIS !!!!
+                
+                
+                (each "person" is a tutor) -->
                 <div class="col-6" v-for="person in people" :key="person">
                     
                     <!-- Bootstrap card-->
@@ -55,10 +61,10 @@
 
 <style>
 
-/* ============= For the tutor cards ============== */
+/* ============= For the course cards ============== */
 
 /* Container where all the cards will be stored  */
-#tutorDisplays{
+#courseDisplays{
     background-color: rgb(0, 153, 153);;
 }
 
@@ -98,14 +104,14 @@ img:hover {
     border-color: rgb(0, 63, 63);
 }
 
-#pickTutorHeader{
+#pickCourseHeader{
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     background: rgb(0, 100, 100);;
     color: rgb(255, 255, 255);
     align-self: auto;
 }
 
-#pickTutorSubHeader{
+#pickCourseSubHeader{
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     background: rgb(0, 100, 100);;
     color: rgb(255, 255, 255);
