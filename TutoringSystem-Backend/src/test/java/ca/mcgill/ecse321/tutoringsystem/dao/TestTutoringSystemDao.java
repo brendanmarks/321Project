@@ -24,7 +24,7 @@ public class TestTutoringSystemDao {
 	@Test
 	public void testCreateStudent() {
 		
-		String name = "Sami";
+		String name = "Sami1";
 		String email = "sami@gmail.com";
 		String username = "sami";
 		String password = "samipassword";
@@ -40,7 +40,7 @@ public class TestTutoringSystemDao {
 	
 	@Test
 	public void testCreateCourse() {
-		String courseId = "ecse321winter";
+		String courseId = "ecse321winter1";
 		String name = "ecse321";
 		
 		try {

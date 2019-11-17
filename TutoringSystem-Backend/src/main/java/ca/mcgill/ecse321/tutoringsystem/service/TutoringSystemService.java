@@ -5,6 +5,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -375,6 +376,16 @@ public class TutoringSystemService {
 	public Tutorial getTutorial(String id) {
 		Tutorial tutorial = tutorialRepository.findTutorialById(id);
 		return tutorial;
+	}
+	
+	@Transactional
+	public int deleteSession(String id) {
+		Optional<Session> session = sessionRepository.findById(id);
+		if (session.isPresent()) {
+			sessionRepository.deleteById(id);
+			return 200;
+		}
+		return 500;
 	}
 	
 	@Transactional

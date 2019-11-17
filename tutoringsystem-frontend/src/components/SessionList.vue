@@ -1,10 +1,6 @@
 <template>
   <div id="id">
     <div class="site-wrap">
-      <div>
-        <router-link to="/Hello">Go your to HomePage &nbsp; &nbsp;</router-link>
-        <router-link to="/SessionList">Register for a Session</router-link>
-      </div>
       <div class="container-fluid" id="top-container">
         <div class="container text-center" id="img-container">
           <img
@@ -19,7 +15,10 @@
           <div class="container" style="align:center">
             <h1 class="page-title">My Sessions</h1>
             <div id="table">
-              <table class="table table-bordered" style="width: 100%; height: 100%;">
+              <table
+                class="table table-bordered"
+                style="width: 100%; height: 100%;"
+              >
                 <tr>
                   <th style="padding:5px">SessionId</th>
                   <th style="padding:5px">StartTime</th>
@@ -61,8 +60,6 @@
   </div>
 </template>
 
-
-
 <script>
 import axios from "axios";
 var config = require("../../config");
@@ -98,16 +95,14 @@ export default {
       //this.$router.push("ReviewSession", { sessionId: sessionId });
     },
     deleteSession(sessionId) {
-      alert(sessionId);
       var self = this;
       const url =
         "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
 
       var currentuser = window.sessionStorage.getItem("username");
       AXIOS.delete("/sessions/" + sessionId, {}, {}).then(function(response) {
-        console.log(response.data);
         self.Sessions = response.data;
-        window.location.reload();
+        this.$router.push("Hello");
       });
     },
     getSessions: function() {
