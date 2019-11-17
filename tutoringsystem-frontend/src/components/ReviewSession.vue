@@ -39,7 +39,7 @@
         <br />
         <label>rate your tutor on 5 stars</label>
         <div>
-          <select v-model="selected">
+          <select v-model="rating">
             <option disabled value>Please select one</option>
             <option>5</option>
             <option>4</option>
@@ -62,13 +62,12 @@
         <div class="container" align="left">
           <div class="login-grid">
             <input
-              @click="createReview(rating, message)"
+              @click="reviewSession(message, rating)"
               type="submit"
               value="Submit review"
               class="btn btn-primary btn-lg btn-block"
             />
             <br />
-            <span v-if="errorLogin" style="color:red">Error: {{errorLogin}}</span>
           </div>
         </div>
       </div>
@@ -102,5 +101,4 @@
   color: #d3d3d3;
 }
 </style>
-
-
+<script src="./javascript/reviewSession.js"></script>
