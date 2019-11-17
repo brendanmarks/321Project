@@ -1,10 +1,9 @@
 <template>
   <div id="id">
+    <div id="navbar">
+      <Navigation></Navigation>
+    </div>
     <div class="site-wrap">
-      <div>
-        <router-link to="/Hello">Go your to HomePage &nbsp; &nbsp;</router-link>
-        <router-link to="/SessionList">Register for a Session</router-link>
-      </div>
       <div class="container-fluid" id="top-container">
         <div class="container text-center" id="img-container">
           <img
@@ -19,7 +18,10 @@
           <div class="container" style="align:center">
             <h1 class="page-title">My Sessions</h1>
             <div id="table">
-              <table class="table table-bordered" style="width: 100%; height: 100%;">
+              <table
+                class="table table-bordered"
+                style="width: 100%; height: 100%;"
+              >
                 <tr>
                   <th style="padding:5px">SessionId</th>
                   <th style="padding:5px">StartTime</th>
@@ -61,10 +63,22 @@
   </div>
 </template>
 
-
+<style>
+#navbar {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+  font-size: 20px;
+}
+</style>
 
 <script>
 import axios from "axios";
+import Navigation from "./Navigation";
+
 var config = require("../../config");
 
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -132,6 +146,9 @@ export default {
         });
         */
     }
+  },
+  components: {
+    Navigation: Navigation
   }
 };
 </script>

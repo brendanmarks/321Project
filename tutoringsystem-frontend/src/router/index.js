@@ -8,6 +8,7 @@ import Register from '@/components/Register'
 import ReviewSession from '@/components/ReviewSession'
 import PickTutor from '@/components/PickTutor'
 import PickCourse from '@/components/PickCourse'
+import TutorReviews from '@/components/TutorReviews'
 
 Vue.use(Router)
 
@@ -51,35 +52,15 @@ export default new Router({
     {
       path: '/PickTutor',
       name: 'PickTutor',
-      component: PickTutor,
-      /*
-      beforeEnter(to, from, next) {
-
-        window.sessionStorage.setItem("username", "a");
-        var currentUser = window.sessionStorage.getItem("username");
-
-        if (currentUser == '' || currentUser == null || currentUser.equals(null)) {
-
-            window.alert("Cannot open this page without being logged in. Please login first before accessing this page.");
-
-            next({
-              name: "Login" // back to login page //
-            });
-            
-        } else {
-
-            console.log("The user currently logged in is :"+currentUser);
-
-            next({
-              //name: "Login" // back to login page //
-            });
-
-        }
-      }
-      */
+      component: PickTutor
+    },
+    {
+      path: '/TutorReviews',
+      name: 'TutorReviews',
+      component: TutorReviews
     }
-    
 
-    
+
+
   ]
 })
