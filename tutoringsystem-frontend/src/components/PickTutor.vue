@@ -78,55 +78,65 @@
 
 /* Container where all the cards will be stored  */
 #tutorDisplays{
-    background-color: rgb(0, 153, 153);;
+    background-color: #dc3545;
 }
 
 /* Ensure the tutor options takes up 100% of width */
 .container-fluid{
     width: 100%;
     max-width: 100%;
+    font-family: Lucida;
+    font-style: oblique;
 }
 
 /* Each of the tutor cards */
 .card{
     max-width: 100%;
     color: rgb(255, 248, 235);
-    background-color: rgb(0, 100, 100);;
+    background-color: #dc3545;
     border-style:inset;
     border-width:0.3rem;
     border-color: rgb(0, 0, 0);
+    font-family: Lucida;
+    font-style: oblique;
 }
 
 /* Image formatting for cards */
 img {
-  border: 0.1rem solid rgb(0, 100, 100);
+  border: 0.1rem solid #dc3545;
   border-radius: 0.1rem;
   padding: 0.3rem;
 }
 img:hover {
-  box-shadow: 0 0 3px 3px rgb(0, 150, 150);
+  box-shadow: 0 0 3px 3px rgb(255, 255, 255);
 }
 
 
 /* ============= Header ============== */
 
 #headerBar{
-    background-color: rgb(0, 100, 100);;
+    background-color: #dc3545;
     border-style: solid;
     border-width:1rem;
-    border-color: rgb(0, 63, 63);
+    border-color: #db1327;
+    font-size: 30px;
+    font-family: Lucida;
+    font-style: oblique;
 }
 
 #pickTutorHeader{
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    background: rgb(0, 100, 100);;
+    font-family: Lucida;
+    font-style: oblique;
+    background: #dc3545;
     color: rgb(255, 255, 255);
     align-self: auto;
+
 }
 
 #pickTutorSubHeader{
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    background: rgb(0, 100, 100);;
+    font-family: Lucida;
+    font-style: oblique;
+    background: #dc3545;
     color: rgb(255, 255, 255);
     align-self: auto;
 }

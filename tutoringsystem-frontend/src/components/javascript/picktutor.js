@@ -78,8 +78,8 @@ export default {
           // Reset the name field for new people
           this.newPerson = ''
         }
-      }
-    */
+      }*/
+    
 
     // Initializing people from backend
     created: function () {
@@ -91,12 +91,12 @@ export default {
         .catch(e => {
             this.errorTutor = e;
         });
-    },
+    }, 
     
     //3. add event handling methods
     methods: {
       
-      //submit tutor to be added to reviews page
+      //submit tutor to be added to reviews page and session page
       submitTutor(tutorName){
         this.$router.push({
           name: "tutor",
