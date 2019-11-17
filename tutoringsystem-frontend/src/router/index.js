@@ -7,7 +7,6 @@ import SessionList from '@/components/SessionList'
 import Register from '@/components/Register'
 import ReviewSession from '@/components/ReviewSession'
 import PickTutor from '@/components/PickTutor'
-import TutorReviews from '@/components/TutorReviews'
 
 Vue.use(Router)
 
