@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <template>
 <html lang="en">
+  <div id="navbar">
+    <Navigation></Navigation>
+  </div>
   <head>
     <title>Bootstrap Example</title>
     <meta charset="utf-8" />
@@ -94,6 +97,15 @@
   font-family: Lucida;
   font-style: oblique;
   color: #d3d3d3;
+}
+#navbar {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+  font-size: 20px;
 }
 </style>
 
