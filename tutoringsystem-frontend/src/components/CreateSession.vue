@@ -24,6 +24,14 @@
           </div>
         </div>
       </div>
+      <div>
+        <input
+          @click="returnHome()"
+          type="submit"
+          value="Return Home"
+          class="btn btn-primary py-2 px-4 text-white"
+        />
+      </div>
     <div id=tutorDisplays>
         <div class="container-fluid">
 
