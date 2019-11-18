@@ -9,6 +9,7 @@ import ReviewSession from '@/components/ReviewSession'
 import PickTutor from '@/components/PickTutor'
 import PickCourse from '@/components/PickCourse'
 import TutorReviews from '@/components/TutorReviews'
+import CreateSession from '@/components/CreateSession'
 
 Vue.use(Router)
 
@@ -58,9 +59,11 @@ export default new Router({
       path: '/TutorReviews',
       name: 'TutorReviews',
       component: TutorReviews
+    },
+    {
+      path: '/CreateSession',
+      name: 'CreateSession',
+      component: CreateSession
     }
-
-
-
   ]
 })

@@ -48,7 +48,7 @@
 
 
 
-<script src="./javascript/tutorReviews.js"></script>
+<script src="./javascript/createSession.js"></script>
 
 
 
