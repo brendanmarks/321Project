@@ -1,4 +1,7 @@
+import Navigation from '../Navigation'
+
 export default {
+    
     name: 'hello',
     data() {
         return {
@@ -10,11 +13,14 @@ export default {
     },
     methods: {
         SessionRegister() {
-            this.$router.push('Login');
+            this.$router.push('pickCourseByName');
         },
         SessionList() {
             this.$router.push('SessionList')
         }
+    },
+    components: { 
+        'Navigation': Navigation 
     }
 
 }
