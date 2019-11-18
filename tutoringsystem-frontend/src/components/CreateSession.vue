@@ -3,19 +3,35 @@
 <div >
     
     <div id="headerBar">
-        <h1 id="pickTutorHeader">Tutor Reviews:</h1>
-        <h2 id="pickTutorSubHeader">{{tutorName}}</h2>
+        <h1 id="pickTutorHeader">Request a Session:</h1>
     </div>
-    <span v-if="errorReview" style="color:red">{{ errorReview }}</span>
+    <span v-if="errorTutorial" style="color:red">{{ errorTutorial }}</span>
     <!-- Here is where the tutors will be displayed -->
+     <div class="half right" data-aos="fade-up">
+        <div class="container" align="center">
+          <div class="login-grid" style="padding-right:0%">
+            <input class="login-text" type="text" placeholder="Date" v-model="date" />
+            <input class="login-text" type="text" placeholder="Start Time" v-model="startTime" />
+            <input class="login-text" type="text" placeholder="End Time" v-model="endTime" />
+            <input
+              @click="requestSession(date, startTime, endTime)"
+              type="submit"
+              value="Request Session"
+              class="btn btn-primary py-2 px-4 text-white"
+            />
+            <br />
+            <span v-if="errorLogin" style="color:red">Error: {{errorLogin}}</span>
+          </div>
+        </div>
+      </div>
     <div id=tutorDisplays>
         <div class="container-fluid">
 
-            <!-- Each row will display 2 tutors -->
+            <!-- Each row will display 2 tutorials -->
             <div class="row" >
 
-                <!-- Loop through all tutors (each "person" is a tutor) -->
-                <div class="col-6" v-for="review in reviews" :key="review">
+                <!-- Loop through all tutorials (each "person" is a tutor) -->
+                <div class="col-6" v-for="tutorial in tutorials" :key="tutorial">
                     
                     <!-- Bootstrap card-->
                     <div class="card w-100 mb-4">
@@ -26,8 +42,8 @@
                             <div class="col-12">
                                 <div class="card-body">
                                 
-                                    <h5 class="card-title">Rating: {{review.rating}}</h5>
-                                    <p class="card-text">Comment: {{review.comment}}</p>
+                                    <h5 class="card-title">Rating:</h5>
+                                    <p class="card-text">Comment:</p>
                                     
 
                                 </div>

@@ -27,73 +27,104 @@ var AXIOS = axios.create({
 
 
 //Constructor methods
-function TutorDto(name,email,username,password,sessions) {
-    this.name = name
-    this.email = email
-    this.username = username
-    this.password = password
-    this.sessions = sessions
+function TutorialDto(tutor,course) {
+    this.tutor = tutor
+    this.course = course
 }
 
-function ReviewDto(reviewId, comment, rating) {
-  this.reviewId = reviewId;
-  this.comment = comment;
-  this.rating = rating;
-}
 
 
 export default {
     
     //1. add data variables to the export declaration of the component
-    name: 'tutorReviews' ,
+    name: 'tutorSession' ,
     data () {
         return {
-            reviews: [],
-            newReview: '',
-            errorReview: '',
+            tutorials: [],
+            newTutorial: '',
+            errorTutorial: '',
             response: [],
             message: '',
             errorLogin: '',
             selected: '',
-            tutorName: ''
+            tutorUserName: '',
+            startTime: '',
+            endTime: '',
+            date: '',
+            tutorialId: '',
+            studentName: ''
         }
     },
 
     //2. add an initialization for the data
     
-    /*created: function () {
-        // Test data
-        const t0 = new ReviewDto('111','GreatGreat Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great Great','5')
-        const t1 = new ReviewDto('222', 'Good','4')
-        const t2 = new ReviewDto('333', 'Decent','3')
-        const t3 = new ReviewDto('444','Meh','2')
-        const t4 = new ReviewDto('555','Bad','1')
+    created: function () {
+      },
+      methods: {
+        requestSession(date1, startTime1, endTime1) {
+            if (date1 == '') {
+                var errorMsg = "Invalid Date"
+                //alert("a");
+                console.log(errorMsg)
+                this.errorTutorial = errorMsg
+                return
+            }
+            if (startTime1 == '') {
+                var errorMsg = "Invalid Start Time"
+                console.log(errorMsg)
+                this.errorTutorial = errorMsg
+                return
+            }
+            if (endTime1 == '') {
+                var errorMsg = "Invalid End Time"
+                console.log(errorMsg)
+                this.errorTutorial = errorMsg
+                return
+            }
+            this.date = date1
+            this.startTime = startTime1
+            this.endTime = endTime1
+           
+            var start = this.startTime
+            var end = this.endTime
+            var date = this.date
 
-        // Sample initial content
-        this.reviews = [t0,t1,t2,t3,t4]
-      }*/
-      /*methods: {
-        createReview: function (reviewId) {
-          // Create a new person and add it to the list of people
-          var t = new ReviewDto(reviewId)
-          this.reviews.push(t)
-          // Reset the name field for new people
-          this.newReview = ''
-        }
-      }*/
+            var sessionId = Math.floor(Math.random() * 10000) + 1
+            var currentUser = window.sessionStorage.getItem("username")
+            var tutorialId = 666
+            console.log(start)
+            console.log(end)
+            console.log(date)
 
-    
+            /*AXIOS.post(`/sessions?sessionId=` + sessionId + '&startTime=' + start + '&endTime=' + end + '&date=' + date + '&tutorialId' + tutorialId + '&studentName' + currentUser  )
+                .then(response => {
+                    // JSON responses are automatically parsed.
+                    this.response = response.data
+                })
+                .catch(e => {
+                    var errorMsg = e.message
+                    console.log(errorMsg)
+                    this.errorTutorial= errorMsg
+                });
+            }*/
+      },
+      returnHome() {
+            this.$router.push('hello');
+      }
+    }
+
+    /*
     created: function () {
 
-        
-        this.tutorName = this.$route.params.tutorName
+        var currentuser = window.sessionStorage.getItem("username")
+        this.tutorUserName = this.$route.params.tutorUserName
         var tutorN = ''
-        tutorN = this.tutorName
+        tutorN = this.tutorUserName
         if (tutorN == '') {
-          var errorMsg = "Missing tutor name"
+          var errorMsg = "Missing tutor user name"
           //alert("a");
           console.log(errorMsg)
-          this.errorReview= errorMsg
+          this.errorTutorial= errorMsg
           return
         }
         
@@ -114,7 +145,7 @@ export default {
             console.log(e)
         });
 
-    }
+    }*/
 
     //3. add event handling method: createTutor()
     /*methods: {
