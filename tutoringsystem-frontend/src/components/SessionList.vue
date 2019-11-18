@@ -78,14 +78,26 @@
 <script>
 import axios from "axios";
 import Navigation from "./Navigation";
+var config = require("../../../config");
+let frontendUrlConfig = function() {
+  if (process.env.NODE_ENV === "production") {
+    return "https://" + config.build.host + ":" + config.build.port;
+  } else {
+    return "http://" + config.dev.host + ":" + config.dev.port;
+  }
+};
+let backendUrlConfig = function() {
+  if (process.env.NODE_ENV === "production") {
+    return (
+      "https://" + config.build.backendHost + ":" + config.build.backendPort
+    );
+  } else {
+    return "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
+  }
+};
+var frontendUrl = frontendUrlConfig();
+var backendUrl = backendUrlConfig();
 
-var config = require("../../config");
-
-var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
-var backendUrl =
-  "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
-console.log(frontendUrl);
-console.log(backendUrl);
 var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { "Access-Control-Allow-Origin": frontendUrl }
@@ -112,16 +124,14 @@ export default {
       //this.$router.push("ReviewSession", { sessionId: sessionId });
     },
     deleteSession(sessionId) {
-      alert(sessionId);
       var self = this;
       const url =
         "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
 
       var currentuser = window.sessionStorage.getItem("username");
       AXIOS.delete("/sessions/" + sessionId, {}, {}).then(function(response) {
-        console.log(response.data);
         self.Sessions = response.data;
-        window.location.reload();
+        this.$router.push("Hello");
       });
     },
     getSessions: function() {
