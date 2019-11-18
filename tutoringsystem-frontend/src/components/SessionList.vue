@@ -63,8 +63,6 @@
   </div>
 </template>
 
-<<<<<<< HEAD
-=======
 <style>
 #navbar {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -77,7 +75,6 @@
 }
 </style>
 
->>>>>>> mcbain
 <script>
 import axios from "axios";
 import Navigation from "./Navigation";

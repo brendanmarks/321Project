@@ -1,7 +1,15 @@
 <template>
   <div>
+    <div class="container-fluid" id="top-container">
+      <div class="container text-center" id="img-container">
+        <img
+          src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
+          width="500"
+          height="100"
+        />
+      </div>
+    </div>
     <div id="headerBar">
-      <h1 id="pickTutorHeader">GradeSmash Tutors</h1>
       <h2 id="pickTutorSubHeader">Step 2: pick a tutor for your session</h2>
     </div>
 
