@@ -54,7 +54,7 @@ Meeting 6 - Update + team design decisions (2 hours) [page](https://github.com/M
 |Brad McBain             |   15 hours |Frontend + Fix Backend as needed                                     |
 |Sami Hilal              |   18 hours |Frontend + Fix Backend as needed                                     |
 |Sean Smith              |   18 hours |Frontend + Fix Backend as needed                                     |
-|Dominic Wener           |   19 hours |Frontend + Fix Backend as needed                                     |
+|Dominic Wener           |   12 hours |Frontend + Software Architecture Model                               |
 
 Documentation:
 
