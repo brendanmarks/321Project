@@ -3,8 +3,8 @@
 <div >
     
     <div id="headerBar">
-        <h1 id="pickTutorHeader">Tutor Reviews</h1>
-        <h2 id="pickTutorSubHeader">A collection of all reviews of {{tutorName}}</h2>
+        <h1 id="pickTutorHeader">Tutor Reviews:</h1>
+        <h2 id="pickTutorSubHeader">{{tutorName}}</h2>
     </div>
     <span v-if="errorReview" style="color:red">{{ errorReview }}</span>
     <!-- Here is where the tutors will be displayed -->
@@ -106,5 +106,10 @@ img:hover {
 /* Seperating all elements */
 [class*="col-"] {
     padding: 0.5rem;
+}
+
+html
+{
+    background-color: rgb(0, 153, 153); /* The page background will be black */
 }
 </style>
