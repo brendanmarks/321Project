@@ -1,21 +1,21 @@
 import axios from 'axios'
 var config = require('../../../config')
 
-let frontendUrlConfig = function(){
-  if (process.env.NODE_ENV === 'production'){
-      return 'https://' + config.build.host + ':' + config.build.port
-  }
-  else {
-      return 'http://' + config.dev.host + ':' + config.dev.port
-  } 
+let frontendUrlConfig = function () {
+    if (process.env.NODE_ENV === 'production') {
+        return 'https://' + config.build.host + ':' + config.build.port
+    }
+    else {
+        return 'http://' + config.dev.host + ':' + config.dev.port
+    }
 }
-let backendUrlConfig = function(){
-  if (process.env.NODE_ENV === 'production'){
-      return 'https://' + config.build.backendHost + ':' + config.build.backendPort
-  }
-  else {
-      return 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-  } 
+let backendUrlConfig = function () {
+    if (process.env.NODE_ENV === 'production') {
+        return 'https://' + config.build.backendHost + ':' + config.build.backendPort
+    }
+    else {
+        return 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+    }
 }
 var frontendUrl = frontendUrlConfig()
 var backendUrl = backendUrlConfig()
@@ -23,11 +23,11 @@ var backendUrl = backendUrlConfig()
 var AXIOS = axios.create({
     baseURL: backendUrl,
     headers: { 'Access-Control-Allow-Origin': frontendUrl }
-  })
+})
 
 
 //Constructor methods
-function TutorialDto(tutor,course) {
+function TutorialDto(tutor, course) {
     this.tutor = tutor
     this.course = course
 }
@@ -35,10 +35,10 @@ function TutorialDto(tutor,course) {
 
 
 export default {
-    
+
     //1. add data variables to the export declaration of the component
-    name: 'tutorSession' ,
-    data () {
+    name: 'tutorSession',
+    data() {
         return {
             tutorials: [],
             newTutorial: '',
@@ -57,10 +57,10 @@ export default {
     },
 
     //2. add an initialization for the data
-    
+
     created: function () {
-      },
-      methods: {
+    },
+    methods: {
         requestSession(date1, startTime1, endTime1) {
             if (date1 == '') {
                 var errorMsg = "Invalid Date"
@@ -84,7 +84,7 @@ export default {
             this.date = date1
             this.startTime = startTime1
             this.endTime = endTime1
-           
+
             var start = this.startTime
             var end = this.endTime
             var date = this.date
@@ -96,7 +96,7 @@ export default {
             console.log(end)
             console.log(date)
 
-            /*AXIOS.post(`/sessions?sessionId=` + sessionId + '&startTime=' + start + '&endTime=' + end + '&date=' + date + '&tutorialId' + tutorialId + '&studentName' + currentUser  )
+            AXIOS.post(`/sessions/` + sessionId + `?` + 'startTime=' + start + '&endTime=' + end + '&date=' + date + '&tutorialId=' + tutorialId + '&studentName=' + currentUser)
                 .then(response => {
                     // JSON responses are automatically parsed.
                     this.response = response.data
@@ -104,14 +104,14 @@ export default {
                 .catch(e => {
                     var errorMsg = e.message
                     console.log(errorMsg)
-                    this.errorTutorial= errorMsg
+                    this.errorTutorial = errorMsg
                 });
-            }*/
-      },
-      returnHome() {
-            this.$router.push('hello');
-      }
+        }
+    },
+    returnHome() {
+        this.$router.push('hello');
     }
+}
 
     /*
     created: function () {
@@ -164,4 +164,3 @@ export default {
           });
       }
     }*/
-}
