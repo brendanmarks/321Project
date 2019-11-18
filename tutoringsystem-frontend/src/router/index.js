@@ -10,6 +10,8 @@ import PickTutor from '@/components/PickTutor'
 import PickCourse from '@/components/PickCourse'
 import pickTutorByName from '@/components/pickTutorByName'
 import pickCourseByName from '@/components/pickCourseByName'
+import TutorReviews from '@/components/TutorReviews'
+import CreateSession from '@/components/CreateSession'
 
 Vue.use(Router)
 
@@ -63,35 +65,18 @@ export default new Router({
     {
       path: '/PickTutor',
       name: 'PickTutor',
-      component: PickTutor,
-      /*
-      beforeEnter(to, from, next) {
-
-        window.sessionStorage.setItem("username", "a");
-        var currentUser = window.sessionStorage.getItem("username");
-
-        if (currentUser == '' || currentUser == null || currentUser.equals(null)) {
-
-            window.alert("Cannot open this page without being logged in. Please login first before accessing this page.");
-
-            next({
-              name: "Login" // back to login page //
-            });
-            
-        } else {
-
-            console.log("The user currently logged in is :"+currentUser);
-
-            next({
-              //name: "Login" // back to login page //
-            });
-
-        }
-      }
-      */
+      component: PickTutor
+    },
+    {
+      path: '/TutorReviews',
+      name: 'TutorReviews',
+      component: TutorReviews
+    },
+    {
+      path: '/CreateSession',
+      name: 'CreateSession',
+      component: CreateSession
     }
-
-
 
   ]
 })

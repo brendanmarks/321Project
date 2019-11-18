@@ -48,7 +48,10 @@ export default {
         }
     },
 
-    //2. add an initialization for the data
+    //2. add an initialization for the data,
+
+      //Uncomment below for testing on pickTutor page
+
     /*
     created: function () {
         // Test data
@@ -75,109 +78,56 @@ export default {
           // Reset the name field for new people
           this.newPerson = ''
         }
-      }
-    */
-
+      }*/
     
+
+    // Initializing people from backend
     created: function () {
+<<<<<<< HEAD
         // Initializing people from backend
         AXIOS.get(`/tutors/`)
+=======
+        AXIOS.get(`/tutors`)
+>>>>>>> mcbain
         .then(response => {
             // JSON responses are automatically parsed.
             this.tutor = response.data
         })
         .catch(e => {
-            this.errorPerson = e;
+            this.errorTutor = e;
         });
-    },
-
-    //3. add event handling method: createTutor()
-    createTutor: function (tutorUserName) {
-        AXIOS.get(`/tutors/`+tutorUserName, {}, {})
-        .then(response => {
-            // JSON responses are automatically parsed.
-            this.tutor.push(response.data)
-            this.newTutor = ''
-            this.errorTutor = ''
-        })
-        .catch(e => {
-            var errorMsg = e.message
-            console.log(errorMsg)
-            this.errorPerson = errorMsg
-        });
-    }
+    }, 
     
-}
-
-
-
-/*
-//Constructor methods
-function PersonDto (name) {
-    this.name = name
-    this.events = []
-}
-  
-function EventDto (name, date, start, end) {
-    this.name = name
-    this.eventDate = date
-    this.startTime = start
-    this.endTime = end
-}
-
-
-export default {
-    
-    //add data variables to the export declaration of the component
-    name: 'eventregistration',
-    data () {
-      return {
-        people: [],
-        newPerson: '',
-        errorPerson: '',
-        response: []
-      }
-    },
-
-    //add a test initialization for the data
-    created: function () {
-        // Initializing people from backend
-          AXIOS.get(`/persons`)
-          .then(response => {
-            // JSON responses are automatically parsed.
-            this.people = response.data
-          })
-          .catch(e => {
-            this.errorPerson = e;
-          });
-      },
-
-    //add event handling method: createPerson()
+    //3. add event handling methods
     methods: {
-        createPerson: function (personName) {
-          // Create a new person and add it to the list of people
-          var p = new PersonDto(personName)
-          this.people.push(p)
-          // Reset the name field for new people
-          this.newPerson = ''
-        } */
-        /*
-createPerson: function (personName) {
-  AXIOS.post(`/persons/`+personName, {}, {})
-  .then(response => {
-    // JSON responses are automatically parsed.
-    this.people.push(response.data)
-    this.newPerson = ''
-    this.errorPerson = ''
-  })
-  .catch(e => {
-    var errorMsg = e.message
-    console.log(errorMsg)
-    this.errorPerson = errorMsg
-  });
+      
+      //submit tutor to be added to reviews page and session page
+      submitTutor(tutorName){
+        this.$router.push({
+          name: "tutor",
+          params: { tutorName: tutorName }
+        });
+      },
+      
+      //create tutor from url
+      createTutor: function (tutorName) {
+      AXIOS.get(`/tutors/`+tutorName, {}, {})
+      .then(response => {
+          // JSON responses are automatically parsed.
+          this.tutor.push(response.data)
+          this.newTutor = ''
+          this.errorTutor = ''
+      })
+      .catch(e => {
+          var errorMsg = e.message
+          console.log(errorMsg)
+          this.errorPerson = errorMsg
+      });
+      AXIOS.post(`/tutors/`+tutorName, {}, {})
+      .then(response => {
+        this.response = response.data;
+        this.tutor.name = tutorName;
+      })
+    }
+  }
 }
-        
-      }
-}
-
- */

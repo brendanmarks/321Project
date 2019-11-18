@@ -1,4 +1,7 @@
+import Navigation from '../Navigation'
+
 export default {
+    
     name: 'hello',
     data() {
         return {
@@ -15,6 +18,9 @@ export default {
         SessionList() {
             this.$router.push('SessionList')
         }
+    },
+    components: { 
+        'Navigation': Navigation 
     }
 
 }
