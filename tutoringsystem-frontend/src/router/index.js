@@ -8,6 +8,8 @@ import Register from '@/components/Register'
 import ReviewSession from '@/components/ReviewSession'
 import PickTutor from '@/components/PickTutor'
 import PickCourse from '@/components/PickCourse'
+import pickTutorByName from '@/components/pickTutorByName'
+import pickCourseByName from '@/components/pickCourseByName'
 
 Vue.use(Router)
 
@@ -49,6 +51,16 @@ export default new Router({
       component: PickCourse,
     },
     {
+      path: '/pickTutorByName',
+      name: 'pickTutorByName',
+      component: pickTutorByName,
+    },
+    {
+      path: '/pickCourseByName',
+      name: 'pickCourseByName',
+      component: pickCourseByName,
+    },
+    {
       path: '/PickTutor',
       name: 'PickTutor',
       component: PickTutor,
@@ -78,8 +90,8 @@ export default new Router({
       }
       */
     }
-    
 
-    
+
+
   ]
 })

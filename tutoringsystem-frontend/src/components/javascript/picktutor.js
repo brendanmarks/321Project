@@ -81,7 +81,7 @@ export default {
     
     created: function () {
         // Initializing people from backend
-        AXIOS.get(`/tutors`)
+        AXIOS.get(`/tutors/`)
         .then(response => {
             // JSON responses are automatically parsed.
             this.tutor = response.data

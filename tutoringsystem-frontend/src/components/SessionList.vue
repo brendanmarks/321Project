@@ -109,7 +109,6 @@ export default {
       var self = this;
       const url =
         "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
-
       var currentuser = window.sessionStorage.getItem("username");
       console.log(currentuser);
       AXIOS.get("/sessions/student/" + currentuser).then(function(response) {
