@@ -106,10 +106,10 @@ export default {
                     console.log(errorMsg)
                     this.errorTutorial = errorMsg
                 });
+        },
+        returnHome() {
+            this.$router.push('hello');
         }
-    },
-    returnHome() {
-        this.$router.push('hello');
     }
 }
 
