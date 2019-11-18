@@ -58,4 +58,4 @@ Meeting 6 - Update + team design decisions (2 hours) [page](https://github.com/M
 
 Documentation:
 
-  - Architecture Diagram [page]()
+  - Architecture Diagram [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Software-Architecture-Model?fbclid=IwAR3s-1pjgYCiIkyDb-vKVqWTRHZkTzmPdXH0MQ9znP8jec6i2zXMRbyrOXI)
