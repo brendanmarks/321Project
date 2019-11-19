@@ -60,7 +60,7 @@
           <div class="container" align="left">
             <div class="login-grid">
               <input
-                @click="login()"
+                @click="SessionRegister()"
                 type="submit"
                 value="Register for a Tutoring Session"
                 class="btn btn-primary btn-lg btn-block"

@@ -13,7 +13,7 @@ export default {
     },
     methods: {
         SessionRegister() {
-            this.$router.push('SessionList');
+            this.$router.push('pickCourseByName');
         },
         SessionList() {
             this.$router.push('SessionList')

@@ -44,9 +44,9 @@ Documentation:
   
   ***Deliverable 3:***
 
-Meeting 5 - Distribution of components/tasks (2 hours) [page]().
+Meeting 5 - Distribution of components/tasks (2 hours) [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Meeting-2019-11-14-2:00-4:00pm-SPRINT-3).
 
-Meeting 6 - Update + team design decisions (2 hours) [page]().
+Meeting 6 - Update + team design decisions (2 hours) [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Meeting-2019-11-16-5:00-7:00pm-SPRINT-3).
   
 |Name                    |Total hours |Responsibility                                                       |
 |------------------------|------------|---------------------------------------------------------------------|
@@ -54,8 +54,8 @@ Meeting 6 - Update + team design decisions (2 hours) [page]().
 |Brad McBain             |   15 hours |Frontend + Fix Backend as needed                                     |
 |Sami Hilal              |   18 hours |Frontend + Fix Backend as needed                                     |
 |Sean Smith              |   18 hours |Frontend + Fix Backend as needed                                     |
-|Dominic Wener           |   19 hours |Frontend + Fix Backend as needed                                     |
+|Dominic Wener           |   12 hours |Frontend + Software Architecture Model                               |
 
 Documentation:
 
-  - Architecture Diagram [page]()
+  - Architecture Diagram [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Software-Architecture-Model?fbclid=IwAR3s-1pjgYCiIkyDb-vKVqWTRHZkTzmPdXH0MQ9znP8jec6i2zXMRbyrOXI)
