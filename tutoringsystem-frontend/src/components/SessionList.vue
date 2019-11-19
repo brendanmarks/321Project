@@ -18,10 +18,7 @@
           <div class="container" style="align:center">
             <h1 class="page-title">My Sessions</h1>
             <div id="table">
-              <table
-                class="table table-bordered"
-                style="width: 100%; height: 100%;"
-              >
+              <table class="table table-bordered" style="width: 100%; height: 100%;">
                 <tr>
                   <th style="padding:5px">SessionId</th>
                   <th style="padding:5px">StartTime</th>
@@ -81,24 +78,24 @@ import Navigation from "./Navigation";
 
 var config = require("../../config");
 
-let frontendUrlConfig = function () {
-    if (process.env.NODE_ENV === 'production') {
-        return 'https://' + config.build.host + ':' + config.build.port
-    }
-    else {
-        return 'http://' + config.dev.host + ':' + config.dev.port
-    }
-}
-let backendUrlConfig = function () {
-    if (process.env.NODE_ENV === 'production') {
-        return 'https://' + config.build.backendHost + ':' + config.build.backendPort
-    }
-    else {
-        return 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-    }
-}
-var frontendUrl = frontendUrlConfig()
-var backendUrl = backendUrlConfig()
+let frontendUrlConfig = function() {
+  if (process.env.NODE_ENV === "production") {
+    return "https://" + config.build.host + ":" + config.build.port;
+  } else {
+    return "http://" + config.dev.host + ":" + config.dev.port;
+  }
+};
+let backendUrlConfig = function() {
+  if (process.env.NODE_ENV === "production") {
+    return (
+      "https://" + config.build.backendHost + ":" + config.build.backendPort
+    );
+  } else {
+    return "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
+  }
+};
+var frontendUrl = frontendUrlConfig();
+var backendUrl = backendUrlConfig();
 var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { "Access-Control-Allow-Origin": frontendUrl }
@@ -108,7 +105,6 @@ export default {
   name: "course-list-row",
   mounted: function() {
     this.getSessions();
-    //console.log("mounted: got here");
   },
   data: function() {
     return {
@@ -122,13 +118,9 @@ export default {
         name: "ReviewSession",
         params: { sessionId: sessionId }
       });
-      //this.$router.push("ReviewSession", { sessionId: sessionId });
     },
     deleteSession(sessionId) {
       var self = this;
-      const url =
-        "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
-
       var currentuser = window.sessionStorage.getItem("username");
       AXIOS.delete("/sessions/" + sessionId, {}, {}).then(function(response) {
         self.Sessions = response.data;
@@ -137,24 +129,12 @@ export default {
     },
     getSessions: function() {
       var self = this;
-      const url =
-        "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
       var currentuser = window.sessionStorage.getItem("username");
       console.log(currentuser);
       AXIOS.get("/sessions/student/" + currentuser).then(function(response) {
         console.log(JSON.stringify(response.data));
         self.Sessions = response.data;
       });
-      /*
-      AXIOS.get("/sessions/")
-        .then(function(response) {
-          console.log(JSON.stringify(response.data));
-          self.Sessions = response.data;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-        */
     }
   },
   components: {

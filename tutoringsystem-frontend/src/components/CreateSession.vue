@@ -17,24 +17,9 @@
     <div class="half right" data-aos="fade-up">
       <div class="container" align="center">
         <div class="login-grid" style="padding-right:0%">
-          <input
-            class="login-text"
-            type="text"
-            placeholder="Date"
-            v-model="date"
-          />
-          <input
-            class="login-text"
-            type="text"
-            placeholder="Start Time"
-            v-model="startTime"
-          />
-          <input
-            class="login-text"
-            type="text"
-            placeholder="End Time"
-            v-model="endTime"
-          />
+          <input class="login-text" type="text" placeholder="Date" v-model="date" />
+          <input class="login-text" type="text" placeholder="Start Time" v-model="startTime" />
+          <input class="login-text" type="text" placeholder="End Time" v-model="endTime" />
           <input
             @click="requestSession(date, startTime, endTime)"
             type="submit"
@@ -42,9 +27,7 @@
             class="btn btn-primary py-2 px-4 text-white"
           />
           <br />
-          <span v-if="errorLogin" style="color:red"
-            >Error: {{ errorLogin }}</span
-          >
+          <span v-if="errorLogin" style="color:red">Error: {{ errorLogin }}</span>
         </div>
       </div>
     </div>

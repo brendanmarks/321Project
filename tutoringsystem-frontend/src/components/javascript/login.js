@@ -60,7 +60,6 @@ export default {
                     this.response = response.data
                     window.sessionStorage.setItem("username", username)
                     this.errorLogin = ''
-                    // PROBLEMS HERE
                     if (response.data !== 200) {
                         this.errorLogin = response.data
                         console.log(this.response)

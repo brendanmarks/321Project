@@ -1,5 +1,4 @@
 import axios from 'axios'
-//import forge from 'node-forge'
 var config = require('../../../config')
 let frontendUrlConfig = function () {
     if (process.env.NODE_ENV === 'production') {

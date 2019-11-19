@@ -1,7 +1,7 @@
 import Navigation from '../Navigation'
 
 export default {
-    
+
     name: 'hello',
     data() {
         return {
@@ -19,8 +19,8 @@ export default {
             this.$router.push('SessionList')
         }
     },
-    components: { 
-        'Navigation': Navigation 
+    components: {
+        'Navigation': Navigation
     }
 
 }
