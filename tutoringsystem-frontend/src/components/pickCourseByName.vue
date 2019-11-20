@@ -21,15 +21,13 @@
           <!-- Loop through all tutors 
                 
                 
-                CHANGE THIS !!!!
-                
                 
                 (each "person" is a tutor) -->
-          <div class="col-6" v-for="session in Sessions" :key="session.tutorId">
+          <div class="col-6" v-for="course in Courses" :key="course.tutorId">
             <!-- Bootstrap card-->
             <div class="card w-100 mb-4">
               <div class="row no-gutters">
-                <!-- Image will take up 3/12ths of the card -->
+                <!-- Image will take up 3/12ths of the card, can modify to be an iamge of the course-->
                 <div class="col-3">
                   <img
                     src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=802&q=80"
@@ -37,14 +35,14 @@
                   />
                 </div>
 
-                <!--Info takes up 9/12ths of the card -->
+                <!--Info takes up 9/12ths of the card  here you willbe iterating through all course objects and displaying their courseName and courseId in the card-->
                 <div class="col-9">
                   <div class="card-body">
-                    <h5 class="card-title">{{ session.courseName }}</h5>
-                    <p class="card-text">{{ session.courseId }}</p>
+                    <h5 class="card-title">{{ course.courseName }}</h5>
+                    <p class="card-text">{{ course.courseId }}</p>
                     <a
                       class="btn btn-success"
-                      @click="submitCouse(session.courseId)"
+                      @click="submitCouse(course.courseId)"
                       type="submit"
                       value="tutor"
                       href="#"
@@ -67,24 +65,24 @@
 import axios from "axios";
 var config = require("../../config");
 
-let frontendUrlConfig = function () {
-    if (process.env.NODE_ENV === 'production') {
-        return 'https://' + config.build.host + ':' + config.build.port
-    }
-    else {
-        return 'http://' + config.dev.host + ':' + config.dev.port
-    }
-}
-let backendUrlConfig = function () {
-    if (process.env.NODE_ENV === 'production') {
-        return 'https://' + config.build.backendHost + ':' + config.build.backendPort
-    }
-    else {
-        return 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-    }
-}
-var frontendUrl = frontendUrlConfig()
-var backendUrl = backendUrlConfig()
+let frontendUrlConfig = function() {
+  if (process.env.NODE_ENV === "production") {
+    return "https://" + config.build.host + ":" + config.build.port;
+  } else {
+    return "http://" + config.dev.host + ":" + config.dev.port;
+  }
+};
+let backendUrlConfig = function() {
+  if (process.env.NODE_ENV === "production") {
+    return (
+      "https://" + config.build.backendHost + ":" + config.build.backendPort
+    );
+  } else {
+    return "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
+  }
+};
+var frontendUrl = frontendUrlConfig();
+var backendUrl = backendUrlConfig();
 var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { "Access-Control-Allow-Origin": frontendUrl }
@@ -99,7 +97,7 @@ export default {
   data: function() {
     return {
       message: "Session List Row",
-      Sessions: []
+      Courses: []
     };
   },
   methods: {
@@ -117,7 +115,7 @@ export default {
 
       var currentuser = window.sessionStorage.getItem("username");
       AXIOS.delete("/sessions/" + sessionId, {}, {}).then(function(response) {
-        self.Sessions = response.data;
+        self.Courses = response.data;
         this.$router.push("Hello");
       });
     },
@@ -130,7 +128,7 @@ export default {
       console.log(currentuser);
       AXIOS.get("/courses/").then(function(response) {
         console.log(JSON.stringify(response.data));
-        self.Sessions = response.data;
+        self.Courses = response.data;
       });
     }
   }

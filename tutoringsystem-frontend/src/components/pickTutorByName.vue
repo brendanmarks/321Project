@@ -20,11 +20,7 @@
         <div class="row">
           <!-- Loop through all tutors (each "person" is a tutor) -->
           <tr>
-            <div
-              class="col-6"
-              v-for="session in Sessions"
-              :key="session.tutorId"
-            >
+            <div class="col-6" v-for="tutor in Tutors" :key="tutor.tutorId">
               <!-- Bootstrap card-->
               <div class="card w-100 mb-4">
                 <div class="row no-gutters">
@@ -40,8 +36,8 @@
                   <!--Info takes up 9/12ths of the card -->
                   <div class="col-9">
                     <div class="card-body">
-                      <h5 class="card-title">{{ session.name }}</h5>
-                      <p class="card-text">{{ session.username }}</p>
+                      <h5 class="card-title">{{ tutor.name }}</h5>
+                      <p class="card-text">{{ tutor.username }}</p>
                       <a
                         class="btn btn-success"
                         @click="MovetoTutorial()"
@@ -79,24 +75,24 @@
 import axios from "axios";
 var config = require("../../config");
 
-let frontendUrlConfig = function () {
-    if (process.env.NODE_ENV === 'production') {
-        return 'https://' + config.build.host + ':' + config.build.port
-    }
-    else {
-        return 'http://' + config.dev.host + ':' + config.dev.port
-    }
-}
-let backendUrlConfig = function () {
-    if (process.env.NODE_ENV === 'production') {
-        return 'https://' + config.build.backendHost + ':' + config.build.backendPort
-    }
-    else {
-        return 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-    }
-}
-var frontendUrl = frontendUrlConfig()
-var backendUrl = backendUrlConfig()
+let frontendUrlConfig = function() {
+  if (process.env.NODE_ENV === "production") {
+    return "https://" + config.build.host + ":" + config.build.port;
+  } else {
+    return "http://" + config.dev.host + ":" + config.dev.port;
+  }
+};
+let backendUrlConfig = function() {
+  if (process.env.NODE_ENV === "production") {
+    return (
+      "https://" + config.build.backendHost + ":" + config.build.backendPort
+    );
+  } else {
+    return "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
+  }
+};
+var frontendUrl = frontendUrlConfig();
+var backendUrl = backendUrlConfig();
 var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { "Access-Control-Allow-Origin": frontendUrl }
@@ -111,7 +107,7 @@ export default {
   data: function() {
     return {
       message: "Session List Row",
-      Sessions: []
+      Tutors: []
     };
   },
   methods: {
@@ -126,15 +122,12 @@ export default {
     },
 
     getSessions: function() {
+      // get all the tutors for that course
       var self = this;
-      const url =
-        "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
       var sessionId = this.$route.params.sessionId;
-      var currentuser = window.sessionStorage.getItem("username");
-      console.log(currentuser);
       AXIOS.get("/tutors/").then(function(response) {
         console.log(JSON.stringify(response.data));
-        self.Sessions = response.data;
+        self.Tutors = response.data;
       });
     }
   }

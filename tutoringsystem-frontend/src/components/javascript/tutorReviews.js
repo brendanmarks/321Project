@@ -64,18 +64,16 @@ export default {
 
     this.tutorName = this.$route.params.tutorName
     var tutorN = ''
-    tutorN = this.tutorName
+    tutorN = this.tutorName // getting the tutor name (the tutor that was clicked on previous page)
     if (tutorN == '') {
       var errorMsg = "Missing tutor name"
-      //alert("a");
       console.log(errorMsg)
       this.errorReview = errorMsg
       return
     }
 
     // Initializing people from backend
-
-    AXIOS.get(`/reviews?tutorName=` + tutorN)
+    AXIOS.get(`/reviews?tutorName=` + tutorN) // try to get the specific tutors reviews from db
       .then(response => {
         // JSON responses are automatically parsed.
         this.reviews = response.data

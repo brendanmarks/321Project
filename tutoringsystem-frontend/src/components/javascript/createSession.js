@@ -96,9 +96,9 @@ export default {
             console.log(end)
             console.log(date)
 
+            // once all data has been entered by user. Create session and send to DB.
             AXIOS.post(`/sessions/` + sessionId + `?` + 'startTime=' + start + '&endTime=' + end + '&date=' + date + '&tutorialId=' + tutorialId + '&studentName=' + currentUser)
                 .then(response => {
-                    // JSON responses are automatically parsed.
                     this.response = response.data
                 })
                 .catch(e => {
