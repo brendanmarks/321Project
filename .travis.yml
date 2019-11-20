@@ -1,0 +1,27 @@
+language: java
+matrix:
+  include:
+  - language: java
+    script:
+    - gradle build
+    deploy:
+      provider: heroku
+      api_key:
+        secure: l7/a/f6lyUUeL0v4joBCBlLXXLlCePNT16+k79sFW6sQKQWMSCdUW3ZrV12dao3SAzt+DYMNPtJBo4L2q9fEsBrluKhc4aTIcpmtG5Qf58Aku3loZzFlC5Fur3boB8eaEfqCxKr836USrZywcbw/bk0CSvsgvzgRcqbqo7ZwoLVTbwR44pP5mFq1GR4/7vAsoMGYS7YfM1WyKJQ5jUPrbfUTE9MADOZgI0ANDVuk3ZJJtVe1BTfxCosjhyDpDD20GA3On04fUmq+UjK2FnbjWyarv4crNqzztoWj5QlYikgbt6uYVewlLZgFGzq/PnhEQ6Sd2nqV8YnQJBFnA9ZZTJjB/eC30lCjE71qS63oYp9Nv8c03lNb4oYvFRRO+9v0orrkN59B5DKuGSPrdRFqunhvXluGx/2zYgx2BaPJFmvi5JWVTlbMHG4W2AtBXpwsePyMoDgzlLE/SFYu0f0qlkp6rmblA8uQ+7hCOzgsSJ2njoarRq6QFNY4QC+gaAbiOhu1+BbAceF0PZ45Mu33mjFoMl8FVA6mgEcyWVCYzyZn1DLiSTHcEhqpmJIc2moQZ9kjHgp09Lk3l/IfvL5uuEwOAuDABC84jAc1k33fo+G4CN2RKfpbOdk5UjoeNTfmHfWhvzaVaNzQ12+2YzSkEd2jX0BE1Nsr1goYpDFdlmo=
+      app: tutoringsystem-backend
+      on:
+        repo: McGill-ECSE321-Fall2019/project-group-4
+  - language: node_js
+    node_js: stable
+    before_install: cd tutoringsystem-frontend
+    install:
+    - npm install
+    script:
+    - npm run build
+    deploy:
+      provider: heroku
+      api_key:
+        secure: l7/a/f6lyUUeL0v4joBCBlLXXLlCePNT16+k79sFW6sQKQWMSCdUW3ZrV12dao3SAzt+DYMNPtJBo4L2q9fEsBrluKhc4aTIcpmtG5Qf58Aku3loZzFlC5Fur3boB8eaEfqCxKr836USrZywcbw/bk0CSvsgvzgRcqbqo7ZwoLVTbwR44pP5mFq1GR4/7vAsoMGYS7YfM1WyKJQ5jUPrbfUTE9MADOZgI0ANDVuk3ZJJtVe1BTfxCosjhyDpDD20GA3On04fUmq+UjK2FnbjWyarv4crNqzztoWj5QlYikgbt6uYVewlLZgFGzq/PnhEQ6Sd2nqV8YnQJBFnA9ZZTJjB/eC30lCjE71qS63oYp9Nv8c03lNb4oYvFRRO+9v0orrkN59B5DKuGSPrdRFqunhvXluGx/2zYgx2BaPJFmvi5JWVTlbMHG4W2AtBXpwsePyMoDgzlLE/SFYu0f0qlkp6rmblA8uQ+7hCOzgsSJ2njoarRq6QFNY4QC+gaAbiOhu1+BbAceF0PZ45Mu33mjFoMl8FVA6mgEcyWVCYzyZn1DLiSTHcEhqpmJIc2moQZ9kjHgp09Lk3l/IfvL5uuEwOAuDABC84jAc1k33fo+G4CN2RKfpbOdk5UjoeNTfmHfWhvzaVaNzQ12+2YzSkEd2jX0BE1Nsr1goYpDFdlmo=
+      app: tutoringsystem-frontend
+      on:
+        repo: McGill-ECSE321-Fall2019/project-group-4
