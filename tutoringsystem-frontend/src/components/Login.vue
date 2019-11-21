@@ -53,4 +53,38 @@
   </div>
 </template>
 
+<style>
+#top-container {
+  margin-bottom: 0;
+  margin-top: 0;
+  color: #d3d3d3;
+  background-color: #d3d3d3;
+  color: #ffffff;
+}
+#welcome h2 {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 37px;
+}
+#welcome h3 {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  font-size: 30px;
+  font-family: Lucida;
+  font-style: oblique;
+  color: #d3d3d3;
+}
+#navbar {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+  font-size: 20px;
+}
+</style>
+
 <script src="./javascript/login.js"></script>

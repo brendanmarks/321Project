@@ -7,32 +7,32 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Bill{
-   private boolean isPaid;
+	private boolean isPaid;
 
-public void setIsPaid(boolean value) {
-    this.isPaid = value;
-}
-public boolean isIsPaid() {
-    return this.isPaid;
-}
-private int billId;
+	public void setIsPaid(boolean value) {
+		this.isPaid = value;
+	}
+	public boolean isIsPaid() {
+		return this.isPaid;
+	}
+	private int billId;
 
-public void setBillId(int value) {
-    this.billId = value;
+	public void setBillId(int value) {
+		this.billId = value;
+	}
+	@Id
+	public int getBillId() {
+		return this.billId;
+	}
+	private Set<Session> session;
+
+	@OneToMany(mappedBy="bill" )
+	public Set<Session> getSession() {
+		return this.session;
+	}
+
+	public void setSession(Set<Session> sessions) {
+		this.session = sessions;
+	}
+
 }
-@Id
-public int getBillId() {
-    return this.billId;
-}
-   private Set<Session> session;
-   
-   @OneToMany(mappedBy="bill" )
-   public Set<Session> getSession() {
-      return this.session;
-   }
-   
-   public void setSession(Set<Session> sessions) {
-      this.session = sessions;
-   }
-   
-   }

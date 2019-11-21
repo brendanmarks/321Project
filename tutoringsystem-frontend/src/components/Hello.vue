@@ -1,81 +1,77 @@
 <!DOCTYPE html>
 <template>
-  <html lang="en">
-    <div id="navbar">
-      <Navigation></Navigation>
-    </div>
-    <head>
-      <title>Bootstrap Example</title>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link
-        rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
-      />
-    </head>
-    <body>
-      <div class="container-fluid" id="top-container">
-        <div class="container text-center" id="img-container">
-          <img
-            src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
-            width="500"
-            height="100"
-          />
-        </div>
+<html lang="en">
+  <div id="navbar">
+    <Navigation></Navigation>
+  </div>
+  <head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container-fluid" id="top-container">
+      <div class="container text-center" id="img-container">
+        <img
+          src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
+          width="500"
+          height="100"
+        />
       </div>
-      <br />
-      <div class="container-fluid text-center" id="background">
-        <div class="col-sm-0 sidenav"></div>
-        <div class="col-sm-0">
-          <div class="row">
+    </div>
+    <br />
+    <div class="container-fluid text-center" id="background">
+      <div class="col-sm-0 sidenav"></div>
+      <div class="col-sm-0">
+        <div class="row">
+          <br />
+          <div class="container-fluid" id="welcome">
+            <h2></h2>
             <br />
-            <div class="container-fluid" id="welcome">
-              <h2></h2>
-              <br />
-              <h3>Welcome !</h3>
-              <hr />
-            </div>
+            <h3>Welcome !</h3>
+            <hr />
           </div>
+        </div>
 
-          <br />
-          <br />
-          <br />
-          <br />
-          <div>
-            <div class="container" align="left">
-              <div class="login-grid">
-                <input
-                  @click="SessionList()"
-                  type="submit"
-                  value="View Personal Session Schedule"
-                  class="btn btn-primary btn-lg btn-block"
-                />
-                <br />
-                <span v-if="errorLogin" style="color:red"
-                  >Error: {{ errorLogin }}</span
-                >
-              </div>
-            </div>
-          </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div>
           <div class="container" align="left">
             <div class="login-grid">
               <input
-                @click="SessionRegister()"
+                @click="SessionList()"
                 type="submit"
-                value="Register for a Tutoring Session"
+                value="View Personal Session Schedule"
                 class="btn btn-primary btn-lg btn-block"
               />
               <br />
-              <span v-if="errorLogin" style="color:red"
-                >Error: {{ errorLogin }}</span
-              >
+              <span v-if="errorLogin" style="color:red">Error: {{ errorLogin }}</span>
             </div>
           </div>
         </div>
-        <div class="col-sm-2 sidenav"></div>
+        <div class="container" align="left">
+          <div class="login-grid">
+            <input
+              @click="SessionRegister()"
+              type="submit"
+              value="Register for a Tutoring Session"
+              class="btn btn-primary btn-lg btn-block"
+            />
+            <br />
+            <span v-if="errorLogin" style="color:red">Error: {{ errorLogin }}</span>
+          </div>
+        </div>
       </div>
-    </body>
-  </html>
+      <div class="col-sm-2 sidenav"></div>
+    </div>
+  </body>
+</html>
 </template>
 
 <style>

@@ -6,14 +6,14 @@ import Signup from '@/components/Signup'
 import SessionList from '@/components/SessionList'
 import Register from '@/components/Register'
 import ReviewSession from '@/components/ReviewSession'
-import PickTutor from '@/components/PickTutor'
-import PickCourse from '@/components/PickCourse'
 import pickTutorByName from '@/components/pickTutorByName'
 import pickCourseByName from '@/components/pickCourseByName'
 import TutorReviews from '@/components/TutorReviews'
 import CreateSession from '@/components/CreateSession'
 
 Vue.use(Router)
+
+//All Navigation URL's used in application
 
 export default new Router({
   routes: [
@@ -47,11 +47,7 @@ export default new Router({
       name: 'ReviewSession',
       component: ReviewSession
     },
-    {
-      path: '/PickCourse',
-      name: 'PickCourse',
-      component: PickCourse,
-    },
+
     {
       path: '/pickTutorByName',
       name: 'pickTutorByName',
@@ -62,11 +58,7 @@ export default new Router({
       name: 'pickCourseByName',
       component: pickCourseByName,
     },
-    {
-      path: '/PickTutor',
-      name: 'PickTutor',
-      component: PickTutor
-    },
+
     {
       path: '/TutorReviews',
       name: 'TutorReviews',

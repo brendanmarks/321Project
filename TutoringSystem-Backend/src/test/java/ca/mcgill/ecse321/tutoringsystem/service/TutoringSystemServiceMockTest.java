@@ -48,7 +48,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TutoringSystemServiceMockTest {
-	
+
 	@Mock
 	private StudentRepository studentDao;
 	@Mock
@@ -63,10 +63,10 @@ public class TutoringSystemServiceMockTest {
 	private TutorialRepository tutorialDao;
 	@Mock
 	private SessionRepository sessionDao;
-		
+
 	@InjectMocks
 	private TutoringSystemService service;
-		
+
 	//Student
 	private static final String STUDENT_KEY_1 = "Brad";
 	private static final String STUDENT_KEY_2 = "Sami";
@@ -74,7 +74,7 @@ public class TutoringSystemServiceMockTest {
 	private static final String STUDENT_EMAIL = "brad@gmail.com";
 	private static final String STUDENT_USERNAME = "brad1";
 	private static final String STUDENT_PASSWORD = "bradpassword";
-	
+
 	//Tutor
 	private static final String TUTOR_KEY_1 = "Brendan";
 	private static final String TUTOR_KEY_2 = "Sean";
@@ -83,37 +83,39 @@ public class TutoringSystemServiceMockTest {
 	private static final String TUTOR_USERNAME = "brendan1";
 	private static final String TUTOR_PASSWORD = "brendanpassword";
 	private static final Double TUTOR_HOURLY_RATE = 20.0;
-	
+
 	//Review 
 	private static final String REVIEW_KEY_1 = "1234";
 	private static final String REVIEW_KEY_2 = "5678";
 	private static final String NONEXISTING_REVIEW_KEY = "NotaReview";
 	private static final String REVIEW_COMMENT = "Great Experience";
 	private static final Integer REVIEW_RATING = 5;
-	
+
 	//Course
 	private static final String COURSE_KEY_1 = "0001";
 	private static final String COURSE_KEY_2 = "0002";
 	private static final String NONEXISTING_COURSE_KEY = "NotaCourse";
 	private static final String COURSE_NAME = "MATH240";
-	
+
 	//Bill
 	private static final int BILL_KEY_1 = 1111;
 	private static final Integer BILL_KEY_2 = 2222;
 	private static final Integer NONEXISTING_BILL_KEY = 5555;
 	private static final Boolean BILL_ISPAID = true;
-	
+
 	//Tutorial
 	private static final String TUTORIAL_KEY_1 = "11111";
 	private static final String TUTORIAL_KEY_2 = "22222";
 	private static final String NONEXISTING_TUTORIAL_KEY = "55555";
-	
+
 	//Session
 	private static final String SESSION_KEY_1 = "11";
 	private static final String SESSION_KEY_2 = "22";
 	private static final String NONEXISTING_SESSION_KEY = "55";
-	
-	
+
+	/**
+	 * Sets mock output before running tests
+	 */
 	@Before
 	public void setMockOutput() {
 		when(studentDao.findStudentByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
@@ -128,18 +130,18 @@ public class TutoringSystemServiceMockTest {
 				return null;
 			}
 		});
-		
+
 		when(studentDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-				List<Student> students = new ArrayList<Student>();
-				Student student1 = new Student();
-				Student student2 = new Student();
-				student1.setName(STUDENT_KEY_1);
-				student2.setName(STUDENT_KEY_2);
-				students.add(student1);
-				students.add(student2);
-				return students;
+			List<Student> students = new ArrayList<Student>();
+			Student student1 = new Student();
+			Student student2 = new Student();
+			student1.setName(STUDENT_KEY_1);
+			student2.setName(STUDENT_KEY_2);
+			students.add(student1);
+			students.add(student2);
+			return students;
 		});
-		
+
 		when(tutorDao.findTutorByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
 			if(invocation.getArgument(0).equals(TUTOR_KEY_1)) {
 				Tutor tutor = new Tutor();
@@ -153,18 +155,18 @@ public class TutoringSystemServiceMockTest {
 				return null;
 			}
 		});
-		
+
 		when(tutorDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-				List<Tutor> tutors = new ArrayList<Tutor>();
-				Tutor tutor1 = new Tutor();
-				Tutor tutor2 = new Tutor();
-				tutor1.setName(TUTOR_KEY_1);
-				tutor2.setName(TUTOR_KEY_2);
-				tutors.add(tutor1);
-				tutors.add(tutor2);
-				return tutors;
+			List<Tutor> tutors = new ArrayList<Tutor>();
+			Tutor tutor1 = new Tutor();
+			Tutor tutor2 = new Tutor();
+			tutor1.setName(TUTOR_KEY_1);
+			tutor2.setName(TUTOR_KEY_2);
+			tutors.add(tutor1);
+			tutors.add(tutor2);
+			return tutors;
 		});
-		
+
 		when(reviewDao.findReviewByReviewId(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
 			if(invocation.getArgument(0).equals(REVIEW_KEY_1)) {
 				Review review = new Review();
@@ -176,18 +178,18 @@ public class TutoringSystemServiceMockTest {
 				return null;
 			}
 		});
-		
+
 		when(reviewDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-				List<Review> reviews = new ArrayList<Review>();
-				Review review1 = new Review();
-				Review review2 = new Review();
-				review1.setReviewId(REVIEW_KEY_1);
-				review2.setReviewId(REVIEW_KEY_2);
-				reviews.add(review1);
-				reviews.add(review2);
-				return reviews;
+			List<Review> reviews = new ArrayList<Review>();
+			Review review1 = new Review();
+			Review review2 = new Review();
+			review1.setReviewId(REVIEW_KEY_1);
+			review2.setReviewId(REVIEW_KEY_2);
+			reviews.add(review1);
+			reviews.add(review2);
+			return reviews;
 		});
-		
+
 		when(courseDao.findCourseByCourseId(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
 			if(invocation.getArgument(0).equals(COURSE_KEY_1)) {
 				Course course = new Course();
@@ -198,18 +200,18 @@ public class TutoringSystemServiceMockTest {
 				return null;
 			}
 		});
-		
+
 		when(courseDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-				List<Course> courses = new ArrayList<Course>();
-				Course course1 = new Course();
-				Course course2 = new Course();
-				course1.setCourseId(COURSE_KEY_1);
-				course2.setCourseId(COURSE_KEY_2);
-				courses.add(course1);
-				courses.add(course2);
-				return courses;
+			List<Course> courses = new ArrayList<Course>();
+			Course course1 = new Course();
+			Course course2 = new Course();
+			course1.setCourseId(COURSE_KEY_1);
+			course2.setCourseId(COURSE_KEY_2);
+			courses.add(course1);
+			courses.add(course2);
+			return courses;
 		});
-		
+
 		when(billDao.findBillByBillId(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
 			if(invocation.getArgument(0).equals(BILL_KEY_1)) {
 				Bill bill = new Bill();
@@ -220,18 +222,18 @@ public class TutoringSystemServiceMockTest {
 				return null;
 			}
 		});
-		
+
 		when(billDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-				List<Bill> bills = new ArrayList<Bill>();
-				Bill bill1 = new Bill();
-				Bill bill2 = new Bill();
-				bill1.setBillId(BILL_KEY_1);
-				bill2.setBillId(BILL_KEY_2);
-				bills.add(bill1);
-				bills.add(bill2);
-				return bills;
+			List<Bill> bills = new ArrayList<Bill>();
+			Bill bill1 = new Bill();
+			Bill bill2 = new Bill();
+			bill1.setBillId(BILL_KEY_1);
+			bill2.setBillId(BILL_KEY_2);
+			bills.add(bill1);
+			bills.add(bill2);
+			return bills;
 		});
-		
+
 		when(tutorialDao.findTutorialById(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
 			if(invocation.getArgument(0).equals(TUTORIAL_KEY_1)) {
 				Tutorial tutorial = new Tutorial();
@@ -243,7 +245,7 @@ public class TutoringSystemServiceMockTest {
 				return null;
 			}
 		});
-		
+
 		when(tutorialDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
 			List<Tutorial> tutorials = new ArrayList<Tutorial>();
 			Tutorial tutorial1 = new Tutorial();
@@ -254,7 +256,7 @@ public class TutoringSystemServiceMockTest {
 			tutorials.add(tutorial2);
 			return tutorials;
 		});
-		
+
 		when(sessionDao.findSessionBySessionId(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
 			if(invocation.getArgument(0).equals(SESSION_KEY_1)) {
 				Session session = new Session();
@@ -268,7 +270,7 @@ public class TutoringSystemServiceMockTest {
 				return null;
 			}
 		});
-		
+
 		when(sessionDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
 			List<Session> sessions = new ArrayList<Session>();
 			Session session1 = new Session();
@@ -280,9 +282,12 @@ public class TutoringSystemServiceMockTest {
 			return sessions;
 		});
 	}
-	
-	
+
+
 	/**====================== Student Tests  ===========================*/
+	/**
+	 * Test creating a student and has right attributes
+	 */
 	@Test
 	public void testCreateStudent() {
 		String name = "John";
@@ -290,7 +295,7 @@ public class TutoringSystemServiceMockTest {
 		String username = "john1";
 		String password = "johnpassword";
 		Student student = new Student();
-		
+
 		try {
 			student = service.createStudent(name, email, username, password);
 		} catch (IllegalArgumentException e) {
@@ -299,9 +304,12 @@ public class TutoringSystemServiceMockTest {
 		}
 
 		assertEquals(name, student.getName());
-		
-	}
 
+	}
+	
+	/**
+	 * Test creating a student with null values
+	 */
 	@Test
 	public void testCreateStudentNull() {
 		String name = null;
@@ -322,28 +330,39 @@ public class TutoringSystemServiceMockTest {
 				+ "Student username cannot be empty when creating a new Student."
 				+ "Student password cannot be empty when creating a new Student.", error);
 	}
-	
-		
+
+	/**
+	 * Test getting a student by name
+	 */
 	@Test
 	public void testGetStudentByNameExistingName() {
 		Student student = service.getStudent(STUDENT_KEY_1);
 		assertEquals(STUDENT_KEY_1, student.getName());
 	}
 	
+	/**
+	 * Tests getting a non existent student
+	 */
 	@Test
 	public void testGetStudentByNameNonExistingName() {
 		Student student = service.getStudent(NONEXISTING_STUDENT_KEY);
 		assertNull(student);
 	}
 	
+	/**
+	 * Test getting all students
+	 */
 	@Test
 	public void testGetAllStudents() {
 		List<Student> students = service.getAllStudents();
 		assertEquals(2, students.size());
 	}
-	
-	
+
+
 	/**====================== Tutor Tests  ===========================*/
+	/**
+	 * Test creating a tutor
+	 */
 	@Test
 	public void testCreateTutor() {
 		String name = "John";
@@ -352,7 +371,7 @@ public class TutoringSystemServiceMockTest {
 		String password = "johnpassword";
 		Double hourlyRate = 25.00;
 		Tutor tutor = new Tutor();
-		
+
 		try {
 			tutor = service.createTutor(name, email, username, password, hourlyRate);
 		} catch (IllegalArgumentException e) {
@@ -361,9 +380,12 @@ public class TutoringSystemServiceMockTest {
 		}
 
 		assertEquals(name, tutor.getName());
-		
-	}
 
+	}
+	
+	/**
+	 * Test creating a tutor with null attributes
+	 */
 	@Test
 	public void testCreateTutorNull() {
 		String name = null;
@@ -386,34 +408,42 @@ public class TutoringSystemServiceMockTest {
 				+ "Tutor password cannot be empty when creating a new Tutor.", error);
 	}
 	
+	/**
+	 * Test getting a tutor by name
+	 */
 	@Test
 	public void testGetTutorByNameExistingName() {
 		Tutor tutor = service.getTutor(TUTOR_KEY_1);
 		assertEquals(TUTOR_KEY_1, tutor.getName());
 	}
 	
+	/**
+	 * Test getting a tutor with non existing name
+	 */
 	@Test
 	public void testGetTutorByNameNonExistingName() {
 		Tutor tutor = service.getTutor(NONEXISTING_TUTOR_KEY);
 		assertNull(tutor);
 	}
-	
+
 	@Test
 	public void testGetAllTutors() {
 		List<Tutor> tutors = service.getAllTutors();
 		assertEquals(2, tutors.size());
 	}
-	
-	/**====================== Review Tests  ===========================*/
 
+	/**====================== Review Tests  ===========================*/
+	/**
+	 * Test creating a review
+	 */
 	@Test
 	public void testCreateReview() {
-		
+
 		String reviewId = "r1";
 		String comment = "It was a great experience.";
 		int rating = 5;
 		Review review = new Review();
-		
+
 		try {
 			review = service.createReview(reviewId, comment, rating);
 		} catch (IllegalArgumentException e) {
@@ -422,9 +452,12 @@ public class TutoringSystemServiceMockTest {
 		}
 
 		assertEquals(rating, review.getRating());
-		
+
 	}
 	
+	/**
+	 * Test creating a review with null attributes
+	 */
 	@Test
 	public void testCreateReviewNull() {
 		String reviewId = null;
@@ -432,7 +465,7 @@ public class TutoringSystemServiceMockTest {
 		int rating = -5;
 		String error = null;
 		Review review = new Review();
-		
+
 		try {
 			review = service.createReview(reviewId, comment, rating);
 		} catch (IllegalArgumentException e) {
@@ -440,49 +473,64 @@ public class TutoringSystemServiceMockTest {
 			error = e.getMessage();
 		}
 
-		
+
 		// check error
 		assertEquals("Review ReviewId cannot be empty when creating a new Review."
 				+ "Review comment cannot be empty when creating a new Review."
 				+ "Review rating must be from 0 to 10.", error);
 	}
 	
+	/**
+	 * Test getting a review by id 
+	 */
 	@Test
 	public void testGetReviewByReviewIdExistingReviewId() {
 		Review review = service.getReview(REVIEW_KEY_1);
 		assertEquals(REVIEW_KEY_1, review.getReviewId());
 	}
 	
+	/**
+	 * Test getting review w/ non existing id
+	 */
 	@Test
 	public void testGetReviewByReviewIdNonExistingReviewId() {
 		Review review = service.getReview(NONEXISTING_REVIEW_KEY);
 		assertNull(review);
 	}
 	
+	/**
+	 * Test getting all reviews
+	 */
 	@Test
 	public void testGetAllReviews() {
 		List<Review> reviews = service.getAllReviews();
 		assertEquals(2, reviews.size());
 	}
-	
+
 	/**====================== Course Tests  ===========================*/
+	/**
+	 * Test creating a course
+	 */
 	@Test
 	public void testCreateCourse() {
 		String courseId = "0010";
 		String courseName = "ECSE321";
 		Course course = new Course();
-		
+
 		try {
 			course = service.createCourse(courseId, courseName);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
 		}
-		
+
 		assertEquals(courseId, course.getCourseId());
-		
+
 	}
 	
+	/**
+	 * Test creating a course with null attributes
+	 */
 	@Test
 	public void testCreateCourseNull() {
 		String courseId = null;
@@ -490,7 +538,7 @@ public class TutoringSystemServiceMockTest {
 		Course course = new Course();
 		String error = null;
 
-		
+
 		try {
 			course = service.createCourse(courseId, courseName);
 		} catch (IllegalArgumentException e) {
@@ -498,24 +546,33 @@ public class TutoringSystemServiceMockTest {
 			error = e.getMessage();
 		}
 
-		
+
 		// check error
 		assertEquals("Course courseId cannot be empty when creating a new Course."
 				+ "Course name cannot be empty when creating a new Course.", error);
 	}
 	
+	/**
+	 * Test get course by id (existing)
+	 */
 	@Test
 	public void testGetCourseByCourseIdExistingCourseId() {
 		Course course = service.getCourse(COURSE_KEY_1);
 		assertEquals(COURSE_KEY_1, course.getCourseId());
 	}
 	
+	/**
+	 * Test get course by id (non-existing)
+	 */
 	@Test
 	public void testGetCourseByCourseIdNonExistingCourseId() {
 		Course course = service.getCourse(NONEXISTING_COURSE_KEY);
 		assertNull(course);
 	}
 	
+	/**
+	 * Test get all courses
+	 */
 	@Test
 	public void testGetAllCourses() {
 		List<Course> courses = service.getAllCourses();
@@ -523,58 +580,72 @@ public class TutoringSystemServiceMockTest {
 	}
 
 	/**====================== Bill Tests  ===========================*/
+	/**
+	 * Test create bill
+	 */
 	@Test
 	public void testCreateBill() {
-		
+
 		boolean isPaid = false;
 		int billId = 9999;
 		Bill bill = new Bill();
-		
+
 		try {
 			bill = service.createBill(isPaid, billId);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
 		}
-		
+
 		assertEquals(billId, bill.getBillId());
-		
+
 	}
-	
-	
+
+	/**
+	 * Test get bill by id (existing
+	 */
 	@Test
 	public void testGetBillByBillIdExistingBillId() {
 		Bill bill = service.getBill(BILL_KEY_1);
 		assertEquals(BILL_KEY_1, bill.getBillId());
 	}
-	
+
+	/**
+	 * Test get bill by id (non-existing)
+	 */
 	@Test
 	public void testGetBillByBillIdNonExistingBillId() {
 		Bill bill = service.getBill(NONEXISTING_BILL_KEY);
 		assertNull(bill);
 	}
 	
+	/**
+	 * Test get all bills
+	 */
 	@Test
 	public void testGetAllBills() {
 		List<Bill> bills = service.getAllBills();
 		assertEquals(2, bills.size());
 	}
-	/**====================== Bill Tests  ===========================*/
+	/**====================== Tutorial Tests  ===========================*/
+	/**
+	 * Test create tutorial
+	 */
 	@Test
 	public void testCreateTutorial() {
-		
+
 		String tutorialId = "t1";
-		
+
 		Course course = new Course();
 		String courseId = "ECSE321";
 		String courseName = "Intro to Software Engineering";
 		String tutorName = "Tutor1";
 		course.setCourseId(courseId);
 		course.setCourseName(courseName);
-		
+
 		Tutorial tutorial = new Tutorial();
 		Tutor tutor = new Tutor();
-		
+
 		try {
 			tutorial = service.createTutorial(tutorialId, course, tutor);
 		} catch (IllegalArgumentException e) {
@@ -582,18 +653,22 @@ public class TutoringSystemServiceMockTest {
 			fail();
 		}
 		assertEquals(tutorialId, tutorial.getId());
-		
+
 	}
+	
+	/**
+	 * Test create tutorial w/ null attribute values
+	 */
 	@Test
 	public void testCreateTutorialNull() {
 		String tutorialId = null;
 		Course course = null;	
 		Tutorial tutorial = new Tutorial();
 		Tutor tutor = new Tutor();
-		
+
 		String error = null;
 
-		
+
 		try {
 			tutorial = service.createTutorial(tutorialId, course, tutor);
 		} catch (IllegalArgumentException e) {
@@ -601,30 +676,43 @@ public class TutoringSystemServiceMockTest {
 			error = e.getMessage();
 		}
 
-		
+
 		// check error
 		assertEquals("Tutorial Id cannot be empty when creating a new Tutorial."
 				+ "Tutorial's course cannot be empty when creating a new Tutorial.", error);
 	}
+	
+	/**
+	 * Test getting tutorial by id (existing)
+	 */
 	@Test
 	public void testGetTutorialByIdExistingId() {
 		Tutorial tutorial = service.getTutorial(TUTORIAL_KEY_1);
 		assertEquals(TUTORIAL_KEY_1, tutorial.getId());
 	}
 	
+	/**
+	 * Test get tutorial by id (non-existing)
+	 */
 	@Test
 	public void testGetTutorialByIdNonExistingId() {
 		Tutorial tutorial = service.getTutorial(NONEXISTING_TUTORIAL_KEY);
 		assertNull(tutorial);
 	}
 	
+	/**
+	 * Test get all tutorials
+	 */
 	@Test
 	public void testGetAllTutorials() {
 		List<Tutorial> tutorials = service.getAllTutorials();
 		assertEquals(2, tutorials.size());
 	}
-	
+
 	/**====================== Session Tests  ===========================*/
+	/**
+	 * Test creating a session
+	 */
 	@Test
 	public void testCreateSession() {
 		Session session = new Session();
@@ -642,9 +730,12 @@ public class TutoringSystemServiceMockTest {
 			fail();
 		}
 		assertEquals(sessionId, session.getSessionId());
-		
+
 	}
 	
+	/**
+	 * Test creating a session with null attributes
+	 */
 	@Test
 	public void testCreateSessionNull() {
 		Session session = new Session();
@@ -669,26 +760,34 @@ public class TutoringSystemServiceMockTest {
 				+ "Session's endTime cannot be empty when creating a new Session."
 				+ "Session's date cannot be empty when creating a new Session."
 				+ "Session's student cannot be empty when creating a new Session.", error);
-		
+
 	}
-	
-	
+
+	/**
+	 * Test getting a session by id (existing)
+	 */
 	@Test
 	public void testGetSessionBySessionIdExistingSessionId() {
 		Session session = service.getSession(SESSION_KEY_1);
 		assertEquals(SESSION_KEY_1, session.getSessionId());
 	}
 	
+	/**
+	 * Test getting a session by id (non-existing)
+	 */
 	@Test
 	public void testGetSessionBySessionIdNonExistingSessionId() {
 		Session session = service.getSession(NONEXISTING_SESSION_KEY);
 		assertNull(session);
 	}
 	
+	/**
+	 * Test get all sessions
+	 */
 	@Test
 	public void testGetAllSessions() {
 		List<Session> sessions = service.getAllSessions();
 		assertEquals(2, sessions.size());
 	}
-	
+
 }

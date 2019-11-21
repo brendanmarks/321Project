@@ -1,5 +1,4 @@
 import axios from 'axios'
-//import forge from 'node-forge'
 var config = require('../../../config')
 let frontendUrlConfig = function () {
     if (process.env.NODE_ENV === 'production') {
@@ -45,32 +44,33 @@ export default {
         login() {
             this.$router.push('Login');
         },
-        signup(name, username, userId, email, password) {
-            if (name == '') {
+        signup(name, username, userId, email, password) { // get all fields from the v-model tags
+            if (name == '') { // throw error empty name
                 var errorMsg = "Invalid name"
                 console.log(errorMsg)
                 this.errorSignup = errorMsg
                 return
             }
-            if (username == '') {
+            if (username == '') { // throw error empty username
                 var errorMsg = "Invalid username "
                 console.log(errorMsg)
                 this.errorSignup = errorMsg
                 return
             }
-            if (email == '') {
+            if (email == '') { // throw error empty email
                 var errorMsg = "Invalid email "
                 console.log(errorMsg)
                 this.errorSignup = errorMsg
                 return
             }
-            if (password == '') {
+            if (password == '') { // throw error empty password
                 var errorMsg = "Invalid password "
                 console.log(errorMsg)
                 this.errorSignup = errorMsg
                 return
             }
 
+            // if passes all the tests add student to the database 
             AXIOS.post(`/students/` + name + '?' + "email=" + email + "&username=" + username + "&password=" + password, {}, {})
                 .then(response => {
                     // JSON responses are automatically parsed.
