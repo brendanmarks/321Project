@@ -22,7 +22,7 @@
                 
                 
                 
-                (each "person" is a tutor) -->
+          (each "person" is a tutor)-->
           <div class="col-6" v-for="course in Courses" :key="course.tutorId">
             <!-- Bootstrap card-->
             <div class="card w-100 mb-4">
@@ -47,9 +47,7 @@
                       value="tutor"
                       href="#"
                       role="button"
-                    >
-                      Select Course
-                    </a>
+                    >Select Course</a>
                   </div>
                 </div>
               </div>
@@ -101,22 +99,10 @@ export default {
     };
   },
   methods: {
-    submitCouse(sessionId) {
+    submitCouse(courseId) {
       this.$router.push({
         name: "pickTutorByName",
-        params: { sessionId: sessionId }
-      });
-      //this.$router.push("ReviewSession", { sessionId: sessionId });
-    },
-    deleteSession(sessionId) {
-      var self = this;
-      const url =
-        "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
-
-      var currentuser = window.sessionStorage.getItem("username");
-      AXIOS.delete("/sessions/" + sessionId, {}, {}).then(function(response) {
-        self.Courses = response.data;
-        this.$router.push("Hello");
+        params: { courseId: courseId }
       });
     },
     getSessions: function() {
