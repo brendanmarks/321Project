@@ -51,7 +51,14 @@ public class TutoringSystemService {
 	@Autowired
 	TutorialRepository tutorialRepository;
 	
-	//Services to create, get and get all students
+	/**
+	 * Create student method
+	 * @param name
+	 * @param email
+	 * @param username
+	 * @param password
+	 * @return student
+	 */
 	@Transactional
 	public Student createStudent(String name, String email, String username, String password) {
 		
@@ -86,6 +93,11 @@ public class TutoringSystemService {
 		return student;
 	}
 	
+	/**
+	 * Get student method
+	 * @param name
+	 * @return student
+	 */
 	@Transactional
 	public Student getStudent(String name) {
 		
@@ -96,13 +108,25 @@ public class TutoringSystemService {
 		return student;
 	}
 	
+	/**
+	 * Get all students 
+	 * @return list of students
+	 */
 	@Transactional
 	public List<Student> getAllStudents() {
 		return toList(studentRepository.findAll());
 	}
 	
 	
-	//Services to create, get and get all tutors
+	/**
+	 * Create tutor 
+	 * @param name
+	 * @param email
+	 * @param username
+	 * @param password
+	 * @param hourlyRate
+	 * @return tutor
+	 */
 	@Transactional
 	public Tutor createTutor(String name, String email, String username, String password, double hourlyRate) {
 		// Input validation
@@ -140,19 +164,31 @@ public class TutoringSystemService {
 		return tutor;
 	}
 	
+	/**
+	 * Get tutor
+	 * @param name
+	 * @return tutor
+	 */
 	@Transactional
 	public Tutor getTutor(String name) {
 		Tutor tutor = tutorRepository.findTutorByName(name);
 		return tutor;
 	}
 	
+	/**
+	 * Get all tutors
+	 * @return list of tutors
+	 */
 	@Transactional
 	public List<Tutor> getAllTutors() {
 		return toList(tutorRepository.findAll());
 	}
 	
-	
-	////////////////////////////////////Added this to update the persistence, is it needed???? -Dom
+	/**
+	 * Updates tutor in persistence
+	 * @param tutor
+	 * @return tutor
+	 */
 	@Transactional
 	public Tutor updateTutor(Tutor tutor)	{
 		//Very general method that is called to save new info into the persistence 
@@ -161,7 +197,13 @@ public class TutoringSystemService {
 	}
 	
 	
-	//Services to create, get and get all reviews
+	/**
+	 * Create review
+	 * @param reviewId
+	 * @param comment
+	 * @param rating
+	 * @return review
+	 */
 	@Transactional
 	public Review createReview(String reviewId, String comment, int rating) {
 		// Input validation
@@ -192,18 +234,32 @@ public class TutoringSystemService {
 		return review;
 	}
 	
+	/**
+	 * Get review
+	 * @param reviewId
+	 * @return review
+	 */
 	@Transactional
 	public Review getReview(String reviewId) {
 		Review review = reviewRepository.findReviewByReviewId(reviewId);
 		return review;
 	}
 	
+	/**
+	 * Get all reviews
+	 * @return list of reviews
+	 */
 	@Transactional
 	public List<Review> getAllReviews() {
 		return toList(reviewRepository.findAll());
 	}
 	
-	//Services to create, get and get all courses
+	/**
+	 * Create course
+	 * @param courseId
+	 * @param courseName
+	 * @return course 
+	 */
 	@Transactional
 	public Course createCourse(String courseId, String courseName) {
 		// Input validation
@@ -230,18 +286,32 @@ public class TutoringSystemService {
 		return course;
 	}
 	
+	/**
+	 * Get course
+	 * @param courseId
+	 * @return course
+	 */
 	@Transactional
 	public Course getCourse(String courseId) {
 		Course course = courseRepository.findCourseByCourseId(courseId);
 		return course;
 	}
 	
+	/**
+	 * Get all courses
+	 * @return list of courses
+	 */
 	@Transactional
 	public List<Course> getAllCourses() {
 		return toList(courseRepository.findAll());
 	}
 	
-	//Services to create, get and get all bills
+	/**
+	 * Create bill 
+	 * @param isPaid
+	 * @param billId
+	 * @return bill
+	 */
 	@Transactional
 	public Bill createBill(boolean isPaid, int billId) {
 		
@@ -255,18 +325,37 @@ public class TutoringSystemService {
 		return bill;
 	}
 	
+	/**
+	 * Get bill
+	 * @param billId
+	 * @return bill
+	 */
 	@Transactional
 	public Bill getBill(int billId) {
 		Bill bill = billRepository.findBillByBillId(billId);
 		return bill;
 	}
 	
+	/**
+	 * Get all bills
+	 * @return list of bills
+	 */
 	@Transactional
 	public List<Bill> getAllBills() {
 		return toList(billRepository.findAll());
 	}
 	
-	//Services to create, get and get all sessions
+	/**
+	 * Create session
+	 * @param sessionId
+	 * @param startTime
+	 * @param endTime
+	 * @param date
+	 * @param bill
+	 * @param tutorial
+	 * @param student
+	 * @return session
+	 */
 	@Transactional
 	public Session createSession(String sessionId, Time startTime, Time endTime, Date date, Bill bill, Tutorial tutorial, Student student) {
 		// Input validation
@@ -317,14 +406,38 @@ public class TutoringSystemService {
 		return session;	
 	}
 	
+	/**
+	 * Get session
+	 * @param sessionId
+	 * @return session
+	 */
 	@Transactional
 	public Session getSession(String sessionId) {
 		Session session = sessionRepository.findSessionBySessionId(sessionId);
 		return session;
 	}
 	
+	/**
+	 * Delete session
+	 * @param id
+	 * @return status code (200 success, 500 error)
+	 */
+	@Transactional
+	public int deleteSession(String id) {
+		Optional<Session> session = sessionRepository.findById(id);
+		if (session.isPresent()) {
+			sessionRepository.deleteById(id);
+			return 200;
+		}
+		return 500;
+	}
 	
-	////////////////////////////////////Added this to update the persistence, is it correct???? -Dom
+	
+	/**
+	 * Update session in persistence
+	 * @param session
+	 * @return session
+	 */
 	@Transactional
 	public Session updateSession(Session session)	{
 		//Very general method that is called to save new info into the persistence 
@@ -332,14 +445,22 @@ public class TutoringSystemService {
 		return session;
 	}
 	
-	
-	
+	/**
+	 * Get all sessions
+	 * @return list of sessions
+	 */
 	@Transactional
 	public List<Session> getAllSessions() {
 		return toList(sessionRepository.findAll());
 	}
 	
-	//Services to create, get and get all sessions
+	/**
+	 * Create tutorial
+	 * @param id
+	 * @param course
+	 * @param tutor
+	 * @return tutorial
+	 */
 	@Transactional
 	public Tutorial createTutorial(String id, Course course, Tutor tutor) {
 		// Input validation
@@ -372,27 +493,31 @@ public class TutoringSystemService {
 		return tutorial;
 	}
 	
+	/**
+	 * Get tutorial
+	 * @param id
+	 * @return tutorial
+	 */
 	@Transactional
 	public Tutorial getTutorial(String id) {
 		Tutorial tutorial = tutorialRepository.findTutorialById(id);
 		return tutorial;
 	}
 	
-	@Transactional
-	public int deleteSession(String id) {
-		Optional<Session> session = sessionRepository.findById(id);
-		if (session.isPresent()) {
-			sessionRepository.deleteById(id);
-			return 200;
-		}
-		return 500;
-	}
-	
+	/**
+	 * Get all tutorials
+	 * @return list of all tutorials
+	 */
 	@Transactional
 	public List<Tutorial> getAllTutorials() {
 		return toList(tutorialRepository.findAll());
 	}
 	
+	/**
+	 * Add tutor to tutorial
+	 * @param tutor
+	 * @param tutorialId
+	 */
 	@Transactional
 	public void addTutorToTutorial(Tutor tutor, String tutorialId)	{
 		
@@ -404,6 +529,12 @@ public class TutoringSystemService {
 		tutorial.setTutor(tutors);
 	}
 	
+	/**
+	 * Convert to list
+	 * @param <T>
+	 * @param iterable
+	 * @return list
+	 */
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {

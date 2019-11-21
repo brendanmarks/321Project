@@ -32,66 +32,71 @@ import ca.mcgill.ecse321.tutoringsystem.model.Tutorial;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestTutoringSystemService {
-	
+
 	@Autowired
 	private TutoringSystemService service;
-	
+
 	@Autowired
 	private StudentRepository studentRepository;
-	
+
 	@Autowired
 	private TutorRepository tutorRepository;
-	
+
 	@Autowired
 	private ReviewRepository reviewRepository;
-	
+
 	@Autowired
 	private CourseRepository courseRepository;
-	
+
 	@Autowired
 	private BillRepository billRepository;
-	
+
 	@Autowired
 	private SessionRepository sessionRepository;
-	
+
 	@Autowired
 	private TutorialRepository tutorialRepository;
-	
-	//The following method clears the database at the start of testing
+
+	/**
+	 * Clear DB before running tests
+	 */
 	@Before
 	public void setupDatabase() {
 		// Then we can clear the other tables
-
-
 		sessionRepository.deleteAll();
 		billRepository.deleteAll();
-		
+
 		tutorialRepository.deleteAll();
 		courseRepository.deleteAll();
-		
+
 		studentRepository.deleteAll();
 		tutorRepository.deleteAll();
 		reviewRepository.deleteAll();
 
 	}
-	//The following methods clears the database after all the tests
+	
+	/**
+	 * Clear DB after running tests
+	 */
 	@After
 	public void clearDatabase() {
 		// Then we can clear the other tables
 
 		sessionRepository.deleteAll();
 		billRepository.deleteAll();
-		
+
 		tutorialRepository.deleteAll();
 		courseRepository.deleteAll();
-		
+
 		studentRepository.deleteAll();
 		tutorRepository.deleteAll();
 		reviewRepository.deleteAll();
 
 	}
 	
-	//This test creates a student and then reads its attributes from the database
+	/**
+	 * This test creates a student and then reads its attributes from the database
+	 */
 	@Test
 	public void testCreateAndGetStudent() {
 		assertEquals(0, service.getAllStudents().size());
@@ -106,24 +111,26 @@ public class TestTutoringSystemService {
 			// Check that no error occurred
 			fail();
 		}
-		
+
 
 		List<Student> allStudents = service.getAllStudents();
-		
+
 		assertEquals(1, allStudents.size());
 		assertEquals("John", allStudents.get(0).getName());
 		assertEquals("john@gmail.com", allStudents.get(0).getEmail());
 		assertEquals("john1", allStudents.get(0).getUsername());
 		assertEquals("johnpassword", allStudents.get(0).getPassword());
 		assertEquals("John", service.getStudent(name).getName());
-		
+
 	}
-	
-	//This test creates a tutor and then reads its attributes from the database
+
+	/**This test creates a tutor and then reads its attributes from the database
+	 *
+	 */
 	@Test
 	public void testCreateAndGetTutor() {
 		assertEquals(0, service.getAllTutors().size());
-		
+
 		String name = "Daniel";
 		String email = "daniel@gmail.com";
 		String username = "Daniel1";
@@ -136,10 +143,10 @@ public class TestTutoringSystemService {
 			// Check that no error occurred
 			fail();
 		}
-		
+
 
 		List<Tutor> allTutors = service.getAllTutors();
-		
+
 		assertEquals(1, allTutors.size());
 		assertEquals("Daniel", allTutors.get(0).getName());
 		assertEquals("daniel@gmail.com", allTutors.get(0).getEmail());
@@ -148,79 +155,87 @@ public class TestTutoringSystemService {
 		assertEquals(20, (int)(allTutors.get(0).getHourlyRate()));
 		assertEquals("Daniel", service.getTutor(name).getName());
 	}
-	
-	//This test creates a review and then reads its attributes from the database
+
+	/**This test creates a review and then reads its attributes from the database
+	 * 
+	 */
 	@Test
 	public void testCreateAndGetReview() {
 		assertEquals(0, service.getAllReviews().size());
-		
+
 		String reviewId = "r1";
 		String comment = "It was a great experience.";
 		int rating = 5;
-		
+
 		try {
 			service.createReview(reviewId, comment, rating);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
 		}
-		
+
 		List<Review> allReviews = service.getAllReviews();
-		
+
 		assertEquals(1, allReviews.size());
 		assertEquals("r1", allReviews.get(0).getReviewId());
 		assertEquals("It was a great experience.", allReviews.get(0).getComment());
 		assertEquals(5, allReviews.get(0).getRating());
 		assertEquals(5, service.getReview(reviewId).getRating());
-		
+
 	}
-	
-	//This test creates a course and then reads its attributes from the database
+
+	/**This test creates a course and then reads its attributes from the database
+	 * 
+	 */
 	@Test
 	public void testCreateAndGetCourse() {
-		
+
 		String courseId = "MATH240";
 		String courseName = "Discrete Structures";
-		
+
 		try {
 			service.createCourse(courseId, courseName);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
 		}
-		
+
 		assertEquals("Discrete Structures", service.getCourse(courseId).getCourseName());
 		assertEquals("MATH240", service.getCourse(courseId).getCourseId());
-		
-		
+
+
 	}
-	
-	//This test creates a bill and then reads its attributes from the database
+
+	/**This test creates a bill and then reads its attributes from the database
+	 * 
+	 */
 	@Test
 	public void testCreateAndGetBill() {
-		
+
 		boolean isPaid = false;
 		int billId = 101;
-		
+
 		try {
 			service.createBill(isPaid, billId);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
 		}
-		
+
 		assertEquals(101, service.getBill(billId).getBillId());
 		assertEquals(false, service.getBill(101).isIsPaid());
-		
-		
+
+
 	}
-	
-	//This test creates a Tutorial and relation to a Course and then reads its attributes from the database
+
+	/**This test creates a Tutorial and relation to a Course and then reads its attributes from the database
+	 * 
+	 */
 	@Test
 	public void testCreateAndGetTutorial() {
-		
+
 		String tutorialId = "t1";
-	
+
 		String courseId = "ECSE321";
 		String courseName = "Intro to Software Engineering";
 		String tutorName = "Tutor1";
@@ -242,28 +257,30 @@ public class TestTutoringSystemService {
 		assertEquals("t1", service.getTutorial(tutorialId).getId());
 
 	}
-	
-	//This test creates a Session, with a relation to Bill and Tutorial which then reads its attributes from the database
+
+	/**This test creates a Session, with a relation to Bill and Tutorial which then reads its attributes from the database
+	 * 
+	 */
 	@Test
 	public void testCreateAndGetSession() {
-		
+
 		//Some variables for Session
 		String sessionId = "s1";
 		Time startTime = Time.valueOf("10:30:00");
 		Time endTime = Time.valueOf("11:30:00");
 		Date date = Date.valueOf("2020-01-10");
-		
+
 		//Variables for Bill
 		boolean isPaid = false;
 		int billId = 202;
-		
+
 		//Variables for Course
 		String courseId = "COMP250";
 		String courseName = "Intro to Computer Science";
 		//Variables for Tutorial
 		String tutorialId = "t2";
 		String tutorName = "Tutor1";
-		
+
 		//A session needs a Bill and Tutorial object and since it is not in database yet (from other viewpoint), 
 		//so we create it now for testing purposes
 		try {
@@ -272,7 +289,7 @@ public class TestTutoringSystemService {
 			fail();
 		}
 		Bill bill = service.getBill(billId);
-		
+
 		//Creating Course for Tutorial
 		try {
 			service.createCourse(courseId, courseName);
@@ -308,11 +325,11 @@ public class TestTutoringSystemService {
 			// Check that no error occurred
 			fail();
 		}
-		
+
 		assertEquals("s1", service.getSession(sessionId).getSessionId());
 
 	}
-	
-	
+
+
 
 }

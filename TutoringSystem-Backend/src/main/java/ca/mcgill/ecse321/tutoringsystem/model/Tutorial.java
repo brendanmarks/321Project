@@ -9,46 +9,66 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Tutorial{
-   private String id;
+	private String id;
 
-public void setId(String value) {
-    this.id = value;
+	public void setId(String value) {
+		this.id = value;
+	}
+	@Id
+	public String getId() {
+		return this.id;
+	}
+	private Set<Tutor> tutor;
+
+	@ManyToMany
+	public Set<Tutor> getTutor() {
+		return this.tutor;
+	}
+
+	/**
+	 * Set tutor
+	 * @param tutors
+	 */
+	public void setTutor(Set<Tutor> tutors) {
+		this.tutor = tutors;
+	}
+
+	private Set<Session> session;
+
+	/**
+	 * Get Sessions
+	 * @return
+	 */
+	@OneToMany(mappedBy="tutorial" )
+	public Set<Session> getSession() {
+		return this.session;
+	}
+
+	/**
+	 * Set sessions
+	 * @param sessions
+	 */
+	public void setSession(Set<Session> sessions) {
+		this.session = sessions;
+	}
+
+	private Course course;
+
+	/**
+	 * Get course
+	 * @return
+	 */
+	@ManyToOne(optional=false)
+	public Course getCourse() {
+		return this.course;
+	}
+
+	/**
+	 * Set course
+	 * @param course
+	 */
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
 }
-@Id
-public String getId() {
-    return this.id;
-}
-   private Set<Tutor> tutor;
-   
-   @ManyToMany
-   public Set<Tutor> getTutor() {
-      return this.tutor;
-   }
-   
-   public void setTutor(Set<Tutor> tutors) {
-      this.tutor = tutors;
-   }
-   
-   private Set<Session> session;
-   
-   @OneToMany(mappedBy="tutorial" )
-   public Set<Session> getSession() {
-      return this.session;
-   }
-   
-   public void setSession(Set<Session> sessions) {
-      this.session = sessions;
-   }
-   
-   private Course course;
-   
-   @ManyToOne(optional=false)
-   public Course getCourse() {
-      return this.course;
-   }
-   
-   public void setCourse(Course course) {
-      this.course = course;
-   }
-   
-   }
