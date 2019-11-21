@@ -14,10 +14,31 @@
       <div class="half right" data-aos="fade-up">
         <div class="container" align="center">
           <hr />
-          <input class="login-text" type="text" placeholder="Name" v-model="username" />
-          <input class="login-text" type="text" placeholder="Username" v-model="name" />
-          <input class="login-text" type="text" placeholder="Email" v-model="email" />
-          <input class="login-text" type="password" placeholder="Password" v-model="password" />
+          <!-- have v-model tags to send to the javascript -->
+          <input
+            class="login-text"
+            type="text"
+            placeholder="Name"
+            v-model="username"
+          />
+          <input
+            class="login-text"
+            type="text"
+            placeholder="Username"
+            v-model="name"
+          />
+          <input
+            class="login-text"
+            type="text"
+            placeholder="Email"
+            v-model="email"
+          />
+          <input
+            class="login-text"
+            type="password"
+            placeholder="Password"
+            v-model="password"
+          />
           <input
             @click="signup(name, username, userId, email, password)"
             type="submit"
@@ -25,8 +46,12 @@
             class="btn btn-primary py-2 px-4 text-white"
           />
           <br />
-          <span v-if="errorSignup" style="color:red">Error: {{ errorSignup }}</span>
-          <span v-if="response" style="color:green">Success: {{ response }}</span>
+          <span v-if="errorSignup" style="color:red"
+            >Error: {{ errorSignup }}</span
+          >
+          <span v-if="response" style="color:green"
+            >Success: {{ response }}</span
+          >
         </div>
       </div>
     </div>

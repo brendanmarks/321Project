@@ -18,7 +18,11 @@
           <div class="container" style="align:center">
             <h1 class="page-title">My Sessions</h1>
             <div id="table">
-              <table class="table table-bordered" style="width: 100%; height: 100%;">
+              <table
+                class="table table-bordered"
+                style="width: 100%; height: 100%;"
+              >
+                <!-- Iterate through all session objects. Print on each line line of table all session criteria (with two buttons one to direct you to writing a review. Other one is to cancel the session-->
                 <tr>
                   <th style="padding:5px">SessionId</th>
                   <th style="padding:5px">StartTime</th>
@@ -108,12 +112,14 @@ export default {
   },
   data: function() {
     return {
+      // initialise sessions array
       message: "Session List Row",
       Sessions: []
     };
   },
   methods: {
     submitReview(sessionId) {
+      // if user wants to submit review
       this.$router.push({
         name: "ReviewSession",
         params: { sessionId: sessionId }
@@ -132,8 +138,9 @@ export default {
       var currentuser = window.sessionStorage.getItem("username");
       console.log(currentuser);
       AXIOS.get("/sessions/student/" + currentuser).then(function(response) {
+        // get all the sessions for the current logged user using the username stored in the cache
         console.log(JSON.stringify(response.data));
-        self.Sessions = response.data;
+        self.Sessions = response.data; // put all the JSON responses in the sessions array
       });
     }
   },

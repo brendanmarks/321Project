@@ -13,6 +13,8 @@ import CreateSession from '@/components/CreateSession'
 
 Vue.use(Router)
 
+//All Navigation URL's used in application
+
 export default new Router({
   routes: [
     {
