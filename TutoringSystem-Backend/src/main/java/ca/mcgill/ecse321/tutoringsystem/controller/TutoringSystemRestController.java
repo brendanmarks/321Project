@@ -268,7 +268,7 @@ public class TutoringSystemRestController {
 		if (c == null || t == null) {
 			throw new IllegalArgumentException("This tutor or course does not exist.");
 		}	
-		TutorialDto tutorialDto = new TutorialDto(t, c);
+		TutorialDto tutorialDto = new TutorialDto(t, c, null);
 		return tutorialDto;
 	}
 	
@@ -296,7 +296,7 @@ public class TutoringSystemRestController {
 		}
 		Tutor tutor = ss.getTutorial().getTutor().iterator().next();
 		Course course = ss.getTutorial().getCourse();
-		SessionDto sessionDto = new SessionDto(ss.getSessionId(), ss.getDate(), ss.getStartTime(), ss.getEndTime(), sessionStudentDtos, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName())));
+		SessionDto sessionDto = new SessionDto(ss.getSessionId(), ss.getDate(), ss.getStartTime(), ss.getEndTime(), sessionStudentDtos, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName()), null));
 		return sessionDto;
 	}
 
@@ -328,6 +328,40 @@ public class TutoringSystemRestController {
 			return courseDtos;
 		}catch(Exception e) {
 			System.out.println("Error getting all courses");
+			return null;
+		}
+	}
+	
+	@GetMapping(value = {"/tutorials/search","/tutorials/search/"})
+	public List<TutorialDto> getTutorialsByCourseAndTutor(@RequestParam(name = "tutorName") String tutorName, @RequestParam(name = "courseId") String courseId) {
+		List<TutorialDto> tutorialsDtos = new ArrayList<>();
+		try {
+			for(Tutorial t : service.getAllTutorials()) {
+				if (t.getCourse().getCourseId().equals(courseId) && t.getTutor().iterator().next().getName().equals(tutorName)) {
+					tutorialsDtos.add(new TutorialDto(new TutorDto(tutorName, null, null, null, null), new CourseDto(courseId, null), t.getId()));
+				}
+			}
+			return tutorialsDtos;
+		}catch(Exception e) {
+			System.out.println("Error getting tutorials");
+			return null;
+		}
+	}
+	
+	@GetMapping(value = {"/tutors/course","/tutors/course/"})
+	public List<TutorDto> getTutorsByCourse(@RequestParam(name = "courseId") String courseId) {
+		List<TutorDto> tutorsDtos = new ArrayList<>();
+		try {
+			for (Tutorial tut : service.getAllTutorials()) {
+				if (tut.getCourse().getCourseId().equals(courseId)) {
+					for(Tutor t : tut.getTutor()) {
+						tutorsDtos.add(new TutorDto(t.getName(), t.getEmail(), t.getUsername(), t.getPassword(), null));
+				}
+			}
+			}
+			return tutorsDtos;
+		}catch(Exception e) {
+			System.out.println("Error getting tutors ");
 			return null;
 		}
 	}
@@ -763,7 +797,7 @@ public class TutoringSystemRestController {
 				}
 				Tutor tutor = s.getTutorial().getTutor().iterator().next();
 				Course course = s.getTutorial().getCourse();
-				allSessionsAsDto.add(new SessionDto(s.getSessionId(), s.getDate(), s.getStartTime(), s.getEndTime(), students, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName()))));
+				allSessionsAsDto.add(new SessionDto(s.getSessionId(), s.getDate(), s.getStartTime(), s.getEndTime(), students, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName()), null)));
 			}
 			return allSessionsAsDto;
 		}catch(Exception e) {
@@ -788,7 +822,7 @@ public class TutoringSystemRestController {
 						}
 						Tutor tutor = s.getTutorial().getTutor().iterator().next();
 						Course course = s.getTutorial().getCourse();
-						allSessionsOfStudent.add(new SessionDto(s.getSessionId(), s.getDate(), s.getStartTime(), s.getEndTime(), students, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName()))));
+						allSessionsOfStudent.add(new SessionDto(s.getSessionId(), s.getDate(), s.getStartTime(), s.getEndTime(), students, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName()), null)));
 					}
 				}
 			}

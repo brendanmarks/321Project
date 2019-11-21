@@ -22,6 +22,8 @@ public class Tutor extends Person{
 public void setHourlyRate(double value) {
     this.hourlyRate = value;
 }
+
+
 public double getHourlyRate() {
     return this.hourlyRate;
 }
