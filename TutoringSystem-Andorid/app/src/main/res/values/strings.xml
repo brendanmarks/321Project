@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TutoringSystem-Android</string>
     <string name="action_settings">Settings</string>
+    <string name="login_to_smash_your_grades">Login to smash your grades</string>
+    <string name="sign_up_to_smash_your_grades">Sign up to smash your grades</string>
+    <string name="gradesmash">GradeSmash</string>
 </resources>
