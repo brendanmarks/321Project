@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     private Button loginBtn;
     private Button signupBtn;
 
-
     private String error = null;
     private void loginErrorMessage() {
         TextView tvError = (TextView) findViewById(R.id.loginButton);
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void signupErrorMessage() {
-        TextView tvError = (TextView) findViewById(R.id.Signup);
+        TextView tvError = (TextView) findViewById(R.id.signupButton);
         tvError.setText(error);
         if (error == null || error.length() == 0) {
             tvError.setVisibility(View.GONE);
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         //loginErrorMessage();
         //signupErrorMessage();
 
-        //when click login button
+        //when click login button from landing page
         loginBtn = (Button) findViewById(R.id.loginButton);
         loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -67,7 +66,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //when click signup button from landing page
+        signupBtn = (Button) findViewById(R.id.signupButton);
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openSignup();
+            }
+        });
 
     }
 
@@ -77,7 +83,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    //called in onCreate if you click signup
+    public void openSignup() {
+        Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

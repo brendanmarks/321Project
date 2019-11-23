@@ -44,7 +44,7 @@
             tools:layout_editor_absoluteY="342dp" />
 
         <Button
-            android:id="@+id/Signup"
+            android:id="@+id/signupButton"
             android:layout_width="match_parent"
             android:layout_height="136dp"
             android:text="@string/sign_up_to_smash_your_grades"
