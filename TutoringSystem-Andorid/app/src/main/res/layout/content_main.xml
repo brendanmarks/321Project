@@ -22,7 +22,6 @@
             android:id="@+id/gradesmash"
             android:layout_width="match_parent"
             android:layout_height="296dp"
-            android:fontFamily="@font/iceberg"
             android:text="@string/gradesmash"
             android:textAlignment="center"
             android:textSize="60sp"
@@ -34,11 +33,10 @@
             app:layout_constraintVertical_bias="0.201" />
 
         <Button
-            android:id="@+id/Login"
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="131dp"
             android:backgroundTint="@color/colorAccent"
-            android:fontFamily="@font/iceberg"
             android:text="@string/login_to_smash_your_grades"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
@@ -49,7 +47,6 @@
             android:id="@+id/Signup"
             android:layout_width="match_parent"
             android:layout_height="136dp"
-            android:fontFamily="@font/iceberg"
             android:text="@string/sign_up_to_smash_your_grades"
             android:textSize="24sp"
             tools:layout_editor_absoluteX="62dp"

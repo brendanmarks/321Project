@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.tutoringsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -8,8 +9,34 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Button loginBtn;
+    private Button signupBtn;
+
+
+    private String error = null;
+    private void loginErrorMessage() {
+        TextView tvError = (TextView) findViewById(R.id.loginButton);
+        tvError.setText(error);
+        if (error == null || error.length() == 0) {
+            tvError.setVisibility(View.GONE);
+        } else {
+            tvError.setVisibility(View.VISIBLE);
+        }
+    }
+    private void signupErrorMessage() {
+        TextView tvError = (TextView) findViewById(R.id.Signup);
+        tvError.setText(error);
+        if (error == null || error.length() == 0) {
+            tvError.setVisibility(View.GONE);
+        } else {
+            tvError.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +53,31 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        //loginErrorMessage();
+        //signupErrorMessage();
+
+        //when click login button
+        loginBtn = (Button) findViewById(R.id.loginButton);
+        loginBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                openLogin();
+            }
+        });
+
+
+
     }
+
+    //called in onCreate if you click login
+    public void openLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -49,4 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
 }
