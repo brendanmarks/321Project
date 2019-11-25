@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private Button signupBtn;
 
     private String error = null;
+
     private void loginErrorMessage() {
         TextView tvError = (TextView) findViewById(R.id.loginButton);
         tvError.setText(error);
@@ -110,9 +111,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
 }

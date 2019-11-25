@@ -4,12 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+
 public class LoginActivity extends AppCompatActivity {
+
+    String errorString = null;
 
     private EditText Name;
     private EditText Password;
@@ -22,34 +34,103 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Log.i("Login launched", "success");
+
         Name = (EditText) findViewById(R.id.usernameText);
         Password = (EditText) findViewById(R.id.passwordText);
         Info = (TextView) findViewById(R.id.tvInfo);
         Login = (Button) findViewById(R.id.loginButton);
 
         Info.setText("Number of attempts remaining: 5");
+
         Login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                validate(Name.getText().toString() , Password.getText().toString());
+                validate(view);
             }
         });
 
     }
 
-    //TODO: Implement Login by connecting to back-end!!
-    private void validate(String username, String password) {
-        if((username.equals("sean")) && (password.equals("seany"))){
-            Intent intent = new Intent(LoginActivity.this , HomePageActivity.class);
-            startActivity(intent);
+    private void refreshErrorMessage() {
+        TextView errorTextView = (TextView) findViewById(R.id.errorMessageLogin);
+        errorTextView.setText(errorString);
+        if(errorString==null || errorString.length()==0){
+            errorTextView.setVisibility(View.GONE);
         }else{
-            // This part shows the number of attempts remaining before we disable the login button
-            counter --;
-            Info.setText("Number of attempts remaining : " + String.valueOf(counter));
-            if(counter <= 0){
-                Login.setEnabled(false);
-            }
+            errorTextView.setVisibility(View.VISIBLE);
         }
     }
 
+    //TODO: Implement Login by connecting to back-end!!
+    public void validate(View v) {
+
+        errorString = "";
+        final TextView usernameTextView = (TextView) findViewById(R.id.usernameText);
+        final TextView passwordTextView = (TextView) findViewById(R.id.passwordText);
+
+        String username = usernameTextView.getText().toString();
+        Log.d("username",username);
+
+        String urlToGet = "students/"
+                +username;
+
+        HttpUtils.get(urlToGet, new RequestParams(), new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("code", "Code: "+statusCode);
+                refreshErrorMessage();
+
+                String databasePassword = null;
+
+                try {
+                    databasePassword = response.getString("password");
+                    Log.d("password", "database password: "+databasePassword);
+
+                } catch (JSONException e) {
+
+                    counter--;
+                    Info.setText("Error " + statusCode + ": Invalid user. Attempts remaining : " + String.valueOf(counter));
+                    if (counter <= 0) {
+                        Login.setEnabled(false);
+                    }
+                    e.printStackTrace();
+                }
+
+                String enteredPassword = passwordTextView.getText().toString();
+                Log.d("enteredPassword", "entered Password : "+enteredPassword);
+
+                if (enteredPassword.equals(databasePassword)) {
+                    Log.d("success", "Login successful");
+                    openHomePage();
+
+                } else {
+                    // This part shows the number of attempts remaining before we disable the login button
+                    counter--;
+                    Info.setText("Invalid password. Number of attempts remaining : " + String.valueOf(counter));
+                    if (counter <= 0) {
+                        Login.setEnabled(false);
+                    }
+                }
+                usernameTextView.setText("");
+                passwordTextView.setText("");
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("code", "Code: "+statusCode);
+                try {
+                    errorString += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    errorString += e.getMessage();
+                }
+                refreshErrorMessage();
+            }
+        });
+    }
+
+    public void openHomePage() {
+        Intent intent = new Intent(this, HomePageActivity.class);
+        startActivity(intent);
+    }
 }

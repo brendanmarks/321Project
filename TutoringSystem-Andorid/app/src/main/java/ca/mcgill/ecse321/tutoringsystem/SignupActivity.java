@@ -2,7 +2,9 @@ package ca.mcgill.ecse321.tutoringsystem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,11 +19,7 @@ import org.w3c.dom.Text;
 
 import cz.msebera.android.httpclient.Header;
 
-
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONObject;
 
 
 
@@ -61,7 +59,6 @@ public class SignupActivity extends AppCompatActivity {
 
     }
 
-
     private void refreshErrorMessage() {
         TextView errorTextView = (TextView) findViewById(R.id.errorMessageSignup);
         errorTextView.setText(errorString);
@@ -76,15 +73,24 @@ public class SignupActivity extends AppCompatActivity {
         errorString = "";
         final TextView nameTextView = (TextView) findViewById(R.id.nameForSignup);
         final TextView emailTextView = (TextView) findViewById(R.id.emailForSignup);
+        final TextView studentIdTextView = (TextView) findViewById(R.id.studentIdForSignup);
         final TextView userNameTextView = (TextView) findViewById(R.id.usernameForSignup);
         final TextView passwordTextView = (TextView) findViewById(R.id.passwordForSignup);
 
-        String urlToPost = "/students/"
-                +nameTextView.toString()
-                +"?email="+emailTextView.toString()
-                +"&username="+userNameTextView.toString()
-                +"&password="+passwordTextView.toString();
+        String name = nameTextView.getText().toString();
+        Log.i("name", "name is:"+name);
+        String email = emailTextView.getText().toString();
+        Log.i("email", "email is:"+email);
+        String username = userNameTextView.getText().toString();
+        Log.i("username", "username is:"+username);
+        String password = passwordTextView.getText().toString();
+        Log.i("password", "password is:"+password);
 
+        String urlToPost = "students/"
+                +name
+                +"?email="+email
+                +"&username="+username
+                +"&password="+password;
 
         HttpUtils.post(urlToPost, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
@@ -92,8 +98,10 @@ public class SignupActivity extends AppCompatActivity {
                 refreshErrorMessage();
                 nameTextView.setText("");
                 emailTextView.setText("");
+                studentIdTextView.setText("");
                 userNameTextView.setText("");
                 passwordTextView.setText("");
+                openLogin();
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -106,6 +114,9 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
-
-
+    //return to login
+    public void openLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 }
