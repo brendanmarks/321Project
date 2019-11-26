@@ -87,6 +87,7 @@ export default {
                     this.username = ''
                     this.email = ''
                     this.password = ''
+                    this.login();
                 })
                 .catch(e => {
                     var errorMsg = e.message

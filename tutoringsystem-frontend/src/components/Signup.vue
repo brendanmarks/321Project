@@ -1,14 +1,16 @@
 <template>
 <body>
+<h1 class="add-padding-top-normal"><center>Sign Up to GradeSmash!</center></h1>
   <div class="row">
     <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
       <div class="card card-signin my-5">
         <div class="card-body">
           <h5 class="card-title text-center">Sign Up</h5>
+          <span v-if="errorSignup !== ''" style="color:red"><center>Error: {{errorSignup}}</center></span>
           <form class="form-signin">
             <div class="form-label-group">
               <input
-                type="email"
+                type="username"
                 id="inputName"
                 class="form-control"
                 placeholder="Name"
@@ -21,7 +23,7 @@
 
             <div class="form-label-group">
               <input
-                type="email"
+                type="username"
                 id="inputUsername"
                 class="form-control"
                 placeholder="Username"
@@ -82,6 +84,11 @@
 :root {
   --input-padding-x: 1.5rem;
   --input-padding-y: 0.75rem;
+}
+
+h1 {
+  font-weight: bold;
+    color: white;
 }
 
 body {
@@ -177,7 +184,7 @@ body {
   padding-top: calc(var(--input-padding-y) / 3);
   padding-bottom: calc(var(--input-padding-y) / 3);
   font-size: 12px;
-  color: #777;
+  color: transparent;
 }
 
 .btn-google {

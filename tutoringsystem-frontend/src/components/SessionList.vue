@@ -7,10 +7,10 @@
       <div class="container-fluid" id="top-container">
         <div class="container text-center" id="img-container">
           <img
-            src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
-            width="500"
-            height="100"
-          />
+          src="\static\banner.PNG"
+          width="750"
+          height="150"
+        />
         </div>
       </div>
       <div class="container-fluid text-center" id="background">
@@ -41,6 +41,7 @@
                   <td>
                     <input
                       @click="submitReview(session.sessionId)"
+                      v-if="checkEndDateReview(session)"
                       type="submit"
                       value="review"
                       class="btn btn-primary py-2 px-4 text-white"
@@ -49,7 +50,7 @@
                   <td>
                     <input
                       @click="deleteSession(session.sessionId)"
-                      v-if="checkEndDate(session)"
+                      v-if="checkEndDateCancel(session)"
                       type="submit"
                       value="cancel"
                       class="btn btn-primary py-2 px-4 text-white"
@@ -126,10 +127,16 @@ export default {
         params: { sessionId: sessionId }
       });
     },
-    checkEndDate(session){
+    checkEndDateCancel(session){
       var endDate = new Date(session.date + "T" + session.endTime);
       var now = new Date();
+      now.setDate(now.getDate()-1);
       return !(endDate < now);
+    },
+    checkEndDateReview(session){
+      var endDate = new Date(session.date + "T" + session.endTime);
+      var now = new Date();
+      return (endDate < now);
     },
     deleteSession(sessionId) {
       var self = this;

@@ -3,9 +3,9 @@
     <div class="container-fluid" id="top-container">
       <div class="container text-center" id="img-container">
         <img
-          src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
-          width="500"
-          height="100"
+          src="\static\banner.PNG"
+          width="750"
+          height="150"
         />
       </div>
     </div>

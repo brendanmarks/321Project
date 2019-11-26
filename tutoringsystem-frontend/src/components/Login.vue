@@ -1,15 +1,17 @@
 <template>
 <body>
+<h1 class="add-padding-top-normal"><center>Welcome to GradeSmash!</center></h1>
   <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5">
           <div class="card-body">
             <h5 class="card-title text-center">Sign In</h5>
+            <span v-if="errorLogin !== ''" style="color:red"><center>Error: {{errorLogin}}</center></span>
             <form class="form-signin">
               <div class="form-label-group">
                 <input
-                  type="email"
+                  type="username"
                   id="inputEmail"
                   class="form-control"
                   placeholder="Username"
@@ -63,6 +65,11 @@
 :root {
   --input-padding-x: 1.5rem;
   --input-padding-y: 0.75rem;
+}
+
+h1 {
+  font-weight: bold;
+  color: white;
 }
 
 body {
