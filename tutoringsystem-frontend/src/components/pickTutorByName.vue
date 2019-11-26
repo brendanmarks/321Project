@@ -111,7 +111,7 @@ export default {
       var courseId = this.$route.params.courseId;
       this.$router.push({
         name: "CreateSession",
-        params: { tutorName: tutorName, courseId: courseId }
+        params: { tutorName: tutorName, courseId: courseId } //send the paramters to the next page to render all the tutorials.
       });
     },
 
