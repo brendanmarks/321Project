@@ -4,4 +4,11 @@
     <string name="login_to_smash_your_grades">Login to smash your grades</string>
     <string name="sign_up_to_smash_your_grades">Sign up to smash your grades</string>
     <string name="gradesmash">GradeSmash</string>
+    <string name="sessionidspinner_label">sessionID?</string>
+    <string name="datesspinner_label">Date?</string>
+    <string name="starttimespinner_label">StartTime?</string>
+    <string name="endtimespinner_label">EndTime?</string>
+    <string name="tutorialspinner_label">Tutorial?</string>
+    <string name="coursespinner_label">Course?</string>
+    <string name="tutorspinner_label">Tutor?</string>
 </resources>
