@@ -49,6 +49,7 @@
                   <td>
                     <input
                       @click="deleteSession(session.sessionId)"
+                      v-if="checkEndDate(session)"
                       type="submit"
                       value="cancel"
                       class="btn btn-primary py-2 px-4 text-white"
@@ -125,12 +126,21 @@ export default {
         params: { sessionId: sessionId }
       });
     },
+    checkEndDate(session){
+      var endDate = new Date(session.date + "T" + session.endTime);
+      var now = new Date();
+      return !(endDate < now);
+    },
     deleteSession(sessionId) {
       var self = this;
       var currentuser = window.sessionStorage.getItem("username");
       AXIOS.delete("/sessions/" + sessionId, {}, {}).then(function(response) {
-        self.Sessions = response.data;
-        this.$router.push("Hello");
+        for (var i = 0; i < self.Sessions.length; i++){
+          if (self.Sessions[i].sessionId === sessionId){
+            self.Sessions.splice(i,1);
+            break;
+          }
+        }
       });
     },
     getSessions: function() {

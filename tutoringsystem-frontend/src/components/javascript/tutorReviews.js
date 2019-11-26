@@ -1,4 +1,6 @@
 import axios from 'axios'
+import Navigation from "../Navigation";
+
 var config = require('../../../config')
 
 let frontendUrlConfig = function () {
@@ -88,6 +90,9 @@ export default {
         console.log(e)
       });
 
+  },
+  components: {
+    Navigation: Navigation
   }
 
   //3. add event handling method: createTutor()

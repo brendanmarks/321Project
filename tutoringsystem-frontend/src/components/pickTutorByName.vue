@@ -125,7 +125,6 @@ export default {
       // get all the tutors for that course
       var self = this;
       var courseId = this.$route.params.courseId;
-      alert(courseId);
       AXIOS.get("/tutors/course?courseId=" + courseId).then(function(response) {
         console.log(JSON.stringify(response.data));
         self.Tutors = response.data;

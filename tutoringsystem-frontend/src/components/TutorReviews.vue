@@ -1,5 +1,8 @@
 <template>
   <div>
+  <div id="navbar">
+      <Navigation></Navigation>
+  </div>
     <div class="container-fluid" id="top-container">
       <div class="container text-center" id="img-container">
         <img
