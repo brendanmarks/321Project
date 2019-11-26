@@ -52,16 +52,74 @@ export default {
             endTime: '',
             date: '',
             tutorialId: '',
-            studentName: ''
+            studentName: '',
+            tutorName: '',
+            courseId: '',
+            success: ''
         }
     },
 
     //2. add an initialization for the data
 
     created: function () {
+        this.tutorName = this.$route.params.tutorName
+        this.courseId = this.$route.params.courseId
+        var tutorN = ''
+        var courseI = ''
+        courseI = this.courseId
+        tutorN = this.tutorName // getting the tutor name (the tutor that was clicked on previous page)
+        if (tutorN == '') {
+            var errorMsg = "Missing tutor name"
+            console.log(errorMsg)
+            this.errorReview = errorMsg
+        return
+        }
+        if (courseI == '') {
+            var errorMsg = "Missing course Id"
+            console.log(errorMsg)
+            this.errorReview = errorMsg
+        return
+        }
     },
     methods: {
         requestSession(date1, startTime1, endTime1) {
+            
+            
+            var tutorName = this.tutorName
+            var courseId = this.courseId
+
+            var date = date1
+            var start = startTime1
+            var end = endTime1
+            
+            let self = this
+            console.log("hi")
+            AXIOS.get('/tutorials/search?tutorName=' + tutorName + '&courseId=' + courseId)
+                .then(response =>{
+                    console.log("hi")
+                    this.tutorials = response.data
+                    console.log(response.data)
+                })
+                .catch(e => {
+                    var errorMsg = e.message
+                    console.log(errorMsg)
+                    this.errorTutorial = errorMsg
+                })
+                .finally(function () {
+                    self.postSession(date, start, end)
+
+                });
+
+           // var TutorialId = this.tutorials[0].id;
+            
+           // console.log(TutorialId)
+            // once all data has been entered by user. Create session and send to DB.
+           
+        },
+        returnHome() {
+            this.$router.push('hello');
+        },
+        postSession(date1, startTime1, endTime1){
             if (date1 == '') {
                 var errorMsg = "Invalid Date"
                 //alert("a");
@@ -91,24 +149,19 @@ export default {
 
             var sessionId = Math.floor(Math.random() * 10000) + 1
             var currentUser = window.sessionStorage.getItem("username")
-            var tutorialId = 666
-            console.log(start)
-            console.log(end)
-            console.log(date)
 
-            // once all data has been entered by user. Create session and send to DB.
-            AXIOS.post(`/sessions/` + sessionId + `?` + 'startTime=' + start + '&endTime=' + end + '&date=' + date + '&tutorialId=' + tutorialId + '&studentName=' + currentUser)
-                .then(response => {
-                    this.response = response.data
-                })
-                .catch(e => {
-                    var errorMsg = e.message
-                    console.log(errorMsg)
-                    this.errorTutorial = errorMsg
-                });
-        },
-        returnHome() {
-            this.$router.push('hello');
+
+            AXIOS.post(`/sessions/` + sessionId + `?` + 'startTime=' + start + '&endTime=' + end + '&date=' + date + '&tutorialId=' + this.tutorials[0].id + '&studentName=' + currentUser)
+            .then(response => {
+                this.response = response.data
+                this.success = "Yay! You are now signed up."
+
+            })
+            .catch(e => {
+                var errorMsg = e.message
+                console.log(errorMsg)
+                this.errorTutorial = errorMsg
+            });
         }
     }
 }
