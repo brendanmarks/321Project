@@ -1,57 +1,218 @@
 <template>
-  <div id="Signup">
-    <div class="site-section site-hero inner">
-      <div class="container-fluid" id="top-container">
-        <div class="container text-center" id="img-container">
-          <img
-            src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
-            width="500"
-            height="100"
-          />
-        </div>
-      </div>
-
-      <br />
-      <br />
-      <br />
-      <br />
-      <div class="half left">
-        <div class="container" align="center">
-          <div class="row align-items-center" align="center">
-            <div class="col-md-10" align="center" style="padding-left:10%">
-              <h1 class="d-block mb-4">&nbsp; &nbsp; &nbsp; &nbsp; Sign Up</h1>
+<body>
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Sign Up</h5>
+          <form class="form-signin">
+            <div class="form-label-group">
+              <input
+                type="email"
+                id="inputName"
+                class="form-control"
+                placeholder="Name"
+                required
+                autofocus
+                v-model="username"
+              />
+              <label for="inputName">Name</label>
             </div>
-          </div>
+
+            <div class="form-label-group">
+              <input
+                type="email"
+                id="inputUsername"
+                class="form-control"
+                placeholder="Username"
+                required
+                autofocus
+                v-model="name"
+              />
+              <label for="inputUsername">Username</label>
+            </div>
+
+            <div class="form-label-group">
+              <input
+                type="email"
+                id="inputEmail"
+                class="form-control"
+                placeholder="Username"
+                required
+                autofocus
+                v-model="email"
+              />
+              <label for="inputEmail">Email</label>
+            </div>
+
+            <div class="form-label-group">
+              <input
+                type="password"
+                id="inputPassword"
+                class="form-control"
+                placeholder="Password"
+                required
+                v-model="password"
+              />
+              <label for="inputPassword">Password</label>
+            </div>
+
+            <input
+              @click="signup(name, username, userId, email, password)"
+              type="submit"
+              value="Sign Up"
+              class="btn btn-lg btn-primary btn-block text-uppercase"
+            />
+            <hr class="my-4" />
+            <input
+              @click="login()"
+              type="submit"
+              value="Go to Login"
+              class="btn btn-lg btn-primary btn-block text-uppercase"
+            />
+          </form>
         </div>
       </div>
-
-      <div class="half right" data-aos="fade-up">
-        <div class="container" align="center">
-          <hr />
-          <input class="login-text" type="text" placeholder="Name" v-model="username" />
-          <input class="login-text" type="text" placeholder="Username" v-model="name" />
-          <input class="login-text" type="text" placeholder="Email" v-model="email" />
-          <input class="login-text" type="password" placeholder="Password" v-model="password" />
-          <input
-            @click="signup(name, username, userId, email, password)"
-            type="submit"
-            value="Sign Up"
-            class="btn btn-primary py-2 px-4 text-white"
-          />
-          <br />
-          <span v-if="errorSignup" style="color:red">Error: {{ errorSignup }}</span>
-          <span v-if="response" style="color:green">Success: {{ response }}</span>
-        </div>
-      </div>
-
-      <input
-        @click="login()"
-        type="submit"
-        value="Go to Login"
-        class="btn btn-primary py-2 px-4 text-white"
-      />
     </div>
   </div>
+</body>
 </template>
+
+<style scoped>
+:root {
+  --input-padding-x: 1.5rem;
+  --input-padding-y: 0.75rem;
+}
+
+body {
+  background: #687786;
+  background: linear-gradient(to right, #5f6a79, #923030);
+}
+
+.card-signin {
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-signin .card-title {
+  margin-bottom: 2rem;
+  font-weight: 300;
+  font-size: 1.5rem;
+}
+
+.card-signin .card-body {
+  padding: 2rem;
+}
+
+.form-signin {
+  width: 100%;
+}
+
+.form-signin .btn {
+  font-size: 80%;
+  border-radius: 5rem;
+  letter-spacing: 0.1rem;
+  font-weight: bold;
+  padding: 1rem;
+  transition: all 0.2s;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-label-group input {
+  height: auto;
+  border-radius: 2rem;
+}
+
+.form-label-group > input,
+.form-label-group > label {
+  padding: var(--input-padding-y) var(--input-padding-x);
+}
+
+.form-label-group > label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  /* Override default `<label>` margin */
+  line-height: 1.5;
+  color: #495057;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  transition: all 0.1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input:-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-moz-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::placeholder {
+  color: transparent;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+  padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+  padding-bottom: calc(var(--input-padding-y) / 3);
+}
+
+.form-label-group input:not(:placeholder-shown) ~ label {
+  padding-top: calc(var(--input-padding-y) / 3);
+  padding-bottom: calc(var(--input-padding-y) / 3);
+  font-size: 12px;
+  color: #777;
+}
+
+.btn-google {
+  color: white;
+  background-color: #ea4335;
+}
+
+.btn-facebook {
+  color: white;
+  background-color: #3b5998;
+}
+
+/* Fallback for Edge
+-------------------------------------------------- */
+
+@supports (-ms-ime-align: auto) {
+  .form-label-group > label {
+    display: none;
+  }
+  .form-label-group input::-ms-input-placeholder {
+    color: #777;
+  }
+}
+
+/* Fallback for IE
+-------------------------------------------------- */
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .form-label-group > label {
+    display: none;
+  }
+  .form-label-group input:-ms-input-placeholder {
+    color: #777;
+  }
+}
+</style>
 
 <script src="./javascript/signup.js"></script>
