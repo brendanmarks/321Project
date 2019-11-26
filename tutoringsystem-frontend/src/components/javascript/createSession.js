@@ -71,13 +71,13 @@ export default {
         if (tutorN == '') {
             var errorMsg = "Missing tutor name"
             console.log(errorMsg)
-            this.errorReview = errorMsg
+            this.errorTutorial = errorMsg
         return
         }
         if (courseI == '') {
             var errorMsg = "Missing course Id"
             console.log(errorMsg)
-            this.errorReview = errorMsg
+            this.errorTutorial = errorMsg
         return
         }
     },
@@ -155,6 +155,7 @@ export default {
             .then(response => {
                 this.response = response.data
                 this.success = "Yay! You are now signed up."
+                this.errorTutorial = ""
 
             })
             .catch(e => {
