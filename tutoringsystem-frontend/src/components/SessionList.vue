@@ -7,10 +7,10 @@
       <div class="container-fluid" id="top-container">
         <div class="container text-center" id="img-container">
           <img
-            src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
-            width="500"
-            height="100"
-          />
+          src="\static\banner.PNG"
+          width="750"
+          height="150"
+        />
         </div>
       </div>
       <div class="container-fluid text-center" id="background">
@@ -41,6 +41,7 @@
                   <td>
                     <input
                       @click="submitReview(session.sessionId)"
+                      v-if="checkEndDateReview(session)"
                       type="submit"
                       value="review"
                       class="btn btn-primary py-2 px-4 text-white"
@@ -49,6 +50,7 @@
                   <td>
                     <input
                       @click="deleteSession(session.sessionId)"
+                      v-if="checkEndDateCancel(session)"
                       type="submit"
                       value="cancel"
                       class="btn btn-primary py-2 px-4 text-white"
@@ -125,12 +127,27 @@ export default {
         params: { sessionId: sessionId }
       });
     },
+    checkEndDateCancel(session){
+      var endDate = new Date(session.date + "T" + session.endTime);
+      var now = new Date();
+      now.setDate(now.getDate()-1);
+      return !(endDate < now);
+    },
+    checkEndDateReview(session){
+      var endDate = new Date(session.date + "T" + session.endTime);
+      var now = new Date();
+      return (endDate < now);
+    },
     deleteSession(sessionId) {
       var self = this;
       var currentuser = window.sessionStorage.getItem("username");
       AXIOS.delete("/sessions/" + sessionId, {}, {}).then(function(response) {
-        self.Sessions = response.data;
-        this.$router.push("Hello");
+        for (var i = 0; i < self.Sessions.length; i++){
+          if (self.Sessions[i].sessionId === sessionId){
+            self.Sessions.splice(i,1);
+            break;
+          }
+        }
       });
     },
     getSessions: function() {

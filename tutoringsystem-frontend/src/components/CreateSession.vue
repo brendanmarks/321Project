@@ -3,9 +3,9 @@
     <div class="container-fluid" id="top-container">
       <div class="container text-center" id="img-container">
         <img
-          src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
-          width="500"
-          height="100"
+          src="\static\banner.PNG"
+          width="750"
+          height="150"
         />
       </div>
     </div>
@@ -28,6 +28,9 @@
           />
           <br />
           <span v-if="errorLogin" style="color:red">Error: {{ errorLogin }}</span>
+          <div>
+            <span v-if="success" style="color:green">Congrats: {{ success }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -38,28 +41,6 @@
         value="Return Home"
         class="btn btn-primary py-2 px-4 text-white"
       />
-    </div>
-    <div id="tutorDisplays">
-      <div class="container-fluid">
-        <!-- Each row will display 2 tutorials -->
-        <div class="row">
-          <!-- Loop through all tutorials (each "person" is a tutor) -->
-          <div class="col-6" v-for="tutorial in tutorials" :key="tutorial">
-            <!-- Bootstrap card-->
-            <div class="card w-100 mb-4">
-              <div class="row no-gutters">
-                <!--Info takes up 9/12ths of the card -->
-                <div class="col-12">
-                  <div class="card-body">
-                    <h5 class="card-title">Rating:</h5>
-                    <p class="card-text">Comment:</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>

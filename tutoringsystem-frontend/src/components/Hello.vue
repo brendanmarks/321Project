@@ -17,9 +17,9 @@
     <div class="container-fluid" id="top-container">
       <div class="container text-center" id="img-container">
         <img
-          src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
-          width="500"
-          height="100"
+          src="\static\banner.PNG"
+          width="750"
+          height="150"
         />
       </div>
     </div>
@@ -32,7 +32,7 @@
           <div class="container-fluid" id="welcome">
             <h2></h2>
             <br />
-            <h3>Welcome !</h3>
+            <h3>Welcome to GradeSmash!</h3>
             <hr />
           </div>
         </div>
@@ -93,9 +93,8 @@
   margin-top: 5px;
   margin-bottom: 0px;
   font-size: 30px;
-  font-family: Lucida;
-  font-style: oblique;
-  color: #d3d3d3;
+  font-weight: bold;
+  color: black;
 }
 #navbar {
   font-family: "Avenir", Helvetica, Arial, sans-serif;

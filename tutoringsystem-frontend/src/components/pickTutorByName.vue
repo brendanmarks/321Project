@@ -3,9 +3,9 @@
     <div class="container-fluid" id="top-container">
       <div class="container text-center" id="img-container">
         <img
-          src="https://ballstateeconomics.files.wordpress.com/2014/04/tutoring-banner.png"
-          width="500"
-          height="100"
+          src="\static\banner.PNG"
+          width="750"
+          height="150"
         />
       </div>
     </div>
@@ -25,7 +25,7 @@
               <div class="card w-100 mb-4">
                 <div class="row no-gutters">
                   <!-- Image will take up 3/12ths of the card
-                            TODO: Change this to include pictures of the tutors -->
+                  TODO: Change this to include pictures of the tutors-->
                   <div class="col-3">
                     <img
                       src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=802&q=80"
@@ -40,25 +40,21 @@
                       <p class="card-text">{{ tutor.username }}</p>
                       <a
                         class="btn btn-success"
-                        @click="MovetoTutorial()"
+                        @click="MovetoTutorial(tutor.name)"
                         type="submit"
                         value="tutor"
                         href="#"
                         role="button"
-                      >
-                        Select Tutor
-                      </a>
+                      >Select Tutor</a>
 
                       <a
                         class="btn btn-dark"
-                        @click="submitTutor(session.name)"
+                        @click="submitTutor(tutor.name)"
                         type="submit"
                         value="tutor"
                         href="#"
                         role="button"
-                      >
-                        View Tutor Reviews
-                      </a>
+                      >View Tutor Reviews</a>
                     </div>
                   </div>
                 </div>
@@ -111,21 +107,25 @@ export default {
     };
   },
   methods: {
-    MovetoTutorial() {
-      this.$router.push("CreateSession");
+    MovetoTutorial(tutorName) {
+      var courseId = this.$route.params.courseId;
+      this.$router.push({
+        name: "CreateSession",
+        params: { tutorName: tutorName, courseId: courseId } //send the paramters to the next page to render all the tutorials.
+      });
     },
+
     submitTutor(tutorName) {
       this.$router.push({
         name: "TutorReviews",
         params: { tutorName: tutorName }
       });
     },
-
     getSessions: function() {
       // get all the tutors for that course
       var self = this;
-      var sessionId = this.$route.params.sessionId;
-      AXIOS.get("/tutors/").then(function(response) {
+      var courseId = this.$route.params.courseId;
+      AXIOS.get("/tutors/course?courseId=" + courseId).then(function(response) {
         console.log(JSON.stringify(response.data));
         self.Tutors = response.data;
       });
