@@ -17,12 +17,13 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewSessionsActivity extends AppCompatActivity {
     String error = null;
 
-    private List<String> sessionIDs;
+    private List<String> sessionIDs = new ArrayList<>();
     private ArrayAdapter<String> sessionAdapter;
 
     @Override
@@ -41,10 +42,10 @@ public class ViewSessionsActivity extends AppCompatActivity {
 
     /** Calls GET over here with "sessions" **/
     public void refreshLists(View view){
-        refreshList(sessionAdapter, sessionIDs, "sessions");
+        refreshList(sessionAdapter, sessionIDs, "sessions"); //Maybe /sessions/?
     }
 
-    private void refreshList(final ArrayAdapter<String> adapter, final List<String> names, final String restFunctionName) {
+    private void refreshList(final ArrayAdapter<String> adapter, final List<String> names, final String restFunctionName) { //restFunctionName is the url "sessions"
         HttpUtils.get(
                 restFunctionName,
                 new RequestParams(),
@@ -55,9 +56,10 @@ public class ViewSessionsActivity extends AppCompatActivity {
                         sessionIDs.clear();
                         sessionIDs.add("Please select...");
                         for(int i=0; i<response.length(); i++) {
-
                             try{
-                                sessionIDs.add(response.getJSONObject(i).getString("sessionID"));
+                                //TODO: Dom's part, handle the get
+                                //sessionIDs.add(response.getJSONObject(i).getString("sessionId")); /** Change sessionId to something which will return? **/
+                                sessionIDs.add("this "+i);//TO REMOEV
                             }catch(Exception e) {
                                 error += e.getMessage();
                             }

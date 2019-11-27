@@ -29,18 +29,20 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:orientation="horizontal">
+
             <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="@string/sessionidspinner_label"/>
+                android:layout_width="99dp"
+                android:layout_height="match_parent"
+                android:text="@string/sessionidspinner_label" />
+
             <Spinner
-                android:layout_height="wrap_content"
+                android:id="@+id/sessionidspinner"
                 android:layout_width="wrap_content"
-                android:layout_gravity="end"
-                android:id="@+id/sessionidspinner"/>
+                android:layout_height="match_parent"
+                android:layout_gravity="end" />
             <!--
                         <TextView
                 android:layout_height="wrap_content"
