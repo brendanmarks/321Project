@@ -1,4 +1,6 @@
 import axios from 'axios'
+import Navigation from "../Navigation";
+
 //import forge from 'node-forge'
 var config = require('../../../config')
 
@@ -66,5 +68,8 @@ export default {
 
 
         }
+    },
+    components: {
+      Navigation: Navigation
     }
 }

@@ -1,5 +1,8 @@
 <template>
   <div>
+   <div id="navbar">
+      <Navigation></Navigation>
+  </div>
     <div class="container-fluid" id="top-container">
       <div class="container text-center" id="img-container">
         <img
@@ -69,6 +72,8 @@
 
 <script>
 import axios from "axios";
+import Navigation from "./Navigation";
+
 var config = require("../../config");
 
 let frontendUrlConfig = function() {
@@ -130,6 +135,9 @@ export default {
         self.Tutors = response.data;
       });
     }
+  },
+  components: {
+    Navigation: Navigation
   }
 };
 </script>

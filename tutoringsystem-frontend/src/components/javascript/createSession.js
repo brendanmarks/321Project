@@ -1,4 +1,6 @@
 import axios from 'axios'
+import Navigation from "../Navigation";
+
 var config = require('../../../config')
 
 let frontendUrlConfig = function () {
@@ -164,6 +166,9 @@ export default {
                 this.errorTutorial = errorMsg
             });
         }
+    },
+    components: {
+      Navigation: Navigation
     }
 }
 
