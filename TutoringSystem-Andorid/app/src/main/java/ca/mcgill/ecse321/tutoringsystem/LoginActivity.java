@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,8 +33,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Log.i("Login launched", "success");
-
         Name = (EditText) findViewById(R.id.usernameText);
         Password = (EditText) findViewById(R.id.passwordText);
         Info = (TextView) findViewById(R.id.tvInfo);
@@ -49,8 +46,8 @@ public class LoginActivity extends AppCompatActivity {
                 validate(view);
             }
         });
-
     }
+
 
     private void refreshErrorMessage() {
         TextView errorTextView = (TextView) findViewById(R.id.errorMessageLogin);
@@ -62,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    //TODO: Implement Login by connecting to back-end!!
     public void validate(View v) {
 
         errorString = "";
@@ -70,28 +66,28 @@ public class LoginActivity extends AppCompatActivity {
         final TextView passwordTextView = (TextView) findViewById(R.id.passwordText);
 
         String username = usernameTextView.getText().toString();
-        Log.d("username",username);
+        Log.d("validateUsername","Username to validate: "+username);
+        String usernameEncoded = username.replaceAll("\\s+", "%20");
+        Log.d("validateUsername","Username to validate: "+usernameEncoded);
 
         String urlToGet = "students/"
-                +username;
+                +usernameEncoded;
 
         HttpUtils.get(urlToGet, new RequestParams(), new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("code", "Code: "+statusCode);
                 refreshErrorMessage();
 
                 String databasePassword = null;
 
                 try {
                     databasePassword = response.getString("password");
-                    Log.d("password", "database password: "+databasePassword);
+                    Log.d("databasePassword", "Database password: "+databasePassword);
 
                 } catch (JSONException e) {
 
-                    counter--;
-                    Info.setText("Error " + statusCode + ": Invalid user. Attempts remaining : " + String.valueOf(counter));
+                    Info.setText("Error " + statusCode + ": Password could not be retrieved.");
                     if (counter <= 0) {
                         Login.setEnabled(false);
                     }
@@ -99,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 String enteredPassword = passwordTextView.getText().toString();
-                Log.d("enteredPassword", "entered Password : "+enteredPassword);
+                Log.d("enteredPassword", "Entered password: "+enteredPassword);
 
                 if (enteredPassword.equals(databasePassword)) {
                     Log.d("success", "Login successful");

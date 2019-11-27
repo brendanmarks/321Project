@@ -33,12 +33,10 @@ public class SignupActivity extends AppCompatActivity {
     private EditText Password;
     private Button ButtonForSignup;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
 
         Name = (EditText) findViewById(R.id.nameForSignup);
         Username = (EditText) findViewById(R.id.usernameForSignup);
@@ -47,21 +45,18 @@ public class SignupActivity extends AppCompatActivity {
         Password = (EditText) findViewById(R.id.passwordForSignup);
         ButtonForSignup = (Button)findViewById(R.id.SignupBtn);
 
-
-
         ButtonForSignup.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 addUser(view);
             }
         });
-
-
     }
 
     private void refreshErrorMessage() {
         TextView errorTextView = (TextView) findViewById(R.id.errorMessageSignup);
         errorTextView.setText(errorString);
+
         if(errorString==null || errorString.length()==0){
             errorTextView.setVisibility(View.GONE);
         }else{
@@ -78,16 +73,17 @@ public class SignupActivity extends AppCompatActivity {
         final TextView passwordTextView = (TextView) findViewById(R.id.passwordForSignup);
 
         String name = nameTextView.getText().toString();
-        Log.i("name", "name is:"+name);
+        Log.i("name", "Name: "+name);
+        String encodedName = name.replaceAll("\\s+", "%20");
         String email = emailTextView.getText().toString();
-        Log.i("email", "email is:"+email);
+        Log.i("email", "Email: "+email);
         String username = userNameTextView.getText().toString();
-        Log.i("username", "username is:"+username);
+        Log.i("username", "Username: "+username);
         String password = passwordTextView.getText().toString();
-        Log.i("password", "password is:"+password);
+        Log.i("password", "Password: "+password);
 
         String urlToPost = "students/"
-                +name
+                +encodedName
                 +"?email="+email
                 +"&username="+username
                 +"&password="+password;
@@ -95,6 +91,7 @@ public class SignupActivity extends AppCompatActivity {
         HttpUtils.post(urlToPost, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
                 refreshErrorMessage();
                 nameTextView.setText("");
                 emailTextView.setText("");
