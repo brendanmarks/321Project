@@ -8,6 +8,7 @@ public class TutorDto {
 	private String email;
 	private String username;
 	private String password;
+	private Double hourlyRate;
 	private static ArrayList<SessionDto> sessions;
 	
 	/**
@@ -24,11 +25,20 @@ public class TutorDto {
 	 * @param password
 	 * @param sessions
 	 */
-	public TutorDto(String name, String email, String username, String password, ArrayList<SessionDto> sessions) {
+//	public TutorDto(String name, String email, String username, String password, ArrayList<SessionDto> sessions) {
+//		this.name = name;
+//		this.email = email;
+//		this.username = username;
+//		this.password = password;
+//		TutorDto.sessions = sessions;
+//	}
+	
+	public TutorDto(String name, String email, String username, String password, ArrayList<SessionDto> sessions, double hourlyRate) {
 		this.name = name;
 		this.email = email;
 		this.username = username;
 		this.password = password;
+		this.hourlyRate = hourlyRate;
 		TutorDto.sessions = sessions;
 	}
 	
@@ -38,6 +48,14 @@ public class TutorDto {
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	public double getHourlyRate() {
+		return hourlyRate;
+	}
+	
+	public void setHourlyRate(double rate) {
+		this.hourlyRate = rate;
 	}
 	
 	/**

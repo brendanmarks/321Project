@@ -110,7 +110,7 @@ public class TutorialRestController {
 		try {
 			for(Tutorial t : service.getAllTutorials()) {
 				if (t.getCourse().getCourseId().equals(courseId) && t.getTutor().iterator().next().getName().equals(tutorName)) {
-					tutorialsDtos.add(new TutorialDto(new TutorDto(tutorName, null, null, null, null), new CourseDto(courseId, null), t.getId()));
+					tutorialsDtos.add(new TutorialDto(new TutorDto(tutorName, null, null, null, null, 0.0), new CourseDto(courseId, null), t.getId()));
 				}
 			}
 			return tutorialsDtos;

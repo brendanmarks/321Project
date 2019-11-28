@@ -65,7 +65,7 @@ public class TutorRestController {
 			throw new IllegalArgumentException("This tutor does not exist.");
 		}
 		ArrayList<SessionDto> tutorSessionDtos = new ArrayList<>();	
-		TutorDto tutorDto = new TutorDto(t.getName(), t.getEmail(), t.getUsername(), t.getPassword(), tutorSessionDtos);
+		TutorDto tutorDto = new TutorDto(t.getName(), t.getEmail(), t.getUsername(), t.getPassword(), tutorSessionDtos, t.getHourlyRate());
 		return tutorDto;
 	}
 	
@@ -81,7 +81,7 @@ public class TutorRestController {
 			for (Tutorial tut : service.getAllTutorials()) {
 				if (tut.getCourse().getCourseId().equals(courseId)) {
 					for(Tutor t : tut.getTutor()) {
-						tutorsDtos.add(new TutorDto(t.getName(), t.getEmail(), t.getUsername(), t.getPassword(), null));
+						tutorsDtos.add(new TutorDto(t.getName(), t.getEmail(), t.getUsername(), t.getPassword(), null, t.getHourlyRate()));
 					}
 				}
 			}

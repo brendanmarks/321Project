@@ -102,7 +102,7 @@ public class SessionRestController {
 		}
 		Tutor tutor = ss.getTutorial().getTutor().iterator().next();
 		Course course = ss.getTutorial().getCourse();
-		SessionDto sessionDto = new SessionDto(ss.getSessionId(), ss.getDate(), ss.getStartTime(), ss.getEndTime(), sessionStudentDtos, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName()), null));
+		SessionDto sessionDto = new SessionDto(ss.getSessionId(), ss.getDate(), ss.getStartTime(), ss.getEndTime(), sessionStudentDtos, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null, tutor.getHourlyRate()), new CourseDto(course.getCourseId(), course.getCourseName()), null));
 		return sessionDto;
 	}
 	
@@ -123,7 +123,7 @@ public class SessionRestController {
 				}
 				Tutor tutor = s.getTutorial().getTutor().iterator().next();
 				Course course = s.getTutorial().getCourse();
-				allSessionsAsDto.add(new SessionDto(s.getSessionId(), s.getDate(), s.getStartTime(), s.getEndTime(), students, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName()), null)));
+				allSessionsAsDto.add(new SessionDto(s.getSessionId(), s.getDate(), s.getStartTime(), s.getEndTime(), students, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null, tutor.getHourlyRate()), new CourseDto(course.getCourseId(), course.getCourseName()), null)));
 			}
 			return allSessionsAsDto;
 		}catch(Exception e) {
@@ -154,7 +154,7 @@ public class SessionRestController {
 						}
 						Tutor tutor = s.getTutorial().getTutor().iterator().next();
 						Course course = s.getTutorial().getCourse();
-						allSessionsOfStudent.add(new SessionDto(s.getSessionId(), s.getDate(), s.getStartTime(), s.getEndTime(), students, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null), new CourseDto(course.getCourseId(), course.getCourseName()), null)));
+						allSessionsOfStudent.add(new SessionDto(s.getSessionId(), s.getDate(), s.getStartTime(), s.getEndTime(), students, new TutorialDto(new TutorDto(tutor.getName(), tutor.getEmail(), tutor.getUsername(), tutor.getPassword(), null, tutor.getHourlyRate()), new CourseDto(course.getCourseId(), course.getCourseName()), null)));
 					}
 				}
 			}
