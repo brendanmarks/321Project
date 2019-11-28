@@ -41,6 +41,7 @@
                     <div class="card-body">
                       <h5 class="card-title">{{ tutor.name }}</h5>
                       <p class="card-text">{{ tutor.username }}</p>
+                      <p class="card-text">${{ tutor.hourlyRate }}/hr</p>
                       <a
                         class="btn btn-success"
                         @click="MovetoTutorial(tutor.name)"
