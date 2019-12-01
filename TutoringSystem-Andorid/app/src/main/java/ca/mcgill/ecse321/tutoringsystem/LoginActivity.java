@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.tutoringsystem;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
     private void refreshErrorMessage() {
         TextView errorTextView = (TextView) findViewById(R.id.errorMessageLogin);
         errorTextView.setText(errorString);
@@ -60,18 +59,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void validate(View v) {
-
         errorString = "";
+
         final TextView usernameTextView = (TextView) findViewById(R.id.usernameText);
         final TextView passwordTextView = (TextView) findViewById(R.id.passwordText);
 
-        String username = usernameTextView.getText().toString();
+        final String username = usernameTextView.getText().toString();
         Log.d("validateUsername","Username to validate: "+username);
+        //replace spaces with url encode value %20
         String usernameEncoded = username.replaceAll("\\s+", "%20");
-        Log.d("validateUsername","Username to validate: "+usernameEncoded);
 
-        String urlToGet = "students/"
-                +usernameEncoded;
+        String urlToGet = "students/"+usernameEncoded;
+
+        String popUpMessage = "User is: "+usernameEncoded;
+        Toast.makeText(getApplicationContext(), popUpMessage, Toast.LENGTH_LONG).show();
 
         HttpUtils.get(urlToGet, new RequestParams(), new JsonHttpResponseHandler() {
 
@@ -79,14 +80,17 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
 
-                String databasePassword = null;
+                String popUpMessage = "User ("+username+") was found in the database.";
+                Toast.makeText(getApplicationContext(), popUpMessage, Toast.LENGTH_LONG).show();
 
+                String databasePassword = "";
                 try {
+                    //search in the returned JSON response for the password field, then return its value
                     databasePassword = response.getString("password");
                     Log.d("databasePassword", "Database password: "+databasePassword);
 
                 } catch (JSONException e) {
-
+                    //If the password could not be retrieved (usually errors with the JSON object saved in DB)
                     Info.setText("Error " + statusCode + ": Password could not be retrieved.");
                     if (counter <= 0) {
                         Login.setEnabled(false);
@@ -94,12 +98,14 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                //get the password in the text field
                 String enteredPassword = passwordTextView.getText().toString();
-                Log.d("enteredPassword", "Entered password: "+enteredPassword);
 
+                //compare the given password with the password stored in the database for the requested user
                 if (enteredPassword.equals(databasePassword)) {
-                    Log.d("success", "Login successful");
-                    openHomePage();
+                    Log.d("success", "Login successful. The entered password ("+enteredPassword+") matched the database password ("+databasePassword+")");
+                    //launch the user homepage activity
+                    openHomePage(username);
 
                 } else {
                     // This part shows the number of attempts remaining before we disable the login button
@@ -114,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("code", "Code: "+statusCode);
+                Log.d("code", "Error when retrieving the requested user in the system database (code: "+statusCode+")");
                 try {
                     errorString += errorResponse.get("message").toString();
                 } catch (JSONException e) {
@@ -125,8 +131,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void openHomePage() {
+    public void openHomePage(String currentUser) {
         Intent intent = new Intent(this, HomePageActivity.class);
+        //stores the current userName in intent extras ( ~ storage), in order to pass the user name across activities
+        intent.putExtra("currentUserName", currentUser);
         startActivity(intent);
     }
 }

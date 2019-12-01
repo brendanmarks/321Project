@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 openSignup();
             }
         });
-
     }
 
     //called in onCreate if you click login

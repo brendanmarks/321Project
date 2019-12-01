@@ -74,20 +74,24 @@ public class SignupActivity extends AppCompatActivity {
 
         String name = nameTextView.getText().toString();
         Log.i("name", "Name: "+name);
+        //encoding spaces before adding them to the POST url
         String encodedName = name.replaceAll("\\s+", "%20");
+        Log.i("encodedName", "Encoded Name: "+encodedName);
+
         String email = emailTextView.getText().toString();
-        Log.i("email", "Email: "+email);
         String username = userNameTextView.getText().toString();
-        Log.i("username", "Username: "+username);
+
         String password = passwordTextView.getText().toString();
         Log.i("password", "Password: "+password);
 
+        //POST url with parameters and student name endpoint
         String urlToPost = "students/"
-                +encodedName
+                +username
                 +"?email="+email
-                +"&username="+username
+                +"&username="+encodedName
                 +"&password="+password;
 
+        //POST request
         HttpUtils.post(urlToPost, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -103,7 +107,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
-                    errorString += errorResponse.get("message").toString();
+                    errorString += "Could not add this user: "+errorResponse.get("message").toString();
                 } catch (JSONException e) {
                     errorString += e.getMessage();
                 }
