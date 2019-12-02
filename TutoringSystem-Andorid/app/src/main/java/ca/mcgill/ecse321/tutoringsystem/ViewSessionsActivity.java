@@ -31,11 +31,11 @@ public class ViewSessionsActivity extends AppCompatActivity implements AdapterVi
     private List<String> sessionIDs = new ArrayList<>();
     private ArrayAdapter<String> sessionAdapter;
 
-    private TextView courseName;
-    private TextView sessionDate;
-    private TextView startTime;
-    private TextView endTime;
-    private TextView tutorName;
+    private TextView courseNameUI;
+    private TextView sessionDateUI;
+    private TextView startTimeUI;
+    private TextView endTimeUI;
+    private TextView tutorNameUI;
 
     private Button review;
 
@@ -53,11 +53,11 @@ public class ViewSessionsActivity extends AppCompatActivity implements AdapterVi
         sessionIDspinner.setAdapter(sessionAdapter);
         sessionIDspinner.setOnItemSelectedListener(this);
 
-        courseName = (TextView) findViewById(R.id.courseName);
-        sessionDate = (TextView) findViewById(R.id.sessionDate);
-        startTime = (TextView) findViewById(R.id.startTime);
-        endTime = (TextView) findViewById(R.id.endTime);
-        tutorName = (TextView) findViewById(R.id.tutorName);
+        courseNameUI = (TextView) findViewById(R.id.courseName);
+        sessionDateUI = (TextView) findViewById(R.id.sessionDate);
+        startTimeUI = (TextView) findViewById(R.id.startTime);
+        endTimeUI = (TextView) findViewById(R.id.endTime);
+        tutorNameUI = (TextView) findViewById(R.id.tutorName);
 
         review = (Button) findViewById(R.id.reviewBtn);
 
@@ -77,10 +77,17 @@ public class ViewSessionsActivity extends AppCompatActivity implements AdapterVi
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String selection = parent.getItemAtPosition(position).toString();
-        if(selection != "Sessions:") {
+        if(selection != "Sessions") {
             String popUpMessage = "The selected session ID is: " + selection;
             Toast.makeText(parent.getContext(), popUpMessage, Toast.LENGTH_SHORT).show();
             updateDisplay(selection);
+        }   else    {
+            //set the TextView text values
+            courseNameUI.setText("Course");
+            tutorNameUI.setText("Tutor");
+            sessionDateUI.setText("YYYY-MM-DD");
+            startTimeUI.setText("HH:mm");
+            endTimeUI.setText("HH:mm");
         }
     }
 
@@ -98,49 +105,49 @@ public class ViewSessionsActivity extends AppCompatActivity implements AdapterVi
         errorString = "";
 
         HttpUtils.get(
-                userSessionsURL,
-                new RequestParams(),
-                new JsonHttpResponseHandler() {
+            userSessionsURL,
+            new RequestParams(),
+            new JsonHttpResponseHandler() {
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONArray response){
 
-                        if(response.length() == 0)    {
-                            errorString = "This user does not have any sessions yet.";
-                            refreshErrorMessage();
-                            sessionIDs.add("EMPTY");
-                            return;
-                        }
-                        sessionIDs.clear();
-                        sessionIDs.add("Sessions:");
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
 
-                        for(int i=0; i < response.length(); i++) {
-                            try{
-                                Log.d("response", ""+response.toString());
-                                //add the session ids in the spinner array
-                                sessionIDs.add(response.getJSONObject(i).getString("sessionId"));
-                            }catch(Exception e) {
-                                errorString += e.getMessage();
-                            }
-                            refreshErrorMessage();
-                        }
-                        adapter.notifyDataSetChanged();
+                if(response.length() == 0)    {
+                    errorString = "This user does not have any sessions yet.";
+                    refreshErrorMessage();
+                    sessionIDs.add("EMPTY");
+                    return;
+                }
+                sessionIDs.clear();
+                sessionIDs.add("Sessions");
+
+                for(int i=0; i < response.length(); i++) {
+                    try{
+                        Log.d("response", ""+response.toString());
+                        //add the session ids in the spinner array
+                        sessionIDs.add(response.getJSONObject(i).getString("sessionId"));
+                    }catch(Exception e) {
+                        errorString += e.getMessage();
                     }
+                    refreshErrorMessage();
+                }
+                adapter.notifyDataSetChanged();
+            }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        try{
-                            errorString += errorResponse.get("message").toString();
-                        }catch (JSONException e){
-                            errorString += e.getMessage();
-                        }
-                        refreshErrorMessage();
-                    }
-
-                });
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try{
+                    errorString += errorResponse.get("message").toString();
+                }catch (JSONException e){
+                    errorString += e.getMessage();
+                }
+                refreshErrorMessage();
+            }
+        });
     }
 
-    private void updateDisplay(String sessionId) {
+    private void updateDisplay(final String sessionId) {
         errorString = "";
 
         String getRequestUrl = "sessions/"+sessionId;
@@ -154,18 +161,32 @@ public class ViewSessionsActivity extends AppCompatActivity implements AdapterVi
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response){
 
                     Log.d("response", ""+response.toString());
-                    /*
+
                     try {
-                        //search in the returned JSON response for the password field, then return its value
+                        //the session object contains a tutorial object
+                        JSONObject tutorial = response.getJSONObject("assignedTutorial");
+                        //the tutorial object contains the Tutor and course assigned to the selected session
+                        String tutorName = tutorial.getJSONObject("tutor").getString("name");
+                        String courseName = tutorial.getJSONObject("course").getString("courseName");
 
+                        //get the rest of the session information to be displayed
+                        String date = response.getString("date");
+                        String startTime = response.getString("startTime");
+                        String endTime = response.getString("endTime");
 
-                        //String course = response.getString("course");
-                        //Log.d("databasePassword", "Database password: "+databasePassword);
+                        //set the TextView text values
+                        courseNameUI.setText(courseName);
+                        tutorNameUI.setText(tutorName);
+                        sessionDateUI.setText(date);
+                        startTimeUI.setText(startTime);
+                        endTimeUI.setText(endTime);
+
+                        refreshErrorMessage();
+
                     } catch (JSONException e) {
-                        //If the password could not be retrieved (usually errors with the JSON object saved in DB)
-                        //Info.setText("Error " + statusCode + ": Password could not be retrieved.");
+                        errorString += "An error occurred when selecting session "+sessionId+". Some information might be invalid.";
                         e.printStackTrace();
-                    }*/
+                    }
                     refreshErrorMessage();
                 }
 

@@ -9,48 +9,293 @@
     tools:showIn="@layout/activity_view_sessions"
     tools:context=".ViewSessionsActivity">
 
+
+
+    <!--    TODO//The page adaptive layout needs to be better implemented for the height of the LinearLayout of the entire page
+    I had to hard code the page height to 500 dp because the layout always exceeded the boundaries of the vertical screen
+    and disapeared at the bottom. This should be changed back to match_parent when a solution is found-->
     <LinearLayout
         android:id="@+id/welcomeTextField"
-        android:layout_width="413dp"
-        android:layout_height="675dp"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
         android:orientation="vertical"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        >
 
         <TextView
             android:id="@+id/ViewSessionsHeaderTextfield"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="User sessions"
+
+            android:text="@string/viewSessions"
             android:textAlignment="center"
-            android:textSize="36sp"
-            android:textStyle="bold" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
-
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:textAlignment="center"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="20dp"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:text="Choose a session... "
+                android:textSize="16sp"
                 />
-
             <Spinner
                 android:id="@+id/sessionidspinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="end"
+                android:layout_gravity="center"
                 />
+        </LinearLayout>
 
-            <!--
+        <!--This is the vertical container for the session information table-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            >
+
+            <!--First row of the sessions information table-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                >
+
+                <!--Course table -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:id="@+id/courseTag"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+
+                        android:textSize="20sp"
+                        android:text="Course"
+                        android:textStyle="bold"
+                        android:background="@drawable/squareborder"
+                        />
+                    <TextView
+                        android:id="@+id/courseName"
+                        android:layout_weight="2"
+                        android:layout_height="0dp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+
+                        android:textSize="20sp"
+                        android:text="CourseName"
+                        />
+                </LinearLayout>
+
+                <!--Tutor table -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:id="@+id/tutorNameTag"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+
+                        android:textSize="20sp"
+                        android:text="Tutor"
+                        android:textStyle="bold"
+                        android:background="@drawable/squareborder"
+                        />
+                    <TextView
+                        android:id="@+id/tutorName"
+                        android:layout_weight="2"
+                        android:layout_height="0dp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+
+                        android:textSize="20sp"
+                        android:text="TutorName"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--Second row of the sessions information table-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                >
+                <!--Date table -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:id="@+id/dateTag"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:text="Date"
+                        android:textStyle="bold"
+                        android:background="@drawable/squareborder"
+                        />
+                    <TextView
+                        android:id="@+id/sessionDate"
+                        android:layout_weight="2"
+                        android:layout_height="0dp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:text="YYYY-MM-DD"
+                        />
+                </LinearLayout>
+
+                <!--Start Time table -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:id="@+id/startTimeTag"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:textSize="20dp"
+                        android:text="Start Time"
+                        android:textStyle="bold"
+                        android:background="@drawable/squareborder"
+                        />
+                    <TextView
+                        android:id="@+id/startTime"
+                        android:layout_weight="2"
+                        android:layout_height="0dp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:text="HH:mm"
+                        />
+                </LinearLayout>
+
+                <!--End Time table -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:id="@+id/endTimeTag"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:text="End Time"
+                        android:textStyle="bold"
+                        android:background="@drawable/squareborder"
+                        />
+                    <TextView
+                        android:id="@+id/endTime"
+                        android:layout_weight="2"
+                        android:layout_height="0dp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:text="HH:mm"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--Container for the review button-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:background="@drawable/roundedborder"
+                >
+                <TextView
+                    android:id="@+id/btnTag"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+
+                    android:textSize="20sp"
+                    android:text="Rate the tutor assigned to this session"
+                    />
+
+                <Button
+                    android:id="@+id/reviewBtn"
+                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:backgroundTint="#BB0000"
+                    android:text="Review"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/sessionsError"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:textColor="@color/colorAccent"
+            android:text="Error:"
+            />
+
+    </LinearLayout>
+
+    <!--    These would propably be good for creating a session
                         <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -106,221 +351,4 @@
                 android:layout_gravity="end"
                 android:id="@+id/tutorspinner"/>
             -->
-
-        </LinearLayout>
-
-        <!--This is the vertical container for the table-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:orientation="vertical"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:orientation="horizontal"
-                >
-
-                <!--Course table -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/courseTag"
-                        android:layout_weight="1"
-                        android:layout_height="0dp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="14dp"
-                        android:text="Course Name"
-                        android:textStyle="bold"
-                        android:background="@drawable/squareborder"
-                        />
-                    <TextView
-                        android:id="@+id/courseName"
-                        android:layout_weight="2"
-                        android:layout_height="0dp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="10dp"
-                        android:text="Course"
-                        />
-                </LinearLayout>
-
-                <!--Date table -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/dateTag"
-                        android:layout_weight="1"
-                        android:layout_height="0dp"
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:textSize="14dp"
-                        android:text="Date"
-                        android:textStyle="bold"
-                        android:background="@drawable/squareborder"
-                        />
-                    <TextView
-                        android:id="@+id/sessionDate"
-                        android:layout_weight="2"
-                        android:layout_height="0dp"
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:textSize="10dp"
-                        android:text="DDDD-DD-DD"
-                        />
-                </LinearLayout>
-
-                <!--Start Time table -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/startTimeTag"
-                        android:layout_weight="1"
-                        android:layout_height="0dp"
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:textSize="14dp"
-                        android:text="Start Time"
-                        android:textStyle="bold"
-                        android:background="@drawable/squareborder"
-                        />
-                    <TextView
-                        android:id="@+id/startTime"
-                        android:layout_weight="2"
-                        android:layout_height="0dp"
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:textSize="12dp"
-                        android:text="DD:DD"
-                        />
-                </LinearLayout>
-
-                <!--End Time table -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/endTimeTag"
-                        android:layout_weight="1"
-                        android:layout_height="0dp"
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:textSize="14dp"
-                        android:text="End Time"
-                        android:textStyle="bold"
-                        android:background="@drawable/squareborder"
-                        />
-                    <TextView
-                        android:id="@+id/endTime"
-                        android:layout_weight="2"
-                        android:layout_height="0dp"
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:textSize="12dp"
-                        android:text="DD:DD"
-                        />
-                </LinearLayout>
-
-                <!--Tutor table -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    >
-                    <TextView
-                        android:id="@+id/tutorNameTag"
-                        android:layout_weight="1"
-                        android:layout_height="0dp"
-                        android:textAlignment="center"
-                        android:background="@drawable/squareborder"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:textSize="14dp"
-                        android:text="Tutor"
-                        android:textStyle="bold"
-                        />
-                    <TextView
-                        android:id="@+id/tutorName"
-                        android:layout_weight="2"
-                        android:layout_height="0dp"
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:textSize="12dp"
-                        android:text="TutorName"
-                        />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!--Container for the review button-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:background="@drawable/roundedborder"
-                >
-                <TextView
-                    android:id="@+id/btnTag"
-                    android:layout_weight="1"
-                    android:layout_height="0dp"
-                    android:textAlignment="center"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-
-                    android:textSize="20dp"
-                    android:text="Rate the tutor assigned to this session"
-                    />
-
-                <Button
-                    android:id="@+id/reviewBtn"
-                    android:layout_height="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:padding="10dp"
-                    android:backgroundTint="#BB0000"
-                    android:text="Review"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15dp"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/sessionsError"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:textColor="@color/colorAccent"
-            android:text="Error:"
-            />
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

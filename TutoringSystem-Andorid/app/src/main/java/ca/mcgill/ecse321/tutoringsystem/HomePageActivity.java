@@ -53,10 +53,18 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     public void openCreateSessionsActivity(String currentUser){
+        //for now, we send a message to redirect users to the website
+        String popUpMessage = "This feature is not yet available on Android. Please visit the official GradeSmash website at:\n\nhttp://tutoringsystem-frontend.herokuapp.com/#/Login";
+        Toast.makeText(getApplicationContext(), popUpMessage, 100*(Toast.LENGTH_LONG)).show();
+
+        //This code launches the createSessions page. However, it is not implemented yet and will not be opened for now
+        /*
         Intent intent = new Intent(this, CreateSessionsActivity.class);
         //stores the current userName in intent extras ( ~ storage), in order to pass the user name across activities
         intent.putExtra("currentUserName", currentUser);
         startActivity(intent);
+        */
+
     }
 
 }

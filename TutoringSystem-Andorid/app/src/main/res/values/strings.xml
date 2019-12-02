@@ -12,4 +12,5 @@
     <string name="tutorialspinner_label">Tutorial?</string>
     <string name="coursespinner_label">Course?</string>
     <string name="tutorspinner_label">Tutor?</string>
+    <string name="viewSessions">User Sessions</string>
 </resources>
