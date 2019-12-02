@@ -10,47 +10,61 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_width="413dp"
-        android:layout_height="675dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+
+        >
 
         <TextView
             android:id="@+id/gradesmash"
             android:layout_width="match_parent"
-            android:layout_height="296dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="@string/gradesmash"
             android:textAlignment="center"
             android:textSize="60sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.201" />
+
+        />
+        <TextView
+            android:id="@+id/portalMessage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/joinUs"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            />
 
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
-            android:layout_height="131dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/colorAccent"
             android:text="@string/login_to_smash_your_grades"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
-            tools:layout_editor_absoluteX="62dp"
-            tools:layout_editor_absoluteY="342dp" />
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            />
 
         <Button
             android:id="@+id/signupButton"
             android:layout_width="match_parent"
-            android:layout_height="136dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="@string/sign_up_to_smash_your_grades"
             android:textSize="24sp"
-            tools:layout_editor_absoluteX="62dp"
-            tools:layout_editor_absoluteY="464dp" />
+            android:layout_marginBottom="50dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            />
 
     </LinearLayout>
 

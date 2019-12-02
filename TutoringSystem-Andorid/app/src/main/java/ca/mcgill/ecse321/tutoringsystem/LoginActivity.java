@@ -26,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText Password;
     private TextView Info;
     private Button Login;
-    private int counter = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         Info = (TextView) findViewById(R.id.tvInfo);
         Login = (Button) findViewById(R.id.loginButton);
 
-        Info.setText("Number of attempts remaining: 5");
+        Info.setText("");
 
         Login.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -65,14 +64,22 @@ public class LoginActivity extends AppCompatActivity {
         final TextView passwordTextView = (TextView) findViewById(R.id.passwordText);
 
         final String username = usernameTextView.getText().toString();
-        Log.d("validateUsername","Username to validate: "+username);
+        if(username.length()==0||username.equals(null)) {
+            errorString += "Please specify a Username to login.";
+            refreshErrorMessage();
+            return;
+        }
         //replace spaces with url encode value %20
         String usernameEncoded = username.replaceAll("\\s+", "%20");
 
-        String urlToGet = "students/"+usernameEncoded;
+        final String enteredPassword = passwordTextView.getText().toString();
+        if(enteredPassword.length()==0||enteredPassword.equals(null)) {
+            errorString += "Please specify a Password for this Username.";
+            refreshErrorMessage();
+            return;
+        }
 
-        String popUpMessage = "User is: "+usernameEncoded;
-        Toast.makeText(getApplicationContext(), popUpMessage, Toast.LENGTH_LONG).show();
+        String urlToGet = "students/"+usernameEncoded;
 
         HttpUtils.get(urlToGet, new RequestParams(), new JsonHttpResponseHandler() {
 
@@ -80,47 +87,34 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
 
-                String popUpMessage = "User ("+username+") was found in the database.";
-                Toast.makeText(getApplicationContext(), popUpMessage, Toast.LENGTH_LONG).show();
-
                 String databasePassword = "";
                 try {
                     //search in the returned JSON response for the password field, then return its value
                     databasePassword = response.getString("password");
                     Log.d("databasePassword", "Database password: "+databasePassword);
 
+                    //compare the given password with the password stored in the database for the requested user
+                    if (enteredPassword.equals(databasePassword)) {
+                        Log.d("success", "Login successful. The entered password ("+enteredPassword+") matched the database password ("+databasePassword+")");
+                        Info.setText("");
+
+                        //launch the user homepage activity
+                        openHomePage(username);
+
+                    } else {
+                        Info.setText("Invalid password.");
+                        passwordTextView.setText("");
+                    }
                 } catch (JSONException e) {
                     //If the password could not be retrieved (usually errors with the JSON object saved in DB)
-                    Info.setText("Error " + statusCode + ": Password could not be retrieved.");
-                    if (counter <= 0) {
-                        Login.setEnabled(false);
-                    }
+                    Info.setText("Error: Password could not be validated.");
                     e.printStackTrace();
                 }
-
-                //get the password in the text field
-                String enteredPassword = passwordTextView.getText().toString();
-
-                //compare the given password with the password stored in the database for the requested user
-                if (enteredPassword.equals(databasePassword)) {
-                    Log.d("success", "Login successful. The entered password ("+enteredPassword+") matched the database password ("+databasePassword+")");
-                    //launch the user homepage activity
-                    openHomePage(username);
-
-                } else {
-                    // This part shows the number of attempts remaining before we disable the login button
-                    counter--;
-                    Info.setText("Invalid password. Number of attempts remaining : " + String.valueOf(counter));
-                    if (counter <= 0) {
-                        Login.setEnabled(false);
-                    }
-                }
-                usernameTextView.setText("");
-                passwordTextView.setText("");
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("code", "Error when retrieving the requested user in the system database (code: "+statusCode+")");
+                usernameTextView.setText("");
+                passwordTextView.setText("");
                 try {
                     errorString += errorResponse.get("message").toString();
                 } catch (JSONException e) {

@@ -7,14 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class HomePageActivity extends AppCompatActivity {
 
     private Button buttonToViewSessions;
     private Button buttonToAddSessions;
-
-    String errorString = null;
-
+    private TextView currentUserBanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,21 +22,13 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 
         final String user = getIntent().getStringExtra("currentUserName");
-        Log.d("User", "Current User: "+user);
+        String popUpMessage = "Login successful for user: "+user;
+        Toast.makeText(getApplicationContext(), popUpMessage, Toast.LENGTH_LONG).show();
 
+        currentUserBanner = (TextView) findViewById(R.id.welcomeBanner);
+        currentUserBanner.setText("Hey there "+user+"!\nWelcome to GradeSmash!");
 
-
-        /*  Other implementation that gets all stored extra variables from intents.
-            Could be useful when passing user roles through the different activities
-
-        Bundle globalVariables = getIntent().getExtras();
-        if (globalVariables != null) {
-            String currentUser = globalVariables.getString("currentUserName");
-            Log.d("currentUser", "Current User Name: "+currentUser);
-        }
-        */
-
-
+        //add onclick listeners to the buttons
         buttonToViewSessions = (Button) findViewById(R.id.GetSessionBtn);
         buttonToViewSessions.setOnClickListener(new View.OnClickListener() {
             @Override

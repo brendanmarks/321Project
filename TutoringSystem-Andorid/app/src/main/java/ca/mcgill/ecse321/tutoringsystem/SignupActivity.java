@@ -9,18 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import cz.msebera.android.httpclient.Header;
-
-import com.loopj.android.http.AsyncHttpClient;
-
 
 
 public class SignupActivity extends AppCompatActivity {
@@ -28,7 +25,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private EditText Name;
     private EditText Username;
-    private EditText StudentId;
     private EditText Email;
     private EditText Password;
     private Button ButtonForSignup;
@@ -40,7 +36,6 @@ public class SignupActivity extends AppCompatActivity {
 
         Name = (EditText) findViewById(R.id.nameForSignup);
         Username = (EditText) findViewById(R.id.usernameForSignup);
-        StudentId = (EditText) findViewById(R.id.studentIdForSignup);
         Email = (EditText) findViewById(R.id.emailForSignup);
         Password = (EditText) findViewById(R.id.passwordForSignup);
         ButtonForSignup = (Button)findViewById(R.id.SignupBtn);
@@ -68,53 +63,95 @@ public class SignupActivity extends AppCompatActivity {
         errorString = "";
         final TextView nameTextView = (TextView) findViewById(R.id.nameForSignup);
         final TextView emailTextView = (TextView) findViewById(R.id.emailForSignup);
-        final TextView studentIdTextView = (TextView) findViewById(R.id.studentIdForSignup);
         final TextView userNameTextView = (TextView) findViewById(R.id.usernameForSignup);
         final TextView passwordTextView = (TextView) findViewById(R.id.passwordForSignup);
 
-        String name = nameTextView.getText().toString();
-        Log.i("name", "Name: "+name);
+
+        final String name = nameTextView.getText().toString();
+        //check here for empty edit texts
+        if(name.length()==0||name.equals(null)) {
+            errorString += "Please specify a Name.";
+            refreshErrorMessage();
+            return;
+        }
         //encoding spaces before adding them to the POST url
-        String encodedName = name.replaceAll("\\s+", "%20");
-        Log.i("encodedName", "Encoded Name: "+encodedName);
+        final String encodedUserName = name.replaceAll("\\s+", "%20");
 
-        String email = emailTextView.getText().toString();
-        String username = userNameTextView.getText().toString();
+        final String username = userNameTextView.getText().toString();
+        //check here for empty edit texts
+        if(username.length()==0||username.equals(null)) {
+            errorString += "Please specify a Username.";
+            refreshErrorMessage();
+            return;
+        }
+        //encoding spaces before adding them to the POST url
+        final String encodedName = username.replaceAll("\\s+", "%20");
 
-        String password = passwordTextView.getText().toString();
-        Log.i("password", "Password: "+password);
+        //retrieve all url parameters for the post request
+        final String email = emailTextView.getText().toString();
+        //check here for empty edit texts
+        if(email.length()==0||email.equals(null)) {
+            errorString += "Please specify an Email address.";
+            refreshErrorMessage();
+            return;
+        }
+        final String password = passwordTextView.getText().toString();
+        //check here for empty edit texts
+        if(password.length()==0||password.equals(null)) {
+            errorString += "Please specify a Password.";
+            refreshErrorMessage();
+            return;
+        }
+        String urlToGet = "students/"+username;
 
-        //POST url with parameters and student name endpoint
-        String urlToPost = "students/"
-                +username
-                +"?email="+email
-                +"&username="+encodedName
-                +"&password="+password;
+        HttpUtils.get(urlToGet, new RequestParams(), new JsonHttpResponseHandler() {
 
-        //POST request
-        HttpUtils.post(urlToPost, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
+                //the user already exists in database
+                errorString += "Username ("+username+") already exists. Please enter a different Username.";
                 refreshErrorMessage();
-                nameTextView.setText("");
-                emailTextView.setText("");
-                studentIdTextView.setText("");
                 userNameTextView.setText("");
-                passwordTextView.setText("");
-                openLogin();
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                try {
-                    errorString += "Could not add this user: "+errorResponse.get("message").toString();
-                } catch (JSONException e) {
-                    errorString += e.getMessage();
-                }
-                refreshErrorMessage();
+                //the user does not exist already, thus we go ahead and create it
+                errorString = "";
+                //POST url with parameters and student name endpoint
+                String urlToPost = "students/"
+                        +encodedUserName
+                        +"?email="+email
+                        +"&username="+name
+                        +"&password="+password;
+                //POST request
+                HttpUtils.post(urlToPost, new RequestParams(), new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                        String popUpMessage = "User "+username+" has been created.";
+                        Toast.makeText(getApplicationContext(), popUpMessage, Toast.LENGTH_LONG).show();
+
+                        refreshErrorMessage();
+                        nameTextView.setText("");
+                        emailTextView.setText("");
+                        userNameTextView.setText("");
+                        passwordTextView.setText("");
+                        openLogin();
+                    }
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        try {
+                            errorString += "Could not add this user: "+errorResponse.get("message").toString();
+                        } catch (JSONException e) {
+                            errorString += e.getMessage();
+                        }
+                        refreshErrorMessage();
+                    }
+                });
             }
         });
     }
+
     //return to login
     public void openLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
