@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TutoringSystem-Android</string>
+    <string name="action_settings">Settings</string>
+    <string name="login_to_smash_your_grades">Login to smash your grades</string>
+    <string name="sign_up_to_smash_your_grades">Sign Up in one simple step</string>
+    <string name="gradesmash">GradeSmash!</string>
+    <string name="joinUs">Join the GradeSmash tutoring service. Smashing bad grades since 1969.</string>
+    <string name="sessionidspinner_label">sessionID?</string>
+    <string name="datesspinner_label">Date?</string>
+    <string name="starttimespinner_label">StartTime?</string>
+    <string name="endtimespinner_label">EndTime?</string>
+    <string name="tutorialspinner_label">Tutorial?</string>
+    <string name="coursespinner_label">Course?</string>
+    <string name="tutorspinner_label">Tutor?</string>
+    <string name="viewSessions">User Sessions</string>
+</resources>
