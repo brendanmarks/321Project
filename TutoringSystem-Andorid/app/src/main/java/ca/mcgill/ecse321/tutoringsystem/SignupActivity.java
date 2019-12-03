@@ -70,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
         final String name = nameTextView.getText().toString();
         //check here for empty edit texts
         if(name.length()==0||name.equals(null)) {
-            errorString += "Please specify a Name.";
+            errorString += "Please specify a username.";
             refreshErrorMessage();
             return;
         }
@@ -80,7 +80,7 @@ public class SignupActivity extends AppCompatActivity {
         final String username = userNameTextView.getText().toString();
         //check here for empty edit texts
         if(username.length()==0||username.equals(null)) {
-            errorString += "Please specify a Username.";
+            errorString += "Please specify a name.";
             refreshErrorMessage();
             return;
         }
@@ -109,7 +109,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 //the user already exists in database
-                errorString += "Username ("+username+") already exists. Please enter a different Username.";
+                errorString += "Username ("+name+") already exists. Please enter a different Username.";
                 refreshErrorMessage();
                 userNameTextView.setText("");
             }
@@ -128,7 +128,7 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-                        String popUpMessage = "User "+username+" has been created.";
+                        String popUpMessage = "User "+name+" has been created.";
                         Toast.makeText(getApplicationContext(), popUpMessage, Toast.LENGTH_LONG).show();
 
                         refreshErrorMessage();
