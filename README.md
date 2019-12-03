@@ -59,3 +59,21 @@ Meeting 6 - Update + team design decisions (2 hours) [page](https://github.com/M
 Documentation:
 
   - Architecture Diagram [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Software-Architecture-Model?fbclid=IwAR3s-1pjgYCiIkyDb-vKVqWTRHZkTzmPdXH0MQ9znP8jec6i2zXMRbyrOXI)
+
+ ***Deliverable 4:***
+
+Meeting 7 - Distribution of tasks (2 hours) [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Sprint-4:-Meeting-2019-11-20).
+
+Meeting 8 - Progress Update (2 hours) [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/Sprint-4:-2019-11-27).
+  
+|Name                    |Total hours |Responsibility                                                       |
+|------------------------|------------|---------------------------------------------------------------------|
+|Brendan Marks           |   9 hours  |CI/CD, Clean Backend code                                            |
+|Brad McBain             |   9 hours  |User Documentation                                                   |
+|Sami Hilal              |   9 hours  |Android setup + clean frontend                                       |
+|Sean Smith              |   13 hours |Android dev                                                          |
+|Dominic Wener           |   12 hours |Android dev                                                          |
+
+Documentation:
+
+  - User Documentation [page](https://github.com/McGill-ECSE321-Fall2019/project-group-4/wiki/User-Documentation)
